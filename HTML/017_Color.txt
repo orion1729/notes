@@ -1,0 +1,22 @@
+﻿
+color 在 CSS 中有三種方式可以設定
+
+- 六位數十六進位
+  #FFFF00
+
+- 數值函數
+  rgb(255, 255, 0)
+
+- 顏色名稱
+  yellow
+
+---
+
+顏色名稱現在有 140 種
+
+其中 17 種標準顏色如下：
+aqua, black, blue, fuchsia, gray
+green, lime, maroon, navy, olive
+orange, purple, red, silver, teal
+white, yellow
+

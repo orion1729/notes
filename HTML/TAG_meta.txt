@@ -1,0 +1,36 @@
+﻿
+用來對 HTML 文件作描述說明
+
+以利瀏覽器提供相對應的服務
+
+---
+
+HTML 4.01 和 HTML5：
+
+- scheme attribute 不被 HTML5 支持
+
+- charset 的定義
+  在 4.01 中，若要設定頁面的 charset
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+  在 HTML5 中只要
+  <meta charset="UTF-8">
+
+---
+
+範例：
+
+- 搜尋引擎的關鍵字
+  <meta name="keywords" content="HTML, CSS, XML, XHTML, JavaScript">
+
+- 網頁描述、簡介
+  <meta name="description" content="Free Web tutorials on HTML and CSS">
+
+- 網頁作者
+  <meta name="author" content="Hege Refsnes">
+
+- 頁面重新整理
+  <meta http-equiv="refresh" content="30">
+
+---
+

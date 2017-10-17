@@ -1,0 +1,199 @@
+﻿
+
+- glutInitDisplayMode( GLUT_DOUBLE | GLUT_RGB )
+  設定 window 顯示時使用的模式
+  GLUT_DOUBLE 表示 double buffer
+  GLUT_RGB 表示顏色是 RGB 模式
+
+
+---
+
+
+- glutInitWindowSize( Width, Height )
+  設定視窗尺寸，設定後仍然能夠拉伸
+
+
+---
+
+
+- glutInitWindowPosition( X, Y )
+  選擇視窗要出現的位置（螢幕上）
+  (0, 0) 的話是左上角
+
+
+---
+
+
+- glutCreateWindow("視窗標題")
+  創造視窗
+
+
+---
+
+
+- glutReshapeFunc( callback_function )
+  指定一個 callback function 給 glutReshapeFunc
+  函式名稱可自己取，但回傳值、參數都是有規定的
+
+  此函式會在視窗大小改變時被呼叫
+  並且執行 callback 中的內容
+
+
+---
+
+
+- glutKeyboardFunc( callback )
+  有按鍵按下時會偵測到，並呼叫 callback
+
+  callback 需有以下參數：
+  void <Name>(unsigned char, int, int )
+  第一個 char 表示是哪一個鍵
+  後面兩個 int 則是按鍵按下時滑鼠的位置（視窗裡的座標）
+
+
+---
+
+
+- glutDisplayFunc( callback )
+  此 callback 沒有任何參數
+
+
+---
+
+
+- glutMainLoop()
+  GLUT 控制的迴圈
+
+
+---
+
+
+- glViewport( x, y, Width, Height )
+  設定畫布（可繪圖的部分）的大小
+  (x, y) 表示畫布左下角的座標（視窗內座標）
+  後兩個參數是表示大小
+
+
+---
+
+
+- glMatrixMode(GL_PROJECTION)
+  用來選擇矩陣模式
+  上面 GL_PROJECTION 表示是投影矩陣
+
+  接下可設定矩陣給 OpenGL，沒設定好模式就會放錯
+
+
+---
+
+
+- glLoadIdentity()
+  將目前的矩陣設為 Identity
+
+  在開始動作前重新設為 Identity 是為了清空之前動作留下的矩陣
+
+
+---
+
+
+- glOrtho( X軸邊界1, X軸邊界2, Z軸邊界1, Z軸邊界2, Y軸邊界1, Y軸邊界2 )
+  給 OpenGL 一個正交投影矩陣
+
+  想像有一個箱子包住了原點，利用六個參數定義了此箱子
+
+
+---
+
+
+- glMatrixMode( GL_MODELVIEW )
+  將矩陣模式設定為 Model view
+
+  OpenGL 的矩陣模式要盡量處在 Model view 模式
+
+
+---
+
+
+- glClearColor(R, G, B, A)
+  設定 color buffer 的顏色
+  只是設定而已，還未有 assign 的動作
+
+
+---
+
+
+- glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT )
+  依據前面設定的（glClearColor 等等）來清空 buffer
+
+  GL_COLOR_BUFFER_BIT 是指 color buffer
+  GL_DEPTH_BUFFER_BIT 則是指 depth buffer (32 bits)
+
+  depth buffer 用於 3D 繪圖
+
+
+---
+
+
+- gluLookAt( x1, y1, z1, x2, y2, z2, x3, y3, z3 )
+  可以調整攝影機的位置、方向
+
+  9 個參數表示了兩個點、一個向量
+  (x1, y1, z1) 表示攝影機的位置座標
+  (x2, y2, z2) 表示要拍攝的物體座標，可確定拍攝方向
+  (x3, y3, z3) 則是攝影機正上方的向量，用來確定是橫著拍還是豎著拍
+
+
+---
+
+
+- glBegin( GL_TRIANGLES )
+- glEnd()
+
+  告訴 OpenGL 要開始繪圖了，從 glBegin 開始，結束於 glEnd
+  glBegin 中可以指定要畫什麼型態
+
+
+---
+
+
+- glColor3f(R, G, B)
+- glVertex3f(x, y, z)
+
+  顏色是浮點數型態，介於 0 與 1 之間
+  x, y, z 則是點的位置，顏色由前面的 glColor 決定
+
+
+---
+
+
+- glutSwapBuffers()
+  當使用 double buffer 時，會分為顯示 buffer 以及作畫 buffer
+  一個用於顯示，另一個則是準備畫下一個畫面
+
+  當使用此函式後，就會交換 buffer，讓新畫面呈現
+
+
+---
+
+
+- glutMouseFunc( callback )
+  讓 callback 接收滑鼠按下、放開、按住、沒按住等訊息
+
+  void <fun_name>(button, state, x, y)
+  button：左鍵為 0，右鍵為 2
+  state：按下為 0，放開為 1
+  (x, y) 是按下或放開的視窗座標位置
+
+
+---
+
+
+- glutMotionFunc( callback )
+  滑鼠按住並移動的狀態下所經過的視窗座標
+
+  void <fun_name>(x, y)
+
+
+---
+
+

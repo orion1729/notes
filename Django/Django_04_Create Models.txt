@@ -1,0 +1,59 @@
+﻿
+在 Django 底下寫的 App 會對應到一個 Python package
+
+Django 會處理基本的目錄問題，讓你只需要寫 Code
+
+
+
+你可以將 App 放在「Python path」上
+
+---
+
+Create App：
+
+若在 manage.py 同一層創建 App 的話，那個 App（Module）就會變成 top-level module
+
+而不是 <project_name> 的 submodule
+
+   $ python manage.py startapp <app_name>
+
+創建的目錄如下：
+
+<app_name>/
+    __init__.py
+    admin.py
+    migrations/
+        __init__.py
+    models.py
+    tests.py
+    views.py
+
+---
+
+制定 Database Models：
+
+也就是 App 會用到的 Database layout
+
+
+
+進入 <app_name>/models.py 中創建各種 class 作為 layout
+
+Ex.
+from django.db import models
+
+class Question(models.Model):
+   question_text = models.CharField( max_length = 200 )
+   pub_date = models.DateTimeField( 'date published' )
+
+class Choice(models.Model):
+   question = models.ForeignKey( Question )
+   choice_text = models.CharField( max_length = 200 )
+   votes = models.IntegerField( default = 0 )
+
+從上面的範例可以看到，每個 class 都是 django.db.models.Model 的 subclass
+
+每個 class 都會有自己的 field variable，對應到的是 database 中的 field
+而 field 的型態則是以 Field class 來表示
+
+有些 Field class 會需要傳入參數，例如 CharField 就需要指定 max_length
+

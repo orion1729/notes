@@ -1,0 +1,20 @@
+﻿先幫 Intent 設定目的 Activity 的名稱
+Intent intent = new Intent();
+intent.setClass(this, <target_name>.class);
+
+Intent 內可以放入參數
+Intent.putExtra
+也可以取得別人送來的參數
+Intent.getExtra
+
+再來啟動目的 Activity
+這裡可以設定期望接收回傳值或不期望
+若是不需要接收回傳東西
+直接使用 startActivity(Intent) 即可
+
+若需要回傳結果，則使用 startActivityForResult(Intent, int)
+（第二個參數 int 是 Request code，提供作辨識）
+等待接收結果的 Activity 需實作 protected void onActivityResult(int request, int result, Intent)
+第一個參數是前面送去的 Request code
+第二個則是目的 Activity 送回來的 Result code
+而回傳內容則一樣需放在 Intent 中（第三個參數）

@@ -1,0 +1,10 @@
+﻿
+宣告 function：
+
+function [output] = function_name( parameter )
+
+若只有一個 output，可不必加上中括號
+
+
+一個函數搭配一個 .m 檔，此 .m 檔的名稱要與 function_name 相同
+

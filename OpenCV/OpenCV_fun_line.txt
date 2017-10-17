@@ -1,0 +1,16 @@
+﻿
+可以畫一段兩個 Points 之間的線
+
+- void line(
+    Mat&          img,          // 要被畫線的 image
+    Point         pt1,          // 第一個點
+    Point         pt2,          // 第二個點
+    const Scalar& color,        // 線的顏色
+    int           thickness=1,  // 線的粗細
+    int           lineType=8,   // 8 -> 8-connected line, 4 -> 4-connected line,
+                                // CV_AA -> 抗鋸齒（antialiased）
+    int           shift=0       // 點座標的 fractional bits 數量
+    )
+
+---
+

@@ -1,0 +1,24 @@
+﻿
+Git 有兩種方式可以建立 repository
+
+1. 從一個專案資料夾來建立
+
+  在專案資料夾的目錄下輸入
+
+  $ git init
+
+  這樣會創建一個資料夾叫 .git
+
+  裡面都是 repository 需要的東西
+
+
+
+2. 複製一個 repository
+
+   $ git clone [url] [change_name]
+
+   即可複製一個 .git 過來
+
+   url 支援 git, http(s) 等協定
+
+

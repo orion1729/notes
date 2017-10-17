@@ -1,0 +1,58 @@
+﻿View 當中有很多 Listener Interface
+- onClick
+  點擊事件
+
+- onLongClick
+  長按事件
+
+- onFocusChange
+  藉由軌跡球或方向漸改變的事件
+
+- onKey
+  focus in 某物件上且觸壓或釋放某個硬體按鍵
+
+- onTouch
+  使用者在某物件範圍內的手勢
+
+- onCreateContextMenu
+  Context Menu 被建立時
+
+---
+
+在 class 宣告時採用 implements 關鍵詞的方式
+可以避免多餘的物件讀取與 object allocation
+
+---
+
+有些事件是需要回傳 boolean 的
+
+- onLongClick
+  True : 表示長按事件已被處理，不必繼續傳送
+  False : 表示要繼續將事件傳送給下一個 listener
+
+- onKey
+  同上
+
+- onTouch
+  假設當你收到 Down action 時回傳了 false
+  表示你未處理這個事件，並且也不在乎接下來的事件是什麼
+
+---
+
+Key event 只對於被 focus 的物件有效
+
+且是根據 View 的結構從上而下傳送的
+
+---
+
+有幾個方法並不在 View 當中，但會影響上述某些事件
+
+- Activity.dispatchTouchEvent(MotionEvent)
+  使 Actvity 有辦法阻截所有 touch event
+
+- ViewGroup.onInterceptTouchEvent(MotionEvent)
+  使 ViewGroup 可以監視當事件被傳給 child views
+
+- ViewGroup.requestDisallowInterceptTouchEvent(boolean)
+  告訴 parent 不要用 onInterceptTouchEvent 阻截事件
+

@@ -1,0 +1,41 @@
+﻿關於 MotionEvent 的 action 數值
+其最低的 8bit 表示動作類型
+而接下來的 8bit 則是表示 Pointer ID
+
+可以利用 MotionEvent 提供的常數來對這兩者做運算
+若要獲得 action 類型，則需把 ID 去除
+所以可以與 MotionEvent.ACTION_MASK 作 AND 運算
+可以只得到最低 8bit 的數值
+
+若要得到 ID
+可以與 MotionEvent.ACTION_POINTER_ID_SHIFT 作 Right Shift（>>）運算
+得到第二個 8bit 的 ID 數值
+
+---
+
+Pointer ID 是在 ACTION_DOWN, ACTION_POINTER_DOWN 兩個事件發生時才會被給予
+會一直持續有效到 ACTION_UP, ACTION_POINTER_UP, ACTION_CANCEL 發生
+
+MotionEvent 的多數方法都是以 Pointer Index 來做參數
+getX(int), getY(int), getPointerId(int) 等等
+
+Pointer Index 的順序會在 event 之間變動
+只有 ID 不會改變，所以要小心
+利用 getPointerId(index), findPointerIndex(id)
+
+ACTION_DOWN :
+  第一根手指觸碰螢幕時觸發
+
+ACTION_UP :
+  最後一根手指離開螢幕時觸發
+
+ACTION_MOVE :
+  手指按在螢幕上移動時觸發
+
+ACTION_POINTER_DOWN :
+  已有手指在螢幕上時，又有手指觸碰螢幕時觸發
+  可利用 getActionIndex() 來取得這次的 index
+
+ACTION_POINTER_UP :
+  同上，但行為是離開螢幕
+

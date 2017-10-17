@@ -1,0 +1,42 @@
+﻿
+利用 Manually 安裝 Django 的話，會在 setup.py 中將 dajngo-admin 的路徑加到環境變數中
+
+倘若沒有，則自行加入到 PATH 上
+
+---
+
+創建 Project：
+
+   $ django-admin startproject <project_name>
+
+Django 就會自動幫我們創建一連串的目錄，如下：
+
+<project_name>/
+    manage.py
+    <project_name>/
+         __init__.py
+         settings.py
+         urls.py
+         wsgi.py
+
+- manage.py
+  讓你可以與 Django project 互動
+
+- <project_name>
+  一個 project Python package
+  讓你可以 import 當中的 package（e.g. <project_name>.urls）
+
+- <project_name>/__init__.py
+  一個空的檔案，主要用來告訴 Python 說這個目錄應該被認為是一個 Python package
+
+- <project_name>/settings.py
+  這個 Django project 的 Settings or Configuration
+
+- <project_name>/urls.py
+  這個 Django project 的 URL 宣告
+
+- <project_name>/wsgi.py
+  一個 WSGI-compatible 的進入點
+
+---
+

@@ -1,0 +1,193 @@
+﻿
+Fragment 是一個可被 Activity 使用的獨立元件
+可以封裝各種功能並且被不同的 Activity 重複使用
+
+Fragment 擁有自己的 Lifecycle（會被 host Activity 影響）
+接收自己的事件
+可以被加入進、移除出 Activity
+
+---
+
+Back stack :
+是一個記錄著 Fragment transaction 的 stack
+被 Activity 管理著
+
+每當作出了一個 transaction 時
+你可以將其加入 stack 中
+
+---
+
+要使用 Fragment
+必須 extends 一個 Fragment（或 subclass）
+
+至少需實作下列幾個方法：
+- onCreate()
+  創建 Fragment 時被系統呼叫
+  用來初始化那些 Fragment 中的元件
+  包括被 paused, stopped 的
+
+- onCreateView(LayoutInflater, ViewGroup, Bundle)
+  Fragment 要繪出自己的 UI 時被系統呼叫
+  回傳一個 root View
+  如果不提供 UI 則回傳 null
+
+- onPause()
+  當出現使用者要離開 Fragment 的徵兆時被系統呼叫
+  （並不一定被 destroyed）
+
+---
+
+DialogFragment :
+視窗相關的 Fragment
+好處是可以有 back stack
+
+ListFragment :
+List 相關
+在 onCreateView() 中預設回傳 ListView
+所以可以不實作這個方法
+
+PreferenceFragment :
+可以展現 Preference 結構
+在設計 app 的 settings 時有用處
+
+---
+
+加入 layout 到 Fragment :
+主要利用 onCreateView() 方法
+在此方法中使用 LayoutInflater 的 inflate() 創建 View
+
+ViewGroup 參數是包含 Fragment 的 parent
+
+---
+
+加入 Fragment 到 Activity :
+
+1. 在 Activity 的 layout 中 <fragment>
+  android:name 的值是 Fragment 的 java 實作檔
+
+  當系統初始化 Activity layout 時
+  <fragment> 的位置會被 onContentView() 回傳的 View 取代
+
+  可以利用 android:id, android:tag 去辨識 Fragment
+  若都沒提供，系統會使用 container 的 ID
+
+2. 程式碼
+  需要指定一個 ViewGroup 來放置 Fragment
+  流程大致如下：
+
+    FragmentManager fm = Activity.getFragmentManager();
+    FragmentTransaction transaction = fm.beginTransaction();
+
+    MyFragment fragment = new MyFragment();
+    transaction.add(R.id.container, fragment);
+    transaction.commit();
+
+  每次 FragmentTransaction 設置完畢
+  都需要呼叫 commit() 方法
+
+---
+
+無 UI Fragment :
+FragmentTransaction 的 add() 方法
+改為 add(Fragment, String tag)
+
+tag 是為了往後可以藉由 FragmentManager.findFragmentByTag(tag) 來找到
+
+---
+
+FragmentManager :
+從 Activity 呼叫 getFragmentManager() 獲得
+
+可作以下的動作
+- 找到 Activity 中的 Fragment
+  藉由 findFragmentById（有提供 UI 的 Fragment）
+  或 findFragmentByTag（沒提供 UI）
+
+- 從 back stack 中 pop 一個 state
+
+- 註冊 back stack 的 listener
+  addOnBackStackChangedListener()
+
+---
+
+FragmentTransaction :
+從 FragmentManager.beginTransaction() 獲得
+
+有 add(), remove(), replace(), addToBackStack(), commit() 等方法
+
+若一次 add() 多個 Fragment
+則 add 的順序決定了他們在結構中的順序
+
+remove() 的情況下
+有 addToBackStack() 會被 stopped
+沒有儲存則會被 destroyed
+
+在 commit() 之前
+利用 setTransition() 可獲得轉移有動畫效果
+
+---
+
+與 Activity 的溝通：
+Activity 會擁有 Fragment 的實例
+但 Fragment 也可以從 getActivity() 取得 Activity
+
+---
+
+讓 Event 在 Activity 中被處理：
+在 Fragment 中新增一個 Interface
+讓 Activity 實作這個 Interface
+如此一來 Activity 也能分享訊息給其他 Fragment
+
+確保 Activity 有實作 Interface
+在 Fragment 中有 onAttach(Activity) 方法
+
+此方法當 Fragment 被加到 Acitvity 中時會被系統呼叫
+
+我們可以在此方法中將 Activity cast 成我們定義的 Interface
+如此一來在 Fragment 其他事件被觸發時
+我們可以用此參考來呼叫 Activity 實作的方法
+
+---
+
+Lifecycle :
+Fragment 存在於下列三個狀態
+
+- onResume()
+  Fragment 在 Acitvity 是可見的
+
+- onPause()
+  Fragment 存在的 Acitivty 是可見的
+  但沒被 focus（有其他 Acitivty 的出現在部分螢幕上）
+
+- onStop()
+  Fragment 不可見
+  發生於 Acitvity 被 stopped 或被 remove()
+  但 Fragment 仍然存活
+  資訊仍然被系統掌握著
+
+---
+
+提供 item 給 activity（action bar）:
+在 onCreate() 中呼叫 setHasOptionsMenu()
+來表示 Fragment 想加入 item 到 OptionsMenu 中
+（否則 Fragment 的 onCreateOptionsMenu() 不會被呼叫）
+而事件會由 Fragment 的 onOptionsItemSelected() 接收
+
+提供 context menu :
+利用 registerForContextMenu() 來提供
+當 context menu 要被打開時
+Fragment 會收到 onCreateContextMenu()
+而使用者選擇 item 時會收到 onContextItemSelected()
+
+總體而言
+事件會先到 Activity
+若沒被處理（回傳 false）才會被傳遞到 Fragment
+
+---
+
+transaction 時的 replace 動作若有存入 back stack
+那麼被替換的 Fragment 只會被 stopped
+而不是被 destroyed（為了能還原狀態）
+
+但如果沒有存入 back stack
+那 Fragment 就會被 destroyed

@@ -1,0 +1,66 @@
+
+定義域（Domain）:
+函數 input 所可以取的值的集合，即 f(x) 中的 x
+
+——
+
+值域（Range）:
+看用途可作為對應域（Codomain）或者像（Image）來解釋
+一般以像（Image）的解釋較普遍
+
+——
+
+像（Image）:
+是所有函數 output 值的集合，即 f(x)
+
+——
+
+對應域（Codomain）:
+即函數 output 會屬於的集合，可以想像為 Image 是 Codomain 的子集合
+
+——
+
+Injective (one-to-one):
+表示一個函數將其 Domain 對應到 Image 時具有可分辨的特性。
+可分辨指的是 Domain 中的所有成員在 Image 中的對應成員是不會相同的。
+
+對所有 a, b 屬於 Domain
+If f(a) = f(b) then a = b
+
+——
+
+Surjective (onto):
+表示函數 Image 所有成員都能找到至少一個 Domain 成員使得函數關係成立
+
+對所有 y 屬於 Image
+都能找到至少一個 x 屬於 Domain 使得 f(x) = y
+
+—-
+
+Bijection (one-to-one and onto):
+表示函數同時具有 Injective 和 Surjective 兩種特性。
+
+——
+
+Homomorphism (同態):
+表示兩個數學結構間的對應關係
+
+設結構 (G, *) 表示集合 G 以及一個運算符號 *
+而結構 (H, -) 表示另一個集合 H 和運算符號 -
+那麼兩結構間具有的同態關係為：f : (G, *) -> (H, -)
+且此 f 有以下特性：
+g1, g2 屬於 G，而 f(g1), f(g2) 屬於 H
+f(g1 * g2) = f(g1) - f(g2)
+
+通用寫法：
+f( u1(a1, a2, … , an) ) = u2( f(a1), f(a2), … , f(an) )
+u1 和 u2 為 n-ary 的 operator
+
+——
+
+Isomorphism (同構):
+代表兩結構的 Homomorphism 具有 Bijective 的特性
+
+——
+
+

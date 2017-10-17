@@ -1,0 +1,121 @@
+﻿
+在 OpenCV 主要還是支援 C 的時期
+
+當時的 Image Container 主要是 IplImage 這個 struct
+
+但是有個缺點，就是 Memory Management 必須自己來
+
+
+
+後來在 C++ 中支援了 Mat 這個 class
+
+會主動處理 Memory Management
+
+---
+
+Mat 分為兩個部分
+
+- Matrix Header
+  包含了描述這個 Mat 的資訊，像是 Size, 儲存方式（RGB 或者其他）, Address of stored data
+
+- Pointer for pixel values
+  一個指向 pixel 儲存空間的指標
+
+---
+
+為了空間上的考量，OpenCV 可以多個 Mat 共享同一區塊的 data
+
+他們只有 Header 會有差異
+
+使用 '=' 或者 Copy Constructor 時只會 Copy Header，data 還是同一份
+
+
+
+真的需要另外 Copy 一個 Mat 時，使用
+Mat B = A.clone();
+A.copyTo(B);
+
+---
+
+Mat 內部的儲存方式有很多種，例如 gray scale, RGB, YCrCb 等等
+
+不同的儲存方式會影響內部實際使用的 data type
+
+最小的 data type 是 char，也就是 1 Byte = 8 bits
+
+可以是 signed 或 unsigned
+
+---
+
+Mat 支援 cout 的 << 運算子，但僅限二維的
+
+---
+
+創造一個 Mat :
+
+- Mat() constructor
+  有很多 constructor，有些需先指定 row, column number 以及 data type
+
+  data type 指的是
+  CV_8UC3
+  CV_[The number of bits per item][Signed or Unsigned][Type Prefix]C[The channel number]
+
+- 利用 constructor 從 C/C++ array 初始化
+
+- 為已存在的 IplImage 創造 Header
+  IplImage* img = cvLoadImage("greatwave.png", 1);
+  Mat mtx(img);
+
+- 使用 Create() method
+
+- 利用逗號分隔
+  Mat C = (Mat_<double>(3,3) << 0, -1, 0, -1, 5, -1, 0, -1, 0);
+
+- 使用 clone(), copyTo()
+  Mat RowClone = C.row(1).clone();
+
+- 用 array 去指定 Mat
+  float* array = new float[480*640*3];
+  Mat m(480, 640, CV_32FC3, array);
+
+- 利用 Mat::zeros(), Mat::ones(), Mat::eye()
+  zeros() 創建內容全為 0 的 Mat
+  ones() 則是全為 1
+  eye() 則是創建一個 identity matrix（左上至右下的對角線全為 1，其他是 0）
+
+  三個 method 都支持 (int rows, int cols, int type) 這種參數格是
+  type 指的是 Mat() 中所說明的 data type
+
+---
+
+Functions :
+
+- depth()
+  回傳 Mat 的深度，即每 pixel 有多少 byte
+
+- channels()
+  回傳 channel 的數目
+
+- rows(), cols()
+  回傳 row 與 col 的數目
+
+---
+
+Access Mat :
+
+- 利用 Mat.data()
+  此 method 會回傳第一個 row 和第一個 column 的位置
+  因此可以用指標接起來
+
+- Mat.at<T>(int i), Mat.at<T>(int i, int j), Mat.at<T>(int i, int j, int k)
+  可以直接存取 Mat 上某個特定位置
+  當 Mat 是二維但只有一個 row 或 column 時，可以直接使用 at(int i) 來定位
+  <T> 表示一個 teamplate，可以指定回傳值的 type
+
+---
+
+傳 Mat 到 function 中：
+
+會如同指標一樣，在 function 中被改動的部分也會影響到外面的 Mat
+
+但當 function 中的 Mat 使用了 release，內外的 Mat 就不會相互影響了

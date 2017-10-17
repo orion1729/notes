@@ -1,0 +1,20 @@
+
+
+String Substitution Functions:
+以下是一些在 makefile 中做字串取代的 function
+
+- $(subst <from>,<to>,<text>)
+  會將 <text> 中所有出現的 <from> 都替換成 <to>
+
+  例如：
+  $(subst ee,EE,feet on the street)
+  會變成 fEEt on the strEEt
+
+- $(patsubst <pattern>,<replace>,<text>)
+  將 <text> 的單字（以空白區分）看是否符合 <pattern>
+  若符合，則替換成 <replace>
+  可以配合 % 使用，表示匹配任何長度的任何字元
+
+  例如：
+  $(patsubst %.c,%.o,x.c.c bar.c)
+  會變成 x.c.o bar.o

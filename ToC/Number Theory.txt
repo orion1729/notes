@@ -1,0 +1,98 @@
+﻿
+Residue Class（同餘類）：
+
+若 a = r (mod n)，則其他所有 x = r (mod n) 的 x 都在 [a] 之中
+
+[a] = {..., a - 2n, a - n, a, a + n, a + 2n, ...}
+
+---
+
+Integers modulo n :
+
+Zn = {[0], [1], [2], ... , [n - 1]}
+
+---
+
+Prime residue class group modulo n :
+
+Zn* = {[a] | 1 <= a <= n - 1, gcd(a, n) = 1}
+
+在 Zn 中，若整數 a 與 n 互質，則 a 的同餘類 [a] 便是 Zn* 的一員
+
+---
+
+Euler function :
+
+phi(n) 表示小於或等於 n 的正整數中，與 n 互質的數的數目
+
+
+
+若 n 為質數，則 phi(n) = n - 1
+
+---
+
+Euler's Theorem（歐拉定理）：
+
+若 a, n 互質，即 gcd(a, n) = 1，
+
+則 a 的 phi(n) 次方與 1 同餘於 n
+
+a^phi(n) ≡ 1 (mod n)
+
+---
+
+Group（群）：
+
+G = (S, ＊) 是一個集合 S 和 一個運算符 ＊，且有以下特性
+
+1. Closure（封閉性）
+   x ＊ y 仍在 S 當中
+
+2. Associativity（結合性、關聯性）
+   x ＊ (y ＊ z) = (x ＊ y) ＊ z
+
+3. Identity（單元性）
+   S 中會有一個元素 e，導致 x ＊ e = e ＊ x = x
+
+4. Inverse（反元素）
+   對於 S 中的每個 x，都有一個 S 中的 y 使得 x ＊ y = e
+
+---
+
+order：
+
+order 有兩種意義，分別作用於 group 以及 group 之一個元素
+
+1. order of group
+   表示 group 內的元素個數
+
+2. order of element
+   有一個數 m 會使得 a^m = e，則 m 稱為 a 的 order
+
+---
+
+Generator（Primitive root）：
+
+先定義一個集合叫 <g>，g 是 group G 的成員
+
+而 <g> = {g^i | i >= 0}，即 <g> = {1, g, g^2, g^3, ...}
+
+
+
+如果 G = <g>，那麼我們稱這個 G 為 Cyclic（循環群）
+
+且這個 g 被稱為 G 的 generator
+
+---
+
+Quadratic residue（二次剩餘）：
+
+存在某個 x，使得 x^2 ≡ d (mod p)
+
+稱為 x 對 p 的二次剩餘為 d
+
+
+若不成立則稱二次非剩餘
+
+---
+

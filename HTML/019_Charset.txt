@@ -1,0 +1,30 @@
+﻿
+歷史簡介：
+
+- ASCII 是第一個使用於網際網路的編碼
+  有 127 不同的字元
+
+- ANSI（Windows-1252）是 Windows 內預設的編碼
+  有 256 種代碼
+
+- ISO-8859-1 是一種 ASCII 的擴充
+  在 HTML 4 中是預設編碼
+  支援 256 種字元
+
+現今在 HTML5 中多使用 Unicode（UTF-8）
+（HTML 4 也支援 UTF-8）
+
+---
+
+設定：
+
+charset 的設定是在 <meta> 中
+
+- HTML4
+  <meta http-equiv="Content-Type" content="text/html;charset=ISO-8859-1">
+
+- HTML5
+  <meta charset="UTF-8">
+
+---
+

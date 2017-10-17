@@ -1,0 +1,29 @@
+﻿LayoutInflater 是一個把 xml 資源檔實例成一個 View 的類
+通常是使用 LayoutInflater.inflate(R.layout.xxx, null) 來實例一個 View
+
+---
+
+Activity 是控制器
+Window 是顯示畫面的框架（容器）
+View, ViewGroup 才是真正能看到的物件
+
+一般在 Activity 中的 setContentView(R.layout.xxx)
+其實是以下的東西
+getWindow().setContentView( LayoutInflater.inflate(R.layout.main), null) )
+
+由 getWindow() 獲得一個 PhoneWindow
+再從中呼叫 setContentView 把我們的 layout 放進去
+
+---
+
+Activity 創建後，系統會呼叫其 attach 方法，再將其放入 ActivityThread 當中
+而在 attach 當中，同時創建了 Window
+
+其中 Window 會有一個 DecorView（裝飾）
+（在 setContentView 當中會檢查參數，若沒有則實例一個 DecorView）
+
+DecorView 是一個 View 的根
+我們的 layout 就是被加在這個根上
+它的內容是一個標題列以及下方的空白區域
+
+我們的 layout 會在 setContentView 中以 addView 的方式加到 DecorView 上

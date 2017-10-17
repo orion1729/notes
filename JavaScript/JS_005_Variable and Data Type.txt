@@ -1,0 +1,86 @@
+﻿
+把 Variable 想成是資料的容器
+
+---
+
+JavaScript 是 case-sensitive
+
+---
+
+沒有初始化的 Variable 會有一個「undefined」的值
+
+---
+
+重複宣告變數時，變數的值仍然存在
+
+var carName = "Volvo";
+var carName;
+
+執行後，carName 的值仍然是 Volvo
+
+---
+
+在 string 後面使用 + 時，不論 + 後面接什麼變數都會被當作 string 而串接起來
+
+---
+
+Variable 是動態型態
+
+- String
+  雙引號或單引號皆可
+  var x = "Volvo";
+  var x = 'Volvo';
+
+- Number
+  JavaScript 只有一種數字型態
+  var x = 34;
+  var y = 34.00;
+  var z = 123e5;  // 12300000
+  var a = 123e-5; // 0.00123
+
+- Boolean
+  true and false
+
+- Array
+  是一個特別的物件型態，使用 typeof 時會傳回 object
+  var x = new Array();
+  x[0] = 1;
+  x[1] = 2;
+
+  var x = new Array(1, 2);
+
+  var x = [1, 2];
+
+- Object
+  var person = {
+      firstname:"John",
+      lastname:"Doe",
+      id:5566
+  }
+
+  person.lastname / person["lastname"]
+
+  在 object 中加入 function
+  var person = {
+    firstName: "John",
+    lastName : "Doe",
+    id       : 5566,
+    fullName : function (){return this.firstName + " " + this.lastName}
+  };
+  document.getElementById("demo").innerHTML = person.fullName();
+
+- Undefined
+  undefined
+
+- Null
+  null
+
+---
+
+所有型態都有一個物件類別
+
+當使用 new 的時候就是宣告物件
+
+盡量別讓 String, Number, Boolean 以物件型態出現
+會使程式碼變複雜也會降低速度
+

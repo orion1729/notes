@@ -1,0 +1,60 @@
+﻿
+jQuery 是 JavaScript 的 library
+
+目的是用來簡化 JavaScript 的編寫
+（write less, do more）
+
+---
+
+有以下特徵
+
+- HTML / DOM 處理
+- CSS 處理
+- HTML 事件方法（函數）
+- Effects and animations
+- AJAX
+- Utilities
+
+---
+
+使用：
+
+- 從 jQuery.com 下載 jQuery library
+- 使用 Google 的 CDN（Content Delivery Network）
+
+///
+
+下載的有兩種版本：
+1. Production Version - 上市網站使用（最小化與壓縮）
+2. Development Version - 用來測試與開發（無壓縮且有可讀性的程式碼）
+
+jQuery library 是一個單一的 JavaScript 檔案
+在 <head> 當中使用 <script> 引入
+<head>
+<script src="jquery-1.10.2.min.js"></script>
+</head>
+
+///
+
+Google 和 Microsoft 都有提供 CDN
+
+<head>
+<!-- Google -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+<!-- Microsoft -->
+<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.10.2.min.js"></script>
+</head>
+
+上述 1.10.2 當中
+可以拿掉 2
+如此一來 Google 會回傳 1.10 的最新版本給你
+
+若只剩 1 這個數字
+會回傳最新的 1 系列版本
+
+---
+
+使用者若已有過從 Google 或 Microsoft 下載了 jQuery
+那麼當他們到你網站時，跑得速度會較快
+

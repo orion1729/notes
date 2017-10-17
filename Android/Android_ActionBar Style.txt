@@ -1,0 +1,151 @@
+﻿
+Android 有內建很多 theme 給 ActionBar
+像是 Theme.Holo （API 11 以上）
+（使用 support 需用 Theme.AppCompat）
+
+---
+
+使用 Theme :
+
+Theme.Holo -> 黑色主題
+Theme.Holo.Light -> 白色主題
+Theme.Holo.Light.DarkActionBar -> Bar 是黑色，其餘白色
+
+可以使用在 <application> 或 <activity>
+
+使用 Support Library
+Theme.AppCompat -> 黑色主題
+Theme.AppCompat.Light -> 白色主題
+Theme.AppCompat.Light.DarkActionBar -> 黑色 Bar，其餘白色
+
+每個 style property 需要宣告兩次
+一次與一般使用相同
+另一次則是 support library（參考自 your app）
+
+---
+
+Customize Background :
+為了改變背景，需要用到 android:actionBarStyle 這個 property
+讓這個 property reference 另一個 style resource
+那個 resource 設定了 android:background 這個 property
+
+
+For 3.0 :
+<?xml version="1.0" encoding="utf-8" ?>
+<resources>
+    <!-- the theme applied to the application or activity -->
+    <style name="CustomActionBarTheme"
+           parent="@style/Theme.Holo.Light.DarkActionBar">
+        <item name="android:actionBarStyle">@style/MyActionBar</item>
+    </style>
+
+    <!-- ActionBar styles -->
+    <style name="MyActionBar"
+           parent="@style/Widget.Holo.Light.ActionBar.Solid.Inverse">
+        <item name="android:background">@drawable/actionbar_background</item>
+    </style>
+</resources>
+
+
+For 2.1 :
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- the theme applied to the application or activity -->
+    <style name="CustomActionBarTheme"
+           parent="@style/Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:actionBarStyle">@style/MyActionBar</item>
+
+        <!-- Support library compatibility -->
+        <item name="actionBarStyle">@style/MyActionBar</item>
+    </style>
+
+    <!-- ActionBar styles -->
+    <style name="MyActionBar"
+           parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <item name="android:background">@drawable/actionbar_background</item>
+
+        <!-- Support library compatibility -->
+        <item name="background">@drawable/actionbar_background</item>
+    </style>
+</resources>
+
+---
+
+Customize Text Color :
+文字顏色是在 android:anctionMenuTextColor 這個 property
+而 Tab 文字則是在 android:actionBarTabTextStyle
+
+
+For 3.0 :
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- the theme applied to the application or activity -->
+    <style name="CustomActionBarTheme"
+           parent="@style/Theme.Holo">
+        <item name="android:actionBarStyle">@style/MyActionBar</item>
+        <item name="android:actionBarTabTextStyle">@style/MyActionBarTabText</item>
+        <item name="android:actionMenuTextColor">@color/actionbar_text</item>
+    </style>
+
+    <!-- ActionBar styles -->
+    <style name="MyActionBar"
+           parent="@style/Widget.Holo.ActionBar">
+        <item name="android:titleTextStyle">@style/MyActionBarTitleText</item>
+    </style>
+
+    <!-- ActionBar title text -->
+    <style name="MyActionBarTitleText"
+           parent="@style/TextAppearance.Holo.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/actionbar_text</item>
+    </style>
+
+    <!-- ActionBar tabs text styles -->
+    <style name="MyActionBarTabText"
+           parent="@style/Widget.Holo.ActionBar.TabText">
+        <item name="android:textColor">@color/actionbar_text</item>
+    </style>
+</resources>
+
+
+For 2.1 :
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- the theme applied to the application or activity -->
+    <style name="CustomActionBarTheme"
+           parent="@style/Theme.AppCompat">
+        <item name="android:actionBarStyle">@style/MyActionBar</item>
+        <item name="android:actionBarTabTextStyle">@style/MyActionBarTabText</item>
+        <item name="android:actionMenuTextColor">@color/actionbar_text</item>
+
+        <!-- Support library compatibility -->
+        <item name="actionBarStyle">@style/MyActionBar</item>
+        <item name="actionBarTabTextStyle">@style/MyActionBarTabText</item>
+        <item name="actionMenuTextColor">@color/actionbar_text</item>
+    </style>
+
+    <!-- ActionBar styles -->
+    <style name="MyActionBar"
+           parent="@style/Widget.AppCompat.ActionBar">
+        <item name="android:titleTextStyle">@style/MyActionBarTitleText</item>
+
+        <!-- Support library compatibility -->
+        <item name="titleTextStyle">@style/MyActionBarTitleText</item>
+    </style>
+
+    <!-- ActionBar title text -->
+    <style name="MyActionBarTitleText"
+           parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/actionbar_text</item>
+        <!-- The textColor property is backward compatible with the Support Library -->
+    </style>
+
+    <!-- ActionBar tabs text -->
+    <style name="MyActionBarTabText"
+           parent="@style/Widget.AppCompat.ActionBar.TabText">
+        <item name="android:textColor">@color/actionbar_text</item>
+        <!-- The textColor property is backward compatible with the Support Library -->
+    </style>
+</resources>
+
+---
+

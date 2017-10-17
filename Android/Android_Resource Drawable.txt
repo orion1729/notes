@@ -1,0 +1,7 @@
+﻿android:drawable 可以使用各種 drawable 資料夾中的圖片
+也可以用顏色 @color/name 來填充
+
+---
+
+在 drawable 資料夾之下
+也可以使用 xml 來描述（<selector> 之類的用法）

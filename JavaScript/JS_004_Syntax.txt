@@ -1,0 +1,67 @@
+﻿
+Literals :
+
+- Number
+  3.14, 1000, 123e5（12300000）
+
+- String
+  "John" or 'John'
+
+- Expression
+  5 + 6, 5 * 10
+
+- Array
+  [1, 2, 3, 4, 5]
+
+- Object
+  {name:"John", age:50, color:"blue"}
+
+- Function
+  function fun(a, b) { retunr a + b; }
+
+---
+
+Variables :
+
+JS 利用 var 這個關鍵字來宣告變數
+
+---
+
+Statemetnts :
+
+JS Statements 可看成是給 HTML 瀏覽器的指令
+以 semicolons（;）來作為一個 statement 的結束
+
+---
+
+Identifiers :
+
+以一個唯一的名字來 identify 變數、函式、物件
+
+可包含英文、數字、底線、dollar sign，但不能以數字開頭
+
+保留字也不能拿來作為 identifier
+
+---
+
+JS 有區分大小寫
+
+---
+
+JS 使用 unicode 來顯示字元
+
+---
+
+JS 一般使用 camelCase（駝峰標示）來表示變數名稱
+
+---
+
+JS 可直接將一個 statement 換行續寫
+在 ; 之前換行仍被視為一個 statement
+
+一個 string 也可換行續寫，利用反斜線 backslash（\）
+document.getElementById("demo").innerHTML = "Hello \
+    Dolly!";
+
+---
+

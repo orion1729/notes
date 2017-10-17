@@ -1,0 +1,59 @@
+
+
+File Description :
+在 Unix 系統中，每個 input, output 的來源都會用一個數字來代表，
+這個數字就是 file description (fd)
+
+每個 process 都會有一組自己的 fd，其中有三個是預設給定的，
+分別是 stdin (fd 0), stdout (fd 1), stderr (fd2)
+
+當在 terminal 執行一個 command 時，
+系統會預設 type input 是來自 stdin，
+而 output 分別是 stdout, stderr
+
+
+——
+
+
+Redirect, Pipe :
+而這些 fd 會指向哪邊可以利用 redirect, pipe operator 來改變
+
+例如：
+cmd1 | cmd2
+就是將 cmd1 的 stdout (fd 1) 導向到 cmd2 的 stdin (fd 0)
+
+redirect operators : <, <<, >, >>
+
+0<infile 表示將 infile 檔案的內容作為 stdin
+2>>errfile 表示將 stderr 的輸出 append 到 errfile 後面
+
+如果在 redirect 不指定 fd 數字的話，
+系統會預設 input 就是 stdin (因此 < 相當於 0<)，
+而 output 則是 stdout (> 相當於 1>)
+
+你可以將兩個 fd 所指向的地方結合，
+例如 2>&1 就會將 stderr 指向「stdout 所指的地方」，
+相當於將兩個 stream 的輸出都是同一個地方，端看原本 stdout 是輸出到哪
+
+
+——
+
+
+nohup :
+使用 nohup 時每次都會預設產生 nohup.out 這個 log 檔案，
+目的是將「輸出至 terminal」的內容儲存到這個檔案中
+
+如果不想要產生這樣的檔案的話，可以搭配 redirect 來完成，
+你可藉由將 stdout, stderr 指向其他地方，
+使得 nohup 判斷將不會有任何東西輸出至 terminal，
+那麼 nohup 就不會創建 nohup.out 檔案
+
+方式：
+在使用 nohup 指令時以如下的格式即可
+nohup command >/dev/null 2>&1
+這一行表示說以 nohup 執行 command，
+且 command 的 stdout 將會輸出到 /dev/null 這個特殊的 device 上，
+最後再將 stderr 指向 stdout 所指向的地方，也就是 /dev/null
+
+/dev/null 這個特殊的 device 會將任何寫入的內容丟棄
+

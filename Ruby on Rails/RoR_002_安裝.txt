@@ -1,0 +1,38 @@
+﻿
+安裝 Ruby, 資料庫
+
+---
+
+安裝完 Ruby 就可以使用 RubyGems 了
+
+RubyGems 是 Ruby 的套件管理系統
+
+gem -v                       告訴你 RubyGems 的版本
+gem update --system          升級RubyGems的版本
+gem install gem_name         安裝某個套件
+gem list                     列出安裝的套件
+gem update gem_name          更新最新版本
+gem update                   更新所有你安裝的Gems
+gem install -v x.x.x gemname 安裝特定版本
+gem uninstall gem_name       反安裝
+
+gem install gem_name 會自動產生兩個文件
+不需要可使用下列指令
+gem install gem_name --no-ri --no-rdoc
+
+或是新增一個 ~/.gemrc 檔案中加入：
+gem: --no-ri --no-rdoc
+
+---
+
+安裝 SQLite 的 Adapter
+
+gem install sqlite3 --no-ri --no-rdoc
+
+---
+
+安裝 Rails
+
+gem install rails --no-ri --no-rdoc
+
+

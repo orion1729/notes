@@ -1,0 +1,7 @@
+﻿
+矩陣轉圖片：
+
+1) gray scale：
+
+   img = mat2gray(mat);
+   imshow(img);

@@ -1,0 +1,527 @@
+﻿Android 3.0 (Lv11) 才加入
+Support library 可用於 Android 2.1 (Lv7) 以上
+
+此篇以 Support library 為主
+
+是一個視窗特徵
+
+提供下列功能：
+- 讓你有專用的位置放置 app 的標示
+  以及讓使用者知道他們在你程式中的哪個位置
+
+- 提供一些動作
+
+- 方便的導覽以及程式內的切換
+
+---
+
+主要可分為三個位置：
+
+1. Main action bar
+  位置在最上方
+  類似一個標題列
+
+2. Top bar
+  在 main action bar 的下面
+  主要用於分頁用
+
+3. Bottom bar
+  在螢幕最下方
+
+---
+
+Action Buttons :
+Google 建議把最重要的幾個按鈕放出來
+其他收在 overflow 中
+
+有一種 share action provider
+是用在想分享資料時
+
+---
+
+Contextual Action Bar(CAB) :
+會暫時覆蓋 app 的 action bar
+通常用於特殊地方顯示一些補充資訊
+
+---
+
+使用 ActionBar :
+
+1. Activity extends ActionBarActivity
+  （ActionBarActivity 是 FragmentActivity 的 subclass）
+
+2. 使用 Theme.AppCompat 中的 theme
+  <activity android:theme="@style/Theme.AppCompat.XXXX" ... >
+
+---
+
+隱藏 ActionBar :
+ActionBar actionBar = getSupportActionBar();
+actionBar.hide();
+
+顯示 ActionBar :
+actionBar.show();
+
+隱藏、顯示都會造成 layout 變動
+
+可利用 overlay 模式將 ActionBar 以覆蓋的方式出現在 layout 上
+
+---
+
+ActionBar 圖示：
+系統預設使用 app icon
+此 icon 設定在 <application>, <activity> 的 icon attribute
+
+你也可以自己指定
+利用 logo attribute
+
+---
+
+ActionBar Items(Action Button) :
+
+把重要的少數 action 放出來
+其他自動塞入 overflow 當中
+（若有 Menu button，也可用此鍵叫出 overflow）
+
+在 Activity 當中
+- onCreateOptionsMenu(Menu)
+  當 Activity 開始時，系統呼叫此方法創建 ActionBar
+
+  用此方法去 inflate 一個 menu resource
+    MenuInflater inflater = getMenuInflater();
+    inflater.inflate(R.menu.XXXX, menu);
+    return super.onCreateOptionsMenu(menu);
+  XML 放 res/menu/ 中
+
+  範例：
+  <menu xmlns:android="http://schemas.android.com/apk/res/android" >
+      <item android:id="@+id/aabbcc"
+            android:icon="@drawable/aabbcc"
+            android:title="@string/aabbcc" />
+      <item android:id="@+id/ccbbaa"
+            android:icon="@drawable/ccbbaa"
+            android:title="@string/ccbbaa />
+  </menu>
+
+  為了讓 action button 能直接出現在 bar 上（重要的那幾個）
+  <menu xmlns:android="http://schemas.android.com/apk/res/android"
+    →  xmlns:yourapp="http://schemas.android.com/apk/res-auto" >
+      <item android:id="@+id/aabbcc"
+            android:icon="@drawable/aabbcc"
+            android:title="@string/aabbcc"
+        →  yourapp:showAsAction="ifRoom" />
+  </menu>
+  加入上述修改
+  若空間不足放入 bar，則會被丟入 overflow
+  因為 Support library 的 attribute 在舊版本 framework 並沒有提供
+  所以需要 appname
+
+  yourapp:showAsAction="ifRoom | withText"
+  withText 在許可的情況下，才有機會顯示 title
+
+  title attribute 的用處在於 overflow
+  也可用於長按 action button 顯現
+
+- onOptionsItemSeleted(MenuItem)
+  當 action 被觸擊時，系統呼叫 Activity 中的此方法
+  此方法可藉由回傳 true 覆蓋掉 MenuItem 自己定義的事件處理（除了 submenu）
+  傳入一個 MenuItem，讓你利用 getItemId() 與 XML 中的 item 作對照
+
+  範例：
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch(item.getItemId()){
+        case R.id.aabbcc:
+            aabbcc();
+            return true;
+        case R.id.ccbbaa:
+            ccbbaa();
+            return true;
+        default:
+            return super.onOptionsItemSelected(item);
+        }
+    }
+
+  Fragment 中也有 onCreateOptionsMenu()
+  當 item 是在 Fragment 當中 inflate 時呼叫
+  但 Activity, Fragment 兩者都有 onOptionsItemSelected()
+  Activity 會先被呼叫，因此建議用 super 的方式回傳預設值
+  讓 Fragment 有機會處理
+
+---
+
+Split Action Bar :
+也就是存在螢幕最下面的 action bar
+主要作用是在窄螢幕時，可將較多 action 放在此處
+
+為了使用 split action bar 需作下面兩件事
+1. 在 <acitivty> 或 <application> 中加入
+   uiOptions="splitActionBarWhenNarrow"
+   （此 attribute 用在 Lv14 以上，舊版中會被忽略）
+
+2. 為了讓舊版能使用，除了上述之外，再作以下動作
+   在 <activity> 中加入 child element <meta-data>
+   <meta-data android:name="android.support.UI_OPTIONS"
+              android:value="splitActionBarWhenNarrow" />
+
+此時把 action 都移到下面了
+主 bar 的 icon, title 就可以拿掉了，使用兩個方法
+setDisplayShowHomeEnabled(false)
+setDisplayShowTitleEnabled(false)
+
+---
+
+Up Button :
+此按鈕是 action bar 上的 app icon 左邊配上一個 <
+主用於在程式內的 back 鍵（程式內的最上層架構不顯示此功能）
+
+與 back 鍵的差別在於
+back 主要是回到上一步，不論上一步在哪個架構、顯示什麼
+而 up 主要是以程式架構為準，在 app 內回到上一層架構
+
+為了讓 up 鍵出現，使用
+setDisplayHomeAsUpEnabled()
+但預設上這個 up button 並不作任何事
+
+為了指定，可以有兩個選擇
+1. 在 manifest 中指定 parent acitivty
+  常用於 parent activity 是固定的情況
+
+  在 Android 4.1（Lv16）中可以指定 parent activity
+  用 parentActivityName attribute 在 <activity> 中
+
+  要用在舊版中，一樣使用 <meta-data>
+  <meta-data
+      android:name="android.support.PARENT_ACTIVITY"
+      android:value="completed_activity_name" />
+
+  指定完之後，up button 就能自動完成動作了
+
+2. 在 Activity 中覆寫 getSupportParentActivityIntent() 和 onCreateSupportNavigateUpTaskStack()
+  主要用在 parent Activity 可能不是固定的情況
+
+  - getSupportParentActivityIntent()
+    在 app 內的 task 的情況下，按 up button 後被呼叫
+    回傳一個適當的 Intent 去開啟 Activity
+
+  - onCreateSupportNavigateUpTaskStack()
+    跨 app 的 task 的情況下
+    利用被傳進來的 TaskStackBuilder 來建構適當的 back stack
+
+    搭配 1. 的方式，可以不實作此方法，達成預設的功用
+
+  若是以 Fragment 為主
+  可以利用 onSupportNavigateUp() 來作 transaction
+  通常使用 popBackStack()
+
+---
+
+Action View :
+提供更豐富的顯示在 bar 中
+（例如點擊 search 後出現輸入欄位）
+
+要使用 action view
+在 menu 的那個 item 中新增 yourapp:actionViewClass 或 actionLayout attribute
+而內容值對硬上面兩者，分別使用 widget class 和 layout resource
+
+範例：
+<?xml version="1.0" encoding="utf-8" ?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+  →  xmlns:yourapp="http://schemas.android.com/apk/res-auto"
+    <item android:id="@+id/aabbcc"
+          android:title="@string/aabbcc"
+          android:icon="@drawable/aabbcc"
+      →  android:showAsAction="ifRoom | collapseActionView"
+      →  yourapp:actionViewClass="android.support.v7.widget.SearchView" />
+</menu>
+
+collapseActionView 是選擇性的
+當 View 要折疊在 button 裡時才使用
+
+若要讓 ActionView 處理事件
+可在 onCreateOptionsMenu(Menu) 內利用
+MenuItem item = menu.findItem(<item_resource_id>);
+SearchView sv = (SearchView) MenuItemCompat.getActionView(item);
+此兩行來處理
+接下來就可以註冊自己想要的 listener 了
+
+使用 collapseActionView 時
+onOptionsItemSelected() 的那個 item 沒有處理的必要
+若回傳 true 表示你處理了事件，action view 就不會出來了
+
+若想依據 action view 是否可見的狀態來作動作
+可以註冊 OnActionExpandListener 給擁有 action view 的 MenuItem
+此動作在 onCreateOptionsMenu(Menu) 中完成
+首先找到 MenuItem（用上面的方式）
+再使用
+MenuItemCompat.setOnActionExpandListener(menuItem, new OnActionExpandListener(){
+    @Override
+    public boolean onMenuItemActionCollapse(MenuItem){
+        // 當 action view 是被折疊時
+    }
+
+    @Override
+    public boolean onMenuItemActionExpand(MenuItem){
+        // 當 action view 是展開時
+    }
+});
+
+---
+
+Action Provider :
+類似 Action View 可以將 item 替換成你設計的 layout
+但他可以提供控制動作
+也能展現 submenu（下拉選單）
+
+action button 的下拉選單（出現細節動作的清單）
+例如分享按鈕，按下後可出現各種分享方式（藍芽、信箱、訊息等其他 app）
+
+要使用 ActionProvider 需要在 item 當中使用 actionViewClass attribute
+且內容值為完整的 class name（以 ActionProvider 這個 class 為主）
+
+你也可以自己擴充 ActionProvider 成為自己的 provider
+
+由於 ActionProvider 當中有自己的行為
+所以不必在 onOptionsItemSelected() 當中作監聽了
+（需回傳 false，這樣 ActionProvider 的 onPerformDefaultAction() 才接收的了事件）
+
+但如果是 submenu 型式的 action provider
+Activity 並不會呼叫 onOptionsItemSelected()
+
+- 使用 Share Action Provider
+  使用 actionProviderClass attribute 在 item 中
+  <menu xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:yourapp="http://schemas.android.com/apk/res-auto"
+      <item android:id="@+id/aabbcc"
+            android:title="@string/aabbcc"
+            android:showAsAction="ifRoom"
+        →  yourapp:actionProviderClass="android.support.v7.widget.ShareActionProvider" />
+  </menu>
+
+  接下來是設定 submenu 當中要發生的 Intent
+  一樣在 onCreateOptionsMenu(Menu) 當中
+  利用 (ShareActionProvider) MenuItemCompat.getActionProvider(MenuItem)
+  得到 ActionProvider 物件後，可以 setShareIntent(Intent)
+  Intent 內容可用 Intent.ACTION_SEND
+
+  ShareActionProvider 會自動依照使用頻率排序可用的 app
+  最常用的出現在 bar 上，接下來依序排列下來
+
+  若你只設定了單一的 action 類型（如分享）
+  DEFAULT_SHARE_HISTORY_FILE_NAME 是用來紀錄此類型排列評比的檔案
+  想自己設定紀錄檔案，可用 setShareHistoryFileName() 提供一個 XML 檔名
+
+- 自製 Action Provider
+  extends ActionProvider 後需實作下列方法
+  - ActionProvider(Context)
+    傳入 Context 且存在 member field 供其他方法使用
+
+  - onCreateActionView(MenuItem)
+    主要是創建一個 action view
+    將 XML 實例成 View 並回傳
+    此時需同時註冊需要的 listener 到 View 當中
+
+  - onPerformDefaultAction()
+    當 menu item 被按下時所要觸發的動作
+
+  若是 submenu 型式
+  藉由 onPrepareSubMenu(SubMenu) 來設定
+  即使是在 overflow 當中也會觸發
+  如此一來 onPerformDefaultAction() 就不會被呼叫了
+
+---
+
+Navigation Tabs :
+在不同的螢幕下會有不同的展現方式
+可能在 bar 當中，或者在 bar 下面一列
+
+常與 Fragment 一起使用
+所以確定 layout 當中有個擁有 ID 的 ViewGroup 來作 Fragment 的切換
+倘若分頁的內容會填充整個 Activity
+那麼這個 ViewGroup 可以使用預設 root ID：android.R.id.content
+（而且 Activity 甚至不用 setContentView()）
+
+確定了 Fragment 位置後，可以新增分頁了
+1. 實作 ActionBar.TabListener
+  當使用者切換分頁時要用
+
+2. 實例每個分頁
+  分頁物件為 ActionBar.Tab
+  你必須幫其註冊監聽器，setTabListener()
+  設定 title 或者 icon，setText() 和 setIcon()
+
+3. 新增到 bar 上面
+  利用 ActionBar.addTab(ActionBar.tab)
+
+範例：
+public static class TabListener<T extends Fragment> implements ActionBar.Listener{
+    private Fragment mFragment;
+    private final Activity mActivity;
+    private final String mTag;
+    private final Class<T> mClass;
+
+    public TabListener(Activity activity, String tag, Class<T> clz){
+        mActivity = activity;
+        mTag = tag;
+        mClass = clz;
+    }
+
+    public void onTabSelected(Tab tab, FragmentTransaction ft){
+        if( mFragment == null ){
+            mFragment = Fragment.instantiate(mActivity, mClass.getName());
+            ft.add(android.R.id.content, mFragment, mTag);
+        } else {
+            ft.attach(mFragment);
+        }
+    }
+
+    public void onTabUnselected(Tab tab, FragmentTransaction ft){
+        if( mFragment != null ){
+            ft.detach(mFragment);
+        }
+    }
+
+    public void onTabReselected(Tab tab, FragmentTransaction ft){
+        // Usually do nothing.
+    }
+}
+
+上面範例中不可呼叫 commit()
+系統會幫你呼叫
+也不可將 transaction 放入 back stack 當中
+
+接下來是加入分頁到 Activity 中
+記得使用下列方法，讓分頁是可見的
+setNavigationMode(ActionBar.NAVIGATION_MODE_TABS)
+
+用上述 Interface 來加入 tab：
+@Override
+protected void onCreate(Bundle savedInstanceState){
+    super.onCreate(savedInstanceState);
+
+    ActionBar actionBar = getSupportActionBar();
+    actionBar.setNevigationMode(ActionBar.NAVIGATION_MODE_TABS);
+    actionBar.setDisplayShowTitleEnabled(false);
+
+    Tab tab = actionBar.newTab()
+                       .setText(R.string.artist)
+                       .setTabListener(new TabListener<ArtistFragment>(
+                               this, "artist", ArtistFragment.class));
+    actionBar.addTab(tab);
+
+    tab = actionBar.newTab()
+                   .setText(R.string.album);
+                   .setTabListener(new TabListener<AlbumFragment>(
+                           this, "album", AlbumFragment.class));
+    actionBar.addTab(tab);
+}
+
+上述的方式是其中一種方法
+還有另一種方法是利用 ViewPager
+
+---
+
+Drop-down Navigation :
+action bar 上的下拉選單
+類似 spinner 的型式
+
+與分頁的差別在於
+下拉選單是切換不頻繁時使用
+而分頁則是較頻繁時使用
+
+使用下拉選單有以下步驟：
+1. 創造一個 SpinnerAdapter 來提供 list item
+   並且設定每個 item 的 layout
+
+2. 實作 ActionBar.OnNavigationListener 去定義 item 被點選時的事件
+
+3. 在 Activity 的 onCreate() 時
+   把 NavigationMode 設定為
+   setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+
+4. 將 OnNavigationListener 與 SpinnerAdapter 整合一起
+   actionBar.setListNavigationCallbacks(SpinnerAdapter, OnNavigationListener)
+
+---
+
+Styling :
+可以設計 action bar color, text color, button style 等等
+
+- actionBarStyle
+  可指定一個 style resource
+  預設使用 Widget.AppCompat.ActionBar，應使用此來當 parent style
+
+  可支持
+  - background
+    以 drawable 來定義action bar 的 background
+
+  - backgroundStacked
+    同上，不過是定義分頁 bar 的 background
+
+  - bakcgroundSplit
+    同上，不過是在 split 的情形
+
+  - actionButtonStyle
+    定義 button style
+    預設使用 Widget.AppCompat.ActionButton，應使用來當 parent style
+
+  - actionOverflowButtonStyle
+    定義 overflow 的 item
+    預設使用 Widget.AppCompat.ActionButton.Overflow
+
+  - displayOptions
+    可設定 app logo, activity title, enable up button 等
+
+  - divider
+    使用 drawable 來定義 action item 的分隔
+
+  - titleTextStyle
+    用 style resource 來定義 action bar title
+    預設使用 TextAppearance.AppCompat.Widget.ActionBar.Title
+
+- windowActionBarOverlay
+  決定是否重疊 activity 的 layout
+
+
+Action Items :
+- actionButtonStyle
+  同上
+
+- actionBarItemBackground
+  用 drawable 來定義每個 item 的 background
+  應使用 state-list 去定義
+
+- itemBackground
+  用 drawable 來定義每個 overflow item 的 background
+  一樣也要使用 state-list
+
+- actionBarDivider
+  類似 divider
+
+- actionMenuTextColor
+  定義 action item 的文字顏色
+
+- actionMenuTextAppearance
+  用 style resource 去定義文字
+
+- actionBarWidgetTheme
+  用 theme resource 去定義 action views
+
+
+Navigation Tabs :
+- actionBarTabStyle
+  用 style resource 定義 tabs
+  預設使用 Widget.AppCompat.ActionBar.TabView
+
+- actionBarTabBarStyle
+  用 style resource 定義 tabs 的小 bar
+  預設使用 Widget.AppCompat.ActionBar.TabBar
+
+- actionBarTabTextStyle
+  用 style resource 去定義 tab 中的文字
+  預設使用 Widget.AppCompat.ActionBar.TabText
+
+
+Drop-down List :
+- actionDropDownStyle
+  定義了下拉選單的 style（background, text styles）
+  預設使用 Widget.AppCompat.Spinner.DropDown.ActionBar

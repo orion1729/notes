@@ -1,0 +1,43 @@
+
+Tree 的定義：
+由 Node 和 Edge 組成，且沒有 Cycle 的資料結構。
+
+——
+
+Tree 的相關用詞：
+
+- Root（根）
+  Tree 當中最上層的 Node
+
+- Parent（父母）
+  在 Child 上一層的 Node
+
+- Siblings（兄弟）
+  擁有相同 Parent 的 Node
+
+- Descendant（子孫）
+  從一個 Parent 往下出發可以碰到的所有 Node
+
+- Ancestor（祖先）
+  從一個 Child 往上出發可以碰到的所有 Node
+
+- Leaf（葉）
+  沒有 Child 存在的 Node
+
+- Degree（度）
+  1) Degree of Node : 一個 Node 擁有的 subtree 數量
+  2) Degree of Tree : 一個 Tree 當中最大 Degree 的 Node 之 Degree
+
+- Level（層次）
+  根定義為第一層，往下每一層就加一
+  1 + (一個 node 到 root 之間有幾個 edge)
+
+- Height
+  1) Height of Node : 一個 node 到 leaf 最長 path 的 edge 數
+  2) Height of Tree : root node 的 Height
+
+- Depth
+  是一個 node 到 root 的 edge 數
+
+
+

@@ -1,0 +1,39 @@
+
+
+Tuple :
+
+類似於 list，但其是 immutable 的（size 與 element 不可改變）
+若想改變 tuple 內容，可以重新 assign 一個新的 tuple
+
+可用來包裝一堆資料，例如傳入多個值到 function 或回傳多個內容就能用 tuple 包裝
+
+
+——
+
+
+size-1 tuple :
+
+當想要創建一個 size 是 1 的 tuple 的時候
+你可以指定一個 element 並在其後加上逗號 ,
+如：t = (‘good’,)
+
+由於 Python 是可以利用括號將 statement 括起來的
+因此為了分辨 tuple 和包括的 statement
+必須將逗號補上
+倘若上面的範例變成 t = (‘good’)
+那麼 t 就變成了一個長度 4 的 string
+
+
+——
+
+
+tuple with variable :
+
+在 assign tuple 時，可以利用個別的 variable 來接收
+範例：(x, y, z) = (1, 2, ‘good’)
+這樣 z 這個 variable 就會是 ‘good’
+
+
+——
+
+

@@ -1,0 +1,40 @@
+﻿利用 UNIX_TIMESTAMP() 來取得目前時間的 Unix Timestamp
+
+可以搭配參數使用，即可將特定時間格式轉成 Unix Timestamp
+參數可用 DATE, DATETIME, TIMESTAMP 等資料型態
+或者 YYMMDD, YYYYMMDD 的數字表示
+
+範例：
+mysql> SELECT UNIX_TIMESTAMP();
+        -> 1196440210
+mysql> SELECT UNIX_TIMESTAMP('2007-11-30 10:30:19');
+        -> 1196440219
+
+---
+
+而 FROM_UNIXTIME(<Unix Timestamp>[, format]) 可以將 Unix Timestamp 轉回時間 format
+有 'YYYY-MM-DD HH:MM:SS' 和 YYYYMMDDHHMMSS.uuuuuu 兩種格式
+
+範例：
+mysql> SELECT FROM_UNIXTIME(1196440219);
+        -> '2007-11-30 10:30:19'
+mysql> SELECT FROM_UNIXTIME(1196440219) + 0;
+        -> 20071130103019.000000
+mysql> SELECT FROM_UNIXTIME(UNIX_TIMESTAMP(),
+        ->                 '%Y %D %M %h:%i:%s %x');
+        -> '2007 30th November 10:30:59 2007'
+
+---
+
+時區問題：
+
+可利用 CONVERT_TZ(date, from, to) 函數來轉換
+第一個參數是 DATE 型別，第二、三參數為時區表示
+
+mysql> SELECT CONVERT_TZ('2004-01-01 12:00:00','GMT','MET');
+        -> '2004-01-01 13:00:00'
+mysql> SELECT CONVERT_TZ('2004-01-01 12:00:00','+00:00','+10:00');
+        -> '2004-01-01 22:00:00'
+
+可這麼用
+

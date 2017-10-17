@@ -1,0 +1,38 @@
+﻿
+外鍵指的是表格內某一欄位參考到另一個表格的主鍵或索引鍵
+
+兩者型別需一致
+
+
+
+外鍵會讓兩者具有一致性
+
+也就是參考自外部表格的資料必須已經存在於那個表格才行
+
+---
+
+資料表需使用 InnoDB 引擎才能有外鍵功能
+
+---
+
+語法：
+
+CREATE TABLE SomeTable (
+	ID integer,
+	OtherID integer,
+	PRIMARY KEY (ID),
+	FOREIGN KEY (OtherID) REFERENCES [其他表格名稱] ([其他表格主鍵名稱])
+)
+
+---
+
+REFERENCE tablename (keyname) 之後還能加上 ON UPDATE, ON DELETE 兩種屬性
+
+讓參考的資料可以跟著父表資料的變動而跟著改變
+
+後面能用 CASCADE 或 RESTRICT 兩種去定義 UPDATE 或 DELETE 是否要運作
+
+
+CASCADE 表示會跟著父表動作
+
+RESTRICT 則是不隨父表，與 NO ACTION 類似 

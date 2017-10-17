@@ -1,0 +1,163 @@
+﻿Location Services :
+
+以 LocationManager 這個 system service 為主要核心
+呼叫 getSystemService(Context.LOCATION_SERVICE) 來獲得
+
+-----------
+定位方式：
+
+1.GPS
+  較精確，但室內無法使用，且速度較慢
+2.Network
+  根據手機基地台、WiFi網路來定位，速度較快
+
+-----------
+Location Updates :
+
+利用 LocationManager 的 requestLocationUpdates()
+需傳入一個 LocationListener 給函式
+
+++++++++
+範例：
+// Acquire a reference to the system Location Manager
+LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+
+// Define a listener that responds to location updates
+LocationListener locationListener = new LocationListener() {
+    public void onLocationChanged(Location location) {
+      // Called when a new location is found by the network location provider.
+      makeUseOfNewLocation(location);
+    }
+
+    public void onStatusChanged(String provider, int status, Bundle extras) {}
+
+    public void onProviderEnabled(String provider) {}
+
+    public void onProviderDisabled(String provider) {}
+  };
+
+// Register the listener with the Location Manager to receive location updates
+locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
++++++++++
+
+第一個參數是定位方式，有 NETWORK_PROVIDER 和 GPS_PROVIDER
+若要兩種定都使用，需呼叫 requestLocationUpdates 兩次才能達成
+
+第二個參數為最小更新時間間隔，第三個則是最小距離間隔
+
+第四個參數就是 LocationListener
+
+-----------
+Permissions :
+
+在 manifest 的標籤下需有兩項 <uses-permission> 權限才能使用上述的兩種定位
+分別是 ACCESS_COARSE_LOCATION 和 ACCESS_FINE_LOCATION
+若兩種定位都使用，則可以只使用第二個權限，因為它包含了兩者
+ACCESS_COARSE_LOCATION 對應 NETWORK_PROVIDER
+
+-----------
+Updates :
+
+由於長時間校正會花費許多電力，而過短又無法取得足夠精確的位置
+因此適當的啟動與關閉 listener 是很重要的
+
+啟動時如上所述，只需呼叫 requestLocationUpdates(provider, time, distant, listener)
+
+校正的時間也許會過長，因此在最接近的校正出來前，可先使用最後知曉的位置
+利用 getLastKnownLocation(String provider) 會獲得一個 Location 物件
+
+關閉 listener 只需呼叫 removeUpdates(listener)
+
+-----------
+Estimate :
+
+主要概念就是先確認新的 Location 在時間點上是否比前一個 Location 還新
+確認完後，接下來才是確認精確度
+
++++++++++
+範例：
+private static final int TWO_MINUTES = 1000 * 60 * 2;
+
+/** Determines whether one Location reading is better than the current Location fix
+  * @param location  The new Location that you want to evaluate
+  * @param currentBestLocation  The current Location fix, to which you want to compare the new one
+  */
+protected boolean isBetterLocation(Location location, Location currentBestLocation) {
+    if (currentBestLocation == null) {
+        // A new location is always better than no location
+        return true;
+    }
+
+    // Check whether the new location fix is newer or older
+    long timeDelta = location.getTime() - currentBestLocation.getTime();
+    boolean isSignificantlyNewer = timeDelta > TWO_MINUTES;
+    boolean isSignificantlyOlder = timeDelta < -TWO_MINUTES;
+    boolean isNewer = timeDelta > 0;
+
+    // If it's been more than two minutes since the current location, use the new location
+    // because the user has likely moved
+    if (isSignificantlyNewer) {
+        return true;
+    // If the new location is more than two minutes older, it must be worse
+    } else if (isSignificantlyOlder) {
+        return false;
+    }
+
+    // Check whether the new location fix is more or less accurate
+    int accuracyDelta = (int) (location.getAccuracy() - currentBestLocation.getAccuracy());
+    boolean isLessAccurate = accuracyDelta > 0;
+    boolean isMoreAccurate = accuracyDelta < 0;
+    boolean isSignificantlyLessAccurate = accuracyDelta > 200;
+
+    // Check if the old and new location are from the same provider
+    boolean isFromSameProvider = isSameProvider(location.getProvider(),
+            currentBestLocation.getProvider());
+
+    // Determine location quality using a combination of timeliness and accuracy
+    if (isMoreAccurate) {
+        return true;
+    } else if (isNewer && !isLessAccurate) {
+        return true;
+    } else if (isNewer && !isSignificantlyLessAccurate && isFromSameProvider) {
+        return true;
+    }
+    return false;
+}
+
+/** Checks whether two providers are the same */
+private boolean isSameProvider(String provider1, String provider2) {
+    if (provider1 == null) {
+      return provider2 == null;
+    }
+    return provider1.equals(provider2);
+}
++++++++++++
+
+-----------
+Balance :
+
+- 縮減啟動到關閉 listener 的期間
+- 設定啟動時，採用較長的時間、距離間隔
+- 採用單一 provider
+
+-----------
+
+
+//////////////////////////////////////////////////////////////////////////////////////
+
+LocationManager 可以查詢 Android location service 來獲得資訊
+
+而定位方式則是 LocationProvider
+有另一個物件 Criteria 可以協助我們靈活地選擇最適合的 LocationProvider
+
+Geocoder 類別可以讓我們將地址轉換成地理座標（經緯度）
+Geocoder 會用到 online Google service
+
+提醒使用者使用 GPS
+LocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+若沒開啟，利用 intent 讓使用者去開啟
+Intent i = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+startActivity(i);
+
+讓模擬器可以使用 GPS，在 DDMS 的 Emulator Control 中設定經緯度
+

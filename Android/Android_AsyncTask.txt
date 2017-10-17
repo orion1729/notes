@@ -1,0 +1,39 @@
+﻿
+一種方便的 Thread 處理
+AsyncTask 可以處理 Thread 開始前與結束後的 UI 控制
+
+---
+
+使用：
+只需 extends AsyncTask<Params, Progress, Result>
+
+後面的三個 generic 只是定義（且都必須為物件型態）
+若不需要使用可以用 Void 物件
+三個分別使用在以下三個方法中
+
+- protected Result doInBackground(Params... params)
+  此方法即為在背景 Thread 執行的動作
+
+  Params 會在 AsyncTask 被初始化且呼叫執行時傳入
+
+  new MyAsyncTask().execute(Params[0], Params[1]...)
+
+- protected void onPostExecute(Result result)
+  此方法會在 doInBackground 結束後呼叫執行
+  且會接收從 doInBackground 回傳的參數
+
+- protected void onProgressUpdate(Progress... progress)
+  此方法是在 doInBackground 中可以操作 UI progress 的方法
+
+---
+
+- protected void onPreExecute()
+  此方法會在 doInBackground 之前執行
+  可用來設定一些 UI
+
+---
+
+開始執行：
+
+只需簡單的 new MyAsyncTask().execute(params..) 即可
+傳入自己設定的 Params

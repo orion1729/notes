@@ -1,0 +1,53 @@
+﻿
+即 encryption 和 decryption 都是用同一支 key
+
+因此如何將 key 分享在 sender, receiver 之間是一個重要問題
+
+
+---
+
+
+Perfect Secrecy :
+
+原本 plaintext 的機率分布
+
+ =
+
+知道 ciphertext 後的 plaintext 的機率分布
+
+
+---
+
+
+Stream Cipher :
+
+加密是以 character / bit 為單位，一個一個加密的
+
+也就是說 key 與 plaintext 等長
+
+ci = E(ki, mi)
+
+-
+
+Vernam's One-Time Pad :
+
+利用 xor 來作為加密方式
+
+key stream 是以隨機（pseudorandom）方式產生的，只能使用一次
+
+是一個 perfect secrecy
+
+但要有一個與 plaintext 等長的 key 很困難
+
+保證是 confidential，但當中間有人修改訊時就無法提供防護
+
+
+---
+
+
+Block Cipher :
+
+key 與 plaintext 是不等長的
+
+以一個 block 為單位（key 與 block 等長），每個 block 使用同一個 key
+

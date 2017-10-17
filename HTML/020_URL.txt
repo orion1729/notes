@@ -1,0 +1,85 @@
+﻿
+URL 是 Uniform Resource Locator 的縮寫
+
+同時也是網址的另一種稱呼
+
+有兩種形式：網址、IP
+
+---
+
+URL 是瀏覽器向網頁伺服器要資源的手段
+
+不論是點選一個網頁、超連結、或者其他資料
+
+
+
+URL 有一定的格式：
+
+scheme://host.domain:port/path/filename
+
+- scheme
+  定義網路服務的協定種類
+
+- host
+  定義 domain host。http 的預設 host 是 www
+
+- domain
+  定義 domain name。也就是註冊的網域名
+
+- port
+  host 端使用的 port 數。http 預設是 80（且瀏覽器已包裝此流程，因此不需輸入）
+
+- path
+  在伺服器端的路徑。倘若空白，則會顯示伺服器端的 root directory
+
+- filename
+  在 path 之下的文件或資源
+
+---
+
+常用協定：
+
+- http（Hyper Text Transfer Protocol）
+  一般網頁所使用的協定，不需要加密
+
+- https（Secure HTTP）
+  所有交換的資訊都會被加密
+
+- ftp（File Transfer Protocol）
+  對網頁進行下載或上傳所使用
+
+- file
+  目前電腦中的檔案
+
+---
+
+URL 編碼：
+
+URL 在交換傳送時只使用 ASCII 編碼
+
+但通常網頁參數都會帶一些 ASCII 以外的字元
+
+因此這些參數都會轉換為 ASCII 的格式
+
+通常以 % 為開頭，接著是兩個十六進位數字，表示轉換到 ASCII 後的情況
+
+
+
+由於 URL 不會包含空白，因此會使用 + 來代表空白
+
+
+
+範例：
+€ 	%80
+£ 	%A3
+© 	%A9
+® 	%AE
+À 	%C0
+Á 	%C1
+Â 	%C2
+Ã 	%C3
+Ä 	%C4
+Å 	%C5
+
+---
+

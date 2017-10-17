@@ -1,0 +1,21 @@
+
+
+.PHONY:
+Makefile 會預設其 target 是與 file 有關，
+但有些 Makefile 的 target 是單純用來執行 command 的，
+例如 clean
+
+一般的情況下 clean 並不會有問題，
+但是當你的目錄中有名為 clean 的檔案時，
+make 就會依據 target 以及 file 的關係，
+先檢查其與 dependency 是否 out-of-date，
+確認是 out-of-date 才會執行 command，
+但這不是我們想要的 clean target
+
+所以會利用 PHONY 來宣告 target 是與 file 無關的
+範例：
+.PHONY : clean
+clean :
+	rm -f *.o
+
+這樣就算有 clean file，make 也不會將其與 clean target 做連結

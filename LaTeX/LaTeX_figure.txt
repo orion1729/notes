@@ -1,0 +1,103 @@
+
+
+Intro :
+使用 graphicx 這個 package
+並指定 figure 的目錄
+然後在文章中使用 \includegraphics 這個指令來匯入圖片
+
+範例：
+\usepackage{graphicx}
+\graphicspath{ {path/} }
+…
+\includegraphics{image_name}
+
+其中在路徑指定時要以 ‘/‘ 結尾
+而在 include 時可以不加副檔名，此時 latex 會自動搜尋可支援的圖片格式
+
+
+——
+
+
+圖片目錄：
+可以將圖片放在多個目錄中管理
+此時要使用 \graphicspath{ {images1/}{images2/} }
+將複數個目錄用大括號包起來連續放在一起
+
+
+——
+
+
+Size and Rotate :
+在 \includegraphics 時可以用中括號 [] 來傳入一些 size, 旋轉等參數
+
+- size
+  可以使用 scale 來縮放
+  \includegraphics[scale=1.5]{img}
+
+  也能直接指定大小單位（cm, in, mm）
+  \includegraphics[width=3cm, height=4cm]{img}
+
+  也能只指定 width（會維持比例）以及使用內建單位
+  \includegraphics[width=\textwidth]{img}
+
+- 旋轉
+  可以同時指定 scale 以及 angle
+  \includegraphics[scale=1.2, angle=45]{img}
+  angle=45 會讓圖片逆時鐘轉 45 度
+
+
+——
+
+
+位置：
+若要設定詳細的圖片位置，我們需要使用到 figure 這個 enviroment
+如此一來就能在 \begin 時指定位置參數
+使用 figure 環境時，我們要把 \includegraphics 的指令放在 \begin, \end 中
+
+\begin{figure}[position_para]
+- h
+  代表 here，在 \includegraphics 的位置
+
+- t, b
+  在 page 的 top, bottom
+
+置中：
+我們還能在 figure 環境中使用 \centering 來將圖片置中
+
+
+—-
+
+
+Caption, Label, Reference :
+我們可以在 figure 環境中使用 \caption{…} 來加入圖片標題
+而 \caption 與 \includegraphics 的位置關係會影到標題的位置
+
+例如：
+\begin{figure}[h]
+\caption{abc}
+\includegraphics{img}
+\end{figure}
+此時圖片標題會出現在圖片上方
+
+標籤與引用：
+倘若要在內文中引用圖片，則需要先為圖片標記
+標記的方式為在 figure 環境中使用 \label{tag_name}
+如此一來要在內文引用時只需要 \ref{tag_name} 即可
+
+詳細一些甚至還能用 \refpage{tag_name} 將這張圖片所在的頁數抓出來
+
+注意：\label 需要放在 \caption 之後才有效果
+
+圖片的 tag_name 最好加上 ‘fig:’ 這樣的 prefix 去標明這個 tag 是一個 figure
+有些 package 會利用這種 prefix 來運作
+
+
+——
+
+
+Figure List :
+在論文當中都會有一頁是用來條列所有圖片標題以及頁數的目錄
+在 latex 可以很輕易地達成
+只要使用 \listoffigures 即可
+
+

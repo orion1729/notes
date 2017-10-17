@@ -1,0 +1,8 @@
+﻿得到目前的 Unix Timestamp
+SELECT strftime('%s', 'now');
+
+從 Unix Timestamp 得到 date
+SELECT datetime(<Unix Timestamp>, 'unixepoch');
+
+從 Unix Timestamp 配合時區得到適當 date
+SELECT datetime(<Unix Timestamp>, 'unixepoch', 'localtime');

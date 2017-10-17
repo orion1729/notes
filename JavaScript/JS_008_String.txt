@@ -1,0 +1,96 @@
+﻿
+string 有內建的 property（length）
+
+JS 可將這類原生型態（primitive value）以物件來對待
+
+---
+
+不建議使用 String（string 物件型態）
+會拖慢速度
+
+---
+
+String Methods :
+
+這些是內建於 string 的方法
+
+所有方法都會回傳一個新的 string
+
+- indexOf(text, start_position)
+  回傳指定文字第一次出現的位置（第一個字元）
+  -1 表示沒出現
+
+  可指定第二個參數作為起始位置
+
+- lastIndexOf(text, start_position)
+  回傳指定文字最後一次出現的位置（第一個字元）
+  -1 同上
+
+- search()
+  與 indexOf() 相同
+  但有些時候有較強的功能性
+
+- slice(start, end)
+  從 start 開始至 end - 1（不包含 end 位置的字元）的 substring 被切割
+  並作為新的 string 被傳回
+
+  start, end 可以使用負數
+  表示從字串末端往回算第幾個字元
+
+  若沒有 end 參數，表示從 start 到字串結束被切割
+
+- substring(start, end)
+  與 slice() 相似，只是無法傳入負數參數
+
+- substr(start, length)
+  與 slice() 相似，但第二個參數是指要抽出的長度
+
+- replace()
+  可以將字串中特定的字以新字替換
+
+  也能用 regular expression 來作為搜尋表示
+
+- toUpperCase(), toLowerCase()
+  大小寫轉換
+
+- concat()
+  可以串接字串，與 + 的用法相同
+
+- charAt(position)
+  可以取得字串中指定位置的字元
+
+- charCodeAt(position)
+  與 charAt() 相同，差別在於回傳的是字元的 unicode 編碼
+
+  str = "HELLO WORLD";
+  str.charCodeAt(0);      // returns 72
+
+- split()
+  主要用於將 string 轉換為 array
+
+  指定一個字元作為切割點，如此一來字串被此字元切割的各部分會成 array 的每個元素
+
+  var s = "aa, bb, cc, dd";
+  var a = s.split(",");
+  // a[0] = aa, a[1] = bb, a[2] = cc, a[3] = dd
+
+  如果沒傳入參數，那麼回傳 array 的 index = 0 的位置會是整個 string
+
+  var s = "a, b, c";
+  var a = s.split();
+  // a[0] = a, b, c
+
+  倘若傳入空字串，那麼回傳的就是 string 的 array 型態
+
+  var s = "abcd";
+  var a = s.split("");
+  // a[0] = a, a[1] = b, a[2] = c, a[3] = d
+
+---
+
+將字串作為 array 來使用是不安全的
+
+可利用 split("") 來轉換成相對應的 array
+
+---
+

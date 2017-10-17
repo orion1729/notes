@@ -1,0 +1,24 @@
+﻿void main( int argc, char** argv )
+{
+	glutInit( &argc, argv );
+	glutInitDisplayMode( GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH );
+	glutCreateWindow( “Tetrahedron” );
+	init();
+	glutIdleFunc( idle );
+	glutDisplayFunc( display );
+	glutMainLoop();
+}
+
+
+void init( void )
+{
+	glClearColor( 0.0, 0.0, 1.0, 1.0 );
+}
+
+
+void idle( void )
+{
+	glutPostRedisplay();
+}
+
+

@@ -1,0 +1,47 @@
+此部分的硬體 sensor 主要為兩個：
+accelerometer, gyroscope
+
+數據資料會被包在 SensorEvent 當中
+以 float array 的形式儲存
+
+---
+
+- TYPE_ACCELEROMETER / m/s^2
+  包含重力的加速度力
+  三軸分別對應 SensorEvent.value[0-2]
+
+- TYPE_GRAVITY / m/s^2
+  三軸的重力
+  對應同上
+
+- TYPE_GYROSCOPE / rad/s
+  三軸的旋轉率
+  對應同上
+
+- TYPE_GYROSCOPE_UNCALIBRATED / rad/s
+  未經校正的旋轉率
+  SensorEvent.value[0-2] 分別對應三軸未經 drift compensation 的旋轉率
+  SensorEvent.value[3-5] 則是對三軸 drift 的估計
+
+- TYPE_LINEAR_ACCELERATION / m/s^2
+  三軸排除重力的加速度力
+  SensorEvent.value[0-2] 分別對應三軸
+
+- TYPE_ROTATION_VECTOR / 無單位
+  對應三軸的 rotation vector ([x|y|z] * sin(theta / 2))
+  分別是 SensorEvent.value[0-2]
+  SensorEvent.value[3] 是 rotation vector 的純量部分（cos(theta / 2)）
+
+- TYPE_STEP_COUNTER / steps
+  自從上一次啟動 sensor 開始使用者所走的步數
+  存於 SensorEvent.value[0]
+
+---
+
+Rotation vector 和 gravity sensor 是最常用的動作偵測 sensor
+尤其是 rotation vector 可用於很多方面
+
+像是手勢辨識、監測角度改變、相對 orientation 改變等等
+
+---
+

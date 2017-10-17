@@ -1,0 +1,158 @@
+﻿
+檢查：
+
+呼叫 GooglePlayServicesUtil.isGooglePlayServicesAvailable()
+可以得到一個 int
+用來判別 GoogleServices 是什麼樣的狀態
+有 SUCCESS, SERVICE_MISSING, SERVICE_VERSION_UPDATE_REQUERED, SERVICE_DISABLED
+都在 ConnectionResult 這個類別當中
+
+依此來判斷後，倘若是不成功的，需要顯示一個 Dialog 供使用者去做修正
+這個 Dialog 可以由 GooglePalyServiceUtil.getErrorDialog() 來獲得
+並且由我們自己實作的 DialogFragment 來顯示
+
+    // Define a DialogFragment that displays the error dialog
+    public static class ErrorDialogFragment extends DialogFragment {
+        // Global field to contain the error dialog
+        private Dialog mDialog;
+        // Default constructor. Sets the dialog field to null
+        public ErrorDialogFragment() {
+            super();
+            mDialog = null;
+        }
+        // Set the dialog to display
+        public void setDialog(Dialog dialog) {
+            mDialog = dialog;
+        }
+        // Return a Dialog to the DialogFragment.
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            return mDialog;
+        }
+    }
+
+
+而當使用者利用 Dialog 去修正後，系統仍會跳回這個 Activity
+所以我們要實作 onActivityResult(int requestCode, int resultCode, Intent data)
+用來再次嘗試連結
+
+---
+
+實作 Location Services 與 App 溝通的 Callbacks：
+
+有兩個介面
+1. ConnectionCallbacks
+  當 connected 或 disconnected 時會由 Location Services 呼叫
+
+  - onConnected(Bundle connectionHint)
+    當 connect request 成功完成後被呼叫
+    可以開始使用服務，例如 current location, start periodic updates
+
+  - onDisconnected()
+    client disconnect 時呼叫
+
+2. OnConnectionFailedListener
+  若連結時發生錯誤，Location Services 會呼叫此方法
+  此時可以利用前面的 DialogFragment 來顯示修復對話窗
+
+  - onConnectionFailed(ConnectionResult result)
+    client 連結 services 發生錯誤時呼叫
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+        /*
+         * Google Play services can resolve some errors it detects.
+         * If the error has a resolution, try sending an Intent to
+         * start a Google Play services activity that can resolve
+         * error.
+         */
+        if (connectionResult.hasResolution()) {
+            try {
+                // Start an Activity that tries to resolve the error
+                connectionResult.startResolutionForResult(
+                        this,
+                        CONNECTION_FAILURE_RESOLUTION_REQUEST);
+                /*
+                 * Thrown if Google Play services canceled the original
+                 * PendingIntent
+                 */
+            } catch (IntentSender.SendIntentException e) {
+                // Log the error
+                e.printStackTrace();
+            }
+        } else {
+            /*
+             * If no resolution is available, display a dialog to the
+             * user with the error.
+             */
+            showErrorDialog(connectionResult.getErrorCode());
+        }
+    }
+
+---
+
+連結 Location Client：
+
+在 onCreate() 當中創建 LocationClient
+mLocationClient = new LocationClient(this, this, this);
+
+並在 onStart() 當中啟動連結
+mLocationClient.connect();
+
+在 onStop() 當中移除連結
+mLocationClient.disconnect();
+
+---
+
+取得現在位置：
+
+Location now = mLocationClient.getLastLocation();
+
+---
+
+定期更新最新位置：
+
+根據你設定的 manifest 權限與傳入的參數
+services 可以用 intent 或者 callback 來取得 updates
+（callback 比較常用）
+
+---
+
+定義 Location Update Callbacks：
+
+實作 LocationListener 介面
+- onLocationChanged(Location l)
+  會傳入一個 Location 物件
+  可以用來獲得位置資訊
+
+---
+
+指定 Update 參數：
+
+我們有三種參數需要設置
+1. Interval
+2. Fastest interval
+3. Accuracy
+
+三種參數均由 LocationRequest 物件來設置
+在 onCreate() 中
+mLocationRequest = LocationRequest.create();
+mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+mLocationRequest.setInterval(long ms);
+mLocationRequest.setFastestInterval(long ms);
+
+---
+
+開始 Update：
+
+由於 client 與 request 都在 onCreate() 中創建
+但 connect 要等到 onStart()
+故 requestLocationUpdates(LocationRequest, LocationListener) 可放在 onConnected callbacks 中
+由 LocationClient 呼叫上述方法
+
+---
+
+停止 Update：
+
+在 onStop() 當中
+mLocationClient.removeLocationUpdates(LocationListener)

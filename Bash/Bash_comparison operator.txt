@@ -1,0 +1,69 @@
+
+
+Integer Comparison Operator:
+
+- 相等（is equal to）：-eq
+  if [ ${a} -eq ${b} ]
+
+- 不相等（is not equal to）：-ne
+  if [ ${a} -ne ${b} ]
+
+- 大於（is greater than）：-gt
+  if [ ${a} -gt ${b} ]
+
+- 大於等於（is greater than or equal to）：-ge
+  if [ ${a} -ge ${b} ]
+
+- 小於（is less than）：-lt
+  if [ ${a} -lt ${b} ]
+
+- 小於等於（is less than or equal to）：-le
+  if [ ${a} -le ${b} ]
+
+<：is less than（需要雙括號）
+  ((${a} < ${b}))
+
+<=：is less than or equal to（需要雙括號）
+  ((${a} <= ${b}))
+
+>：is greater than（需要雙括號）
+  ((${a} > ${b}))
+
+>=：is greater than or equal to（需要雙括號）
+  ((${a} >= ${b}))
+
+
+——
+
+
+String Comparison:
+
+- 相等：=
+  if [ “${a}” = “${b}” ]
+  等號兩邊需要有空白
+
+- 相等：==
+  與 = 作用相同
+
+  注意：== 在 [] 與 [[]] 當中代表的意義不同
+  [[ ${a} == z* ]]    Pattern Matching, ${a} 是否是 z 開頭
+  [[ ${a} == “z*” ]]  Literal Matching, ${a} 是否等於 z*
+  [ ${a} == z* ]      <- 尚未確定
+  [ “${a}” == “z*” ]    Literal Matching, ${a} 是否等於 z*
+
+- 不相等：!=
+  if [ “${a}” != “${b}” ]
+  在 [[]] 中是 Pattern Matching
+
+- 小於：<（以 ASCII 的順序）
+  if [[ “${a}” < “${b}” ]]
+  if [ “${a} \< “${b}” ]  <- 在單中括號內需要 escape
+
+- 大於：>（以 ASCII 順序）
+  if [[ “${a}” > “${b}” ]]
+  if [ “${a}” \> “${b}” ]  <- 要 escape
+
+- 空字串（零長度）：-z
+  s=“”
+  if [ -z “${s}” ]
+

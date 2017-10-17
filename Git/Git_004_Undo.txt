@@ -1,0 +1,31 @@
+﻿
+$ git commit --amend
+
+可以修改上一個 commit
+
+若想在上一個 commit 當中新增檔案
+
+可以直接 add 後再打上此指令，會直接在上一個 commit 中加入新的檔案進去
+
+---
+
+$ git reset HEAD [file]
+
+把 staged 的檔案變成 unstaged
+
+---
+
+$ git checkout -- [file]
+
+把 unstaged 但修改過的檔案恢復到未修改的樣子
+
+---
+
+$ git reset --[soft/hard] HEAD~number
+
+可以刪除 commit
+
+soft 會保留 working directory，hard 則會刪除
+
+~number 則是刪除從 HEAD 開始的幾個 commit
+

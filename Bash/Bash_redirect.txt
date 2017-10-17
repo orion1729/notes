@@ -1,0 +1,23 @@
+資料流重導向：
+輸出的種類一般為 standard output, standard error
+
+1. stdin
+   代碼 0, 可用 < 或 << 來使用
+
+2. stdout
+   代碼 1, 可用 > 或 >> 使用
+
+3. stderr
+   代碼 2, 用 2> 或 2>> 使用
+
+範例：ls > ls_file
+
+> 與 >> 的差別在於導向至目標時會以「覆蓋」或「累積」的方式覆寫
+
+將一個指令的 stdout 和 stderr 導向至不同檔案：
+find /home > list_right 2> list_error
+
+
+—-
+
+

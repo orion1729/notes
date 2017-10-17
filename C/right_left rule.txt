@@ -1,0 +1,70 @@
+
+Symbol 讀法：
+*	“pointer to”		總是在 left side
+[]	“array of”		總是在 right side
+()	“function returning”	總是在 right side
+
+——
+
+第一步：
+找到 identifier，並讀成「identifier is」
+
+第二步：
+先看 identifier 的 right side，並將其解讀成對應的句子。
+像是 p() 會讀成「p is function returning」
+或是 p[] 會讀成「p is array of」
+持續向右解讀，直到沒有 symbol 或者碰到右括號 )
+
+第三步：
+當第二步向右解讀完畢後，接下來處理 left side。
+若碰到的不是*, [], ()，那麼就直接將其讀出來（例如 int）
+持續向左解讀，直到沒有 symbol 或是左括號 (
+
+範例一：int *p[]
+1. 找到 p 是 identifier
+	“p is”
+
+2. 向右碰到 []
+	“p is array of”
+
+3. 因 2. 中已沒有 symbol 可繼續，因此向左碰到 *
+	“p is array of pointer to”
+
+4. 繼續向左找到 int 並因沒有 symbol 而結束
+	“p is array of pointer to int”
+->	“p is an array where each element is of type pointer to int”
+
+範例二：int *(*func())()
+1. 找到 identifier -> func
+	“func is”
+
+2. 向右移動 -> ()
+	“func is function returning”
+
+3. 再向右一個碰到 )，因此向左找 -> *
+	“func is function returning pointer to”
+
+4. 再向左碰到 (，所以又跑回向右 -> ()
+	“func is function returning pointer to function returning”
+
+5. 再向右就沒有 symbol，因此向左 -> *
+	“func is function returning pointer to function returning pointer to”
+
+6. 再向左沒有 symbol 了，只剩 int
+	“func is function returning pointer to function returning pointer to int”
+
+——
+
+更複雜：
+可能在 [] 中會有數字，或者 () 中有參數，可如下解讀：
+[3]		“array (size 3) of”
+(char*, int)	“function expecting (char*, int) and returning”
+
+——
+
+不合邏輯：
+用以上的方式解讀可能碰到不合 C 語法的邏輯之句子
+
+[]()	不會有 array of functions
+()()	不會有 function that returns a function
+()[]	不會有 function that returns an array（只能回傳 pointer to an array）

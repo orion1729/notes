@@ -1,0 +1,181 @@
+
+
+regular expression :
+
+Python 使用 re module 來支援 regular expression
+使用方式：match = re.search(pat, str)
+
+回傳的 match 是一個 object，其能夠直接使用在 if-statement 的判斷式中
+並且將符合 pattern 的字串內容取出來
+假如 search 失敗，match 是一個 None
+
+範例：
+str = 'an example word:cat!!'
+match = re.search(r'word:\w\w\w', str)
+# If-statement after search() tests if it succeeded
+  if match:                      
+    print 'found', match.group() ## 'found word:cat'
+  else:
+    print 'did not find'
+
+在 pattern 前面有個 r，表示這個 string 是一個 raw string
+為的是要防止跳脫 \w
+
+一旦 search 成功，可以用 match.group() 取得找到符合 pattern 的字串
+
+
+——
+
+
+Patterns :
+
+- character
+  直接以字元作為 pattern，像是 a, x, 9 等字元
+  除了一些特殊用途的字元沒辦法直接 match，像是 . ^ $ * + ? { \ | ( )
+  （這些字元稱作 meta-character）
+
+- .
+  能夠 match 任何 character，除了 newline ‘\n’
+
+- \w, \W
+  能夠 match [a-zA-Z0-9_] 大小寫英文字母和數字，以及「底線」
+  （以上的這些字元被稱為 word）
+  這個 pattern 只能 match single character
+  \W（大寫 W）則是 match 除了 [a-zA-Z0-9_] 以外的 single character
+  （這些其餘字元被稱為 non-word）
+
+- \b
+  word 和 non-word 之間的 boundary
+
+- \s
+  match 這些字元：space, newline, return, tab [\n\r\t\f]
+  （稱為 white character）
+  \S match non-white character
+
+- \t, \n, \r
+  tab, newline, return
+
+- \d
+  digit 表示 0 到 9 的數字
+
+- ^=start, $=end
+  用來 match start/end of the string
+
+- 反斜線 \
+  跳脫字元，用來跳脫那些被拿來作特殊功能的 character
+  若不確定字元是否需要跳脫時也可以直接加上去，保證其是一個字元
+
+
+——
+
+
+search rule :
+
+1. 從 string 的開頭往尾端搜尋，停在第一個 match 的地方
+
+2. 所有 pattern 內容必須 match，但不是整個 string
+
+3. 如果 match = re.search(pat, str) 成功，那麼 match 就不會是 None
+   而且可以用 match.group() 把找到的內容取出
+
+
+——
+
+
+重複 Repetition :
+
+- +
+  加號表示字元至少出現一次以上
+  例如：i+ 表示 i, ii, iii, … 的都能 match
+
+- *
+  乘號表示字元出現零次以上
+
+- ?
+  問號表示字元出現 0 次或 1 次
+
+match 的規則一樣是從左往右，並以最先碰到的為主
+而 match 的重複長度(+, *)會以最大可能的重複為目標
+
+
+——
+
+
+中括號：
+
+中括號所包含的東西表示一個集合，只要有符合其中一個 pattern 的就算 match
+例如 [abc]，那麼不管是 ‘a’, ‘b’, ‘c’ 都會 match
+
+在中括號中使用 dash 符號可以表示一個 range
+例如 [0-9], [a-z]
+如果是想要 match ‘-‘ 符號，那麼可以將 ‘-‘ 放在中括號內容的最後一個即可
+如此一來就不會被當成 range, [abc-]
+
+^ 符號：
+^(up-hat) 符號用於中括號中則表示排除
+例如 [^ab] 表示除了 ‘a’, ‘b’ 以外的字元
+
+
+——
+
+
+Group : 括號 ()
+
+用括號包含起來的內容可以用 group(index) 單獨取出
+如此一來就很容易從整個 match 的內容中將自己想要的部分拿出
+
+範例：
+str = 'purple alice-b@google.com monkey dishwasher'
+match = re.search('([\w.-]+)@([\w.-]+)', str)
+if match:
+    print match.group()   ## 'alice-b@google.com' (the whole match)
+    print match.group(1)  ## 'alice-b' (the username, group 1)
+    print match.group(2)  ## 'google.com' (the host, group 2)
+
+
+——
+
+
+findall() function:
+
+前述的 search() 只能找到第一個 match 的 pattern
+但是 findall() 可以將所有 match 的 pattern 找出
+並以 string list 的方式回傳（由 findall() 直接傳回）
+
+
+——
+
+
+findall() with file:
+
+findall() 配合 file.read() 可以很方便的 search 整個檔案內容
+
+範例：
+# Open file
+f = open('test.txt', 'r')
+# Feed the file text into findall(); it returns a list of all the found strings
+strings = re.findall(r'some pattern', f.read())
+
+
+——
+
+
+findall() and group:
+
+當 findall() 的 pattern 包含 group
+那麼 findall() 不再是回傳 string list
+而是回傳一個 list of tuples
+tuples 的每一個 element 就是每一個 group
+
+範例：
+str = 'purple alice@google.com, blah monkey bob@abc.com blah dishwasher'
+tuples = re.findall(r'([\w\.-]+)@([\w\.-]+)', str)
+print tuples  ## [('alice', 'google.com'), ('bob', 'abc.com')]
+for tuple in tuples:
+    print tuple[0]  ## username
+    print tuple[1]  ## host
+
+
+——
+
+

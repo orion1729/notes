@@ -1,0 +1,68 @@
+﻿若是在 Activity 的 onCreate() 中
+以 tansaction 的方式新增 MapFragment
+那得等到 onStart() 或 onResume() 才可 getMap()
+
+---
+
+需先從 Activity 當中獲得 FragmentManager
+呼叫 getFragmentManager() 即可
+（SupportMapFragment 則使用 getSupportFragmentManager）
+
+再來藉由 FragmentManager 去找到 MapFragment 這個 Fragment
+主要利用 findFragmentById()
+
+取得 Fragment 後需 casting 成 MapFragment
+最後再由 MapFragment.getMap() 得到一個 GoogleMap 物件
+
+---
+
+接下來要用到 Location API
+所以得先處理相關程序
+
+首先需獲得 LocationManager
+呼叫 (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+再來是確認 LocationProvider 的狀態（兩種）
+可以利用 LocationManager 的方法檢查
+isProviderEnabled(LocationManager.GPS_PROVIDER);
+isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+
+
+利用 if else 來做判斷，在 else block 中提醒使用者開啟基本的 GPS
+Dialog 處理方式如下：
+++++++++++
+AlertDialog.Builder ad = new AlertDialog.Builder(this);
+ad.setTitle("Warning.")
+  .setMessage("Go to setup GPS.")
+  .setCancelable(false);
+    		
+ad.setPositiveButton("GO", new DialogInterface.OnClickListener(){
+    public void onClick(DialogInterface dialog, int id){
+    	Intent i = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+    	startActivity(i);
+    }
+});
+    		
+ad.setNegativeButton("CANCEL", new DialogInterface.OnClickListener(){
+    public void onClick(DialogInterface dialog, int id){
+    	finish();
+    }
+});
+    		
+ad.show();
+++++++++++
+
+接下來是取得一個適當的 LocationProvider
+可以利用 Criteria 類別來取得適當的 Provider
+搭配 String provider = LocationManager.getBestProvider(criteria, true);
+
+之後就可以用 LocationManager.getLastKnownLocation(provider) 取得最後已知位置的 Location 物件
+也可以呼叫 requestLocationUpdates(porivder, minisecond, metter, LocationListener)
+來開啟位置更新的監聽器
+
+關閉位置更新的監聽器時呼叫 removeUpdates(LocationListener)
+
+（LocationListener 需 import Location API 當中的）
+同時你也需要實作 LocationListener 的內容
+在 onLocationChanged(Location) 方法中執行更新 Marker 相關的程序
+即可讓監聽器自己更動目前位置的 Marker

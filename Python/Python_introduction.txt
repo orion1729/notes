@@ -1,0 +1,128 @@
+
+每個 Python 程式碼檔案，都可看作是一個 module
+能直接執行或者被其他 module import
+
+且只要不是 def 或 class 的宣告都是一般的 statement，
+因此會在 import 的時候被執行
+
+__name__ 變數：
+
+當一個 Python 被執行時，有一個 __name__ 的變數會被設定成 ‘__main__’
+因此很常利用 if __name__ == ‘__main__’: 去呼叫一個 function，並開始程式的執行
+
+利用這種方式，當此 module 被其他 module import 的時候不會執行
+
+
+—-
+
+
+command-line argument :
+
+會被存在 sys.argv 當中，而取得 argc 的方式是 len(sys.argv)
+
+
+—-
+
+
+len() :
+
+len 可以用在很多地方，
+1) string 的長度
+2) list 和 tuple 之 element 的個數
+3) dictionary 之 key-value pair 個數
+
+
+—-
+
+
+字串重複串接：
+
+result = s + s + s
+result = s * 3
+以上兩者結果是相同的，但是 s * 3 會有比較快的效能
+理由是利用 “*” 的時候，最終結果所需的空間會一次被計算，
+而 “+” 則是每次串接一次才算一次
+
+
+——
+
+
+run time code check :
+
+Python 是在執行時才會有對 statement 檢查的動作
+例如是否這個 function 已 def
+
+
+——
+
+
+Namespace :
+
+每個 module 都能定義自己的 function 或 變數名稱，與其他 module 是互不相干的
+因為每個 module 都有自己的 namespace
+
+
+fully-qualified name :
+sys.exit() 等等，需要把 namespace 寫出來
+
+但可用 “from sys import argv, exit” 的方式將使用簡化，
+能直接呼叫 argv 或者 exit()
+
+
+——
+
+
+Python Standard Library :
+
+sys - argv, exit(), stdin, stdout
+re - regular expression
+os - operating system interface, file system
+
+
+—-
+
+
+內建 help :
+
+help(xxx) 可以查找 module, function, method 的 document
+dir(xxx) 則是可以找到一個 object 所擁有的 attribute (含 method)
+
+
+——
+
+
+Multilines statement :
+
+在 Python 中是利用行來判斷一個 statement
+也因此不必使用分號來結束一個 statement
+
+但是當一個 statement 太長的話
+想要用斷行的方式表示一個 statement
+那麼將整個 statement 用括號包起來即可
+
+範例：
+text = ("%d little pigs come out or I'll %s and %s and %s" %
+    (3, 'huff', 'puff', 'blow down'))
+
+
+——
+
+
+if statement :
+
+if 的判斷式不需使用括弧來包含
+且 if 不使用 {} 來表示 if then 的 statements
+
+判斷式可以用許多 type
+各種 type 的 zero value 都表示 false :
+None, 0, empty string, empty list, empty dictionary
+
+當判斷式中有多個條件需要用邏輯運算來結合時（and, or, not）
+須直接使用字母 ‘and’, ‘or’, ‘not’ 配合括號使用
+
+Python 中可以有 a <= b < c 這種形式的判斷式
+
+
+——
+
+

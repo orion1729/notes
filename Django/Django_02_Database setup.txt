@@ -1,0 +1,45 @@
+﻿
+Django 預設使用 SQLite
+
+若想使用其他 Database 的話，就需要安裝適當的 database bindings
+
+並修改 <project_name>/<project_name>/settings.py 當中的各種設定
+
+---
+
+INSTALLED_APPS：
+
+此設定欄位保存了這個 Django instance 啟用的 Django App 名稱
+
+
+
+預設有以下幾個 apps：
+
+- django.contrib.admin
+  admin site
+
+- django.contrib.auth
+  authentication system
+
+- django.contrib.contenttypes
+  framework for content types
+
+- django.contirb.sessions
+  session framework
+
+- django.contrib.messages
+  messaging framework
+
+- django.contirb.staticfiles
+  framework for managing static files
+
+其中有些 apps 會用到至少一個 database table，所以在使用前必須創好 table
+
+---
+
+migrate：
+
+   $ python manage.py migrate
+
+migrate 指令會根據 INSTALLED_APPS 這個設定欄位去創建任何必須的 tables
+

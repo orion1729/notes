@@ -1,0 +1,13 @@
+﻿將 Button 上的圖片更改成自己想要的
+需設定 android:src 這個 attribute
+
+要能依據 Button 狀態更改樣式
+需在 res/drawable/ 中設計 XML 檔
+
+配合 Color State 那篇的 <selector>, <item>
+加上 android:drawable 此 attribute 來設定圖片即可
+
+---
+
+將 Button 的背景變為透明
+可設定 android:background="#00000000"

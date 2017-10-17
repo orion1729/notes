@@ -1,0 +1,38 @@
+﻿
+BMP 主要分為三大部分：File Header, Info Header, Data
+
+在 BMP 中，每個欄位中的資料是以 little-endian 的順序排列的
+也就是說 0x12345678 會變成 0x78563421
+（用編輯器解讀時須注意，程式碼則無影響）
+
+---
+
+File Header : 14 Bytes
+
+[2 Bytes] Identifier         -> Windows 上都是 'BM'
+[4 Bytes] File Size          -> 整個檔案的大小（Byte）
+[4 Bytes] Reserved           -> 保留
+[4 Bytes] Bitmap Data Offset -> 圖片資料開始的位置（距離檔案開頭多少 Byte）
+
+---
+
+Info Header : 40 Bytes + Palette * 4 Bytes
+
+[4 Bytes] Bitmap Header Size -> 整個 Info Header 有多大
+[4 Bytes] Width              -> 圖片的寬度，以 pixel 為單位
+[4 Bytes] Height             -> 圖片的高度，負值表示由上往下掃描，否則都是由下往上
+[2 Bytes] Planes             -> 圖層數
+[2 Bytes] Bits Per Pixel     -> 每個 pixel 以多少 bits 表示
+[4 Bytes] Compression        -> 壓縮方式，0 表示無壓縮
+[4 Bytes] Bitmap Data Size   -> Data 的大小（Byte）
+[4 Bytes] H-Resolution       -> 水平解析度（像素 / 公尺）
+[4 Bytes] V-Resolution       -> 垂直解析度
+[4 Bytes] Used Colors        -> Palette（調色盤）使用的顏色數目，0 表示全數使用
+[4 Bytes] Important Colors   -> 重要的顏色數目，0 表示所有顏色一樣重要
+
+[4 Bytes * N]
+Palette -> 調色盤的資料
+
+---
+
+

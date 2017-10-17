@@ -1,0 +1,109 @@
+﻿
+migrate 完成後，就可以開始使用 Django 提供的一些 API 來操作 database
+
+---
+
+Django Shell：
+
+   $ python manage.py shell
+
+一個類似 python 的 shell，但這個 shell 是使用 DJANGO_SETTINGS_MODULE 的環境
+
+也就是將你的 <project_name>/settings.py 這個 Python import path 給 Django
+
+---
+
+API：
+
+>>> from polls.models import Question, Choice
+    將剛剛創建的 model import 進來
+
+>>> Question.objects.all()
+    看 Question 的資料有哪些
+
+一旦有資料後，這個 all() 會顯示如下格式
+[<Question: Question object>]
+
+為了改善這個情況，要回到 <app_name>/models.py 中的 class 加入 __str__() method
+   def __str__(self):
+      return self.question_text    <---- 回傳 Question 中的 question_text 欄位資訊
+
+>>> from django.utils import timezone
+    將 timezone 的 class import 進來
+
+>>> q = Question(question_text = "What's new?", pub_date = timezone.now())
+    創建一筆資料在 Question 中
+
+>>> q.save()
+    將這筆資料儲存到 database 中
+
+現在可以用 q 直接看到其欄位的內容：
+>>> q.id
+
+>>> q.question_text
+
+>>> q.pub_date
+
+也能直接改變內容：
+>>> q.question_text = "What's up?"
+>>> q.save()
+
+Django 提供的資料 filter, get：
+>>> Question.objects.filter(id = 1)
+    顯示 id 為 1 的資料，顯示方式如同 all()
+
+>>> Question.objects.filter(question_text__startswith = 'What')
+
+>>> Question.objects.get(pub_date__year = timezone.now())
+
+>>> Question.objects.get(id = 2)
+    若是不存在的資料，會產生一個 exception
+
+用 Primary Key 來取資料：
+>>> Question.objects.get(pk = 1)
+
+呼叫自己定義的 method：
+>>> q = Question.objects.get(id = 1)
+>>> q.<defined_method>
+
+外鍵關聯：
+Django 會創造一個 set 去儲存外鍵關聯
+
+>>> q.choice_set.all()
+    choice_set 是還沒有任何東西的 set
+
+>>> q.choice_set.create(choice_text = 'Not much', votes = 0)
+    create 會使 Django INSERT 一筆資料到 Choice 中
+    並回傳那個 Choice
+
+>>> q.choice_set.create(choice_text = 'The sky', votes = 0)
+>>> q.choice_set.create(choice_text = 'Just hacking', votes = 0)
+
+EX.
+>>> c = Choice.objects.get(id = 1)
+>>> c.question
+<Question: What's up?>
+
+>>> q.choice_set.all()
+[<Choice: Not much>, <Choice: The sky>, <Choice: Just hacking>]
+>>> q.choice_set.count()
+3
+
+>>> Choice.objects.filter(question__pub_date__year = timezone.now())
+[<Choice: Not much>, <Choice: The sky>, <Choice: Just hacking>]
+
+>>> c = q.choice_set.filter(choice_text__startswith = 'Just')
+>>> c.delete()
+
+---
+
+新增自己的 method：
+
+import datetime
+
+from django.utils import timezone
+
+class Question(models.Model):
+    # ...
+    def was_published_recently(self):
+        return self.pub_date >= timezone.now() - datetime.timedelta(days=1)

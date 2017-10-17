@@ -1,0 +1,87 @@
+﻿
+GSL 的 Histogram 分為 bin 和 range 兩個部分
+
+bin 即為長條圖的部分，用來表示落在某個 range 中的個數有幾個
+
+range 則是 X 軸（橫軸）的數值，用來定義 Histogram 橫軸的區間大小
+
+---
+
+Histogram 的 Functions 被宣告在 gsl_histogram.h, gsl_histogram2d.h 當中
+
+---
+
+histogram struct :
+
+gsl_histogram {
+  size_t n      -> bin 的數目
+  double *range -> 定義 range 的陣列，有 n + 1 個 element
+  double *bin   -> 用來計數的 bin，有 n 個 element
+}
+
+bin[i] 所計數的範圍是 range[i] <= x < range[i + 1]
+
+---
+
+配置記憶體空間：
+
+- gsl_histogram* gsl_histogram_alloc (size_t n)
+  配置有幾個 bin 的大小，後續須再配置 range 才可使用
+
+---
+
+range 設定：
+
+同時也會將 bin reset 為零
+
+- int gsl_histogram_set_ranges (gsl_histogram *h, const double range[], size_t size)
+  此函式可以自訂 range，不一定要等間隔，1、10、100、1000 等 log 間隔是可以的
+  由 range 這個 double 陣列來定義，注意此陣列需比 bin 的數量多 1 才行（用於表示最右端的值）
+  
+- int gsl_histogram_set_ranges_uniform (gsl_histogram *h, double min, double max)
+  可以設置等間隔大小的 range，間隔由 Histogram 的 size n 和 min, max 決定
+  間隔 d = (max - min) / n
+
+---
+
+釋放 Histogram :
+
+- void gsl_histogram_free (gsl_histogram *h)
+
+---
+
+操作 Histogram :
+
+有兩種方式去操作 bin，給一個 x 看是落在哪個 range 區間，或者是直接指定 bin 的 index
+
+- int gsl_histogram_increment (gsl_histogram *h, double x)
+  看 x 落在哪個 range 內，相對應的 bin 就會加一（+ 1.0）
+  若 x 是在合法 range 內，則會回傳代表成功的 0
+
+- int gsl_histogram_accumulate (gsl_histogram *h, double x, double weight)
+  類似 increment，但所增加的值是由 weight 決定
+
+- double gsl_histogram_get (const gsl_histogram *h, size_t i)
+  回傳第 i 個 bin 的內容，若失敗會呼叫 error handler 並回傳 0
+
+- int gsl_histogram_get_range (const gsl_histogram *h, size_t i, double *lower, double *upper)
+  確認第 i 個 bin 的上下界線值，會存在 lower, upper 兩個指標中
+  回傳 0 表示執行成功
+
+- gsl_histogram_max (const gsl_histogram *h)
+- gsl_histogram_min (const gsl_histogram *h)
+- gsl_histogram_bins (const gsl_histogram *h)
+  分別回傳上限值、下限值，以及 bin 的數目
+
+- gsl_histogram_reset (gsl_histogram *h)
+  將所有 bin 的值都 reset 成零
+
+---
+
+印出：
+
+- int gsl_histogram_fprintf(FILE *stream, const gsl_histogram *h,
+       const char *range_format, const char *bin_format)
+  將 bin 一行一行印出來，每行有三個 column，分別為 range[n-1] range[n] bin[n-1]
+  兩種 format 必須是 %g, %e, %f 之一，用於表示浮點數
+

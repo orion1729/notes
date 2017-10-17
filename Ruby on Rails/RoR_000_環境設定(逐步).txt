@@ -1,0 +1,36 @@
+﻿
+先安裝好 Ruby，並設定好環境變數
+
+---
+
+為了使用 Rails 的擴充，需安裝 DevKit 這個輔助工具
+
+到下載 Ruby 的地方下載相應版本的 DevKit
+
+
+
+並且將其解壓縮，然後到目錄下輸入
+
+$ ruby dk.rb init
+
+如此一來 DevKit 會去偵測裝好的 Ruby，並產生 config.yml 檔
+
+偵測到的 Ruby 會寫在裡面，也可以自己修改
+
+
+
+確認 config.yml 設定好後，輸入
+
+$ ruby dk.rb install
+
+---
+
+輸入
+
+$ gem install rails --no-ri --no-rdoc
+
+來安裝 Rails
+
+用 $ rails -v 來測試是否成功
+
+

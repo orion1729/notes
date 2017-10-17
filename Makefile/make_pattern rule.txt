@@ -1,0 +1,40 @@
+
+
+Pattern Rule:
+一般的 rule 會指定 target 以及 prerequisite 檔名，
+因此 make 只會檢查這些被指定的檔案
+
+若想創建一種 general rule 來涵括一類符合某種規則的檔名時，
+就需要利用 pattern rule
+
+創建 pattern rule 時通常都會使用 ‘%’ 字元，
+它可以 match 任何長度的字串，
+與 shell 使用的 ‘*’ 是相同意義，只是 ‘%’ 是用於 makefile 的 pattern
+
+範例：
+%.o : %.c
+	recipe…
+
+內建的 pattern rule:
+%.o : %.c
+	$(CC) -c $(CFLAGS) $(CPPFLAGS) $< -o $@
+
+
+——
+
+
+Static Pattern Rule:
+
+語法：
+<target_list> : <target_pattern> : <prereq_pattern>
+	recipe...
+
+<target_list> 用來指定哪些 target 要經過這個 static pattern rule，
+這些 target 會用來與 <target_pattern> 做比較，
+一旦符合 <target_pattern> 的話，就會依據 <prereq_pattern> 以及 recipe 來執行
+
+範例：
+objects = foo.o bar.o
+
+$(objects) : %.o : %.c
+	$(CC) -c $(CFLAGS) $< -o $@

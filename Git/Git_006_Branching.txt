@@ -1,0 +1,94 @@
+﻿
+Branch 的概念就是在你的 commit 都設置了一個 pointer 指向他
+
+讓我們可以隨時回到那個 branch 並使用那個版本
+
+
+
+有一個預設 branch 叫做 master，若沒跳到其他 branch
+
+master 會一直跟著最新的 commit 向前移動
+
+
+
+還有一個叫 HEAD 的 pointer 會指向目前所在的 branch
+
+---
+
+設置新 branch :
+
+$ git branch [branch_name]
+
+可以在目前的 commit 設置一個 branch（新指標），指向目前的 commit
+
+創建 branch 並不會跳到那個 branch
+
+---
+
+改變 working space 的內容：
+
+$ git checkout [branch_name]
+
+會讓 HEAD 指到那個 branch
+
+並且讓 working space 的資料回復到那個 branch 的 snapshot
+
+---
+
+每一次的 commit 新增一個 snapshot
+
+HEAD 所指的 branch 會跟著向前移動
+（所以不一定是 master，要看你使用的是哪一個 branch）
+
+---
+
+倘若 checkout 向前回到過去的某個 branch 中
+
+並且做了修改後再 commit
+
+則會在這個 snapshot node 的後面做出了 tree 的分支
+
+是與原先走的路不同的分支
+
+---
+
+創建並且checkout :
+
+$ git checkout [-b] [new_branch_name]
+
+會創建一個新的 branch 並且 checkout 它
+
+相當於
+
+$ git branch [new_branch_name]
+$ git checkout [new_branch_name]
+
+---
+
+刪除：
+
+$ git branch [-d] [branch_name]
+
+可以刪除指定的 branch
+
+---
+
+檢查：
+
+$ git branch
+
+可以檢查全部的 branch
+
+
+
+$ git branch -v
+
+可以看每一個 branch 的最後一個 commit
+
+
+
+$ git branch [--merged | --no-merged]
+
+可以看已 merged 和未 merged 的 branch
+
+

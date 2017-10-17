@@ -1,0 +1,130 @@
+﻿
+要使用 Navigation Drawer
+需在 layout 檔當中以 DrawerLayout 當作 root
+android.support.v4.widget.DrawerLayout
+
+然後再加入 main content 的部分
+最後是一個 ListView 用於 drawer 被拉出來後的顯示
+
+- main content 必須為第一個 child
+- main content 被設為 match_parent，因為要顯示整個畫面
+- android:layout_gravity 可以決定 drawer 往哪邊被拉出來
+- 被拉出來的寬度，由 ListView 的 layout_width 決定
+
+---
+
+Initialize Drawer List :
+在 Activity 中要作的第一件事就是設定 ListView 的內容
+一樣需要使用 Adapter
+並設置 OnItemClickListener 處理事件
+
+---
+
+點擊事件：
+onItemClick 中需處理的順序大致為
+new 一個新的 Fragment，並設置其參數
+叫出 FragmentManager 並開始 FragmentTransaction
+主要利用 replace() 方法替換 Fragment
+
+將被點擊的 item 用 ListView.setItemChecked(position, true) 標示出來
+再將 ActionBar 的 title 換掉
+最後把 drawer 用 DrawerLayout.closeDrawer(ListView) 關掉
+
+---
+
+監聽 Open, Close 事件：
+使用 DrawerLayout.setDrawerListener()
+並實作 onDrawerOpened(), onDrawerClosed() 等方法
+
+若有搭配 action bar 使用
+可以實例一個 ActionBarDrawerToggle 物件並 Override 上述兩個方法
+此物件已 extends DrawerListener 了
+
+可在 onDrawerOpened(), onDrawerClosed() 兩個方法中
+呼叫 invalidateOptionsMenu()
+此方法會去呼叫 onPrepareOptionsMenu()
+
+如此一來可在 onPrepareOptionsMenu() 中設定 item 的可見與否
+@Override
+public boolean onPrepareOptionsMenu(Menu menu){
+    // 如果 drawer 被打開，隱藏 action item
+    boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
+    menu.findItem(R.id.action_item).setVisible( !drawerOpen );
+    return super.onPrepareOptionsMenu(menu);
+}
+
+---
+
+Open, Close 與 icon :
+若有使用 action bar
+需讓 app icon 可以打開 drawer
+且需要有一個 icon 可以表現 drawer 的存在
+一樣使用 ActionBarDrawerToggle
+
+- Constructor 需要參數
+  1. 表現 drawer 的 Activity
+  2. DrawerLayout
+  3. drawable resource 當成 drawer indicator
+  4. string resource 描述 drawer open
+  5. string resource 描述 drawer close
+
+範例：
+public class MainActivity extends Activity{
+    private DrawerLayout mDrawerLayout;
+    private ActionBarDrawerToggle mDrawerToggle;
+    ...
+
+    public void onCreate(Bundle savedInstanceState){
+        ...
+
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerToggle = new ActionBarDrawerToggle(
+                this,
+                mDrawerLayout,
+                R.drawable.ic_drawer,
+                R.string.drawer_open,
+                R.string.drawer_close
+                ) {
+        
+            public void onDrawerClosed(View view){
+                getActionBar().setTitle(mTitle);
+            }
+
+            public void onDrawerOpened(View drawerView){
+                getActionBar().setTitle(mDrawerTitle);
+            }
+        };
+
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setHomeButtonEnabled(true);
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState){
+        super.onPostCreate(savedInstanceState);
+        // 在 onRestoreInstanceState 發生時，同步 toggle 的狀態
+        mDrawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig){
+        super.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        // 將事件傳給 ActionBarDrawerToggle
+        // 若其回傳 true，表示他處理了 app icon touch event
+        if(mDrawerToggle.onOptionsItemSelected(item)){
+            return true;
+        }
+
+        // 處理其他 action bar 的 item
+        ...
+
+        return super.onOptionsItemSelected(item);
+    }
+}

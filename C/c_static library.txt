@@ -1,0 +1,29 @@
+
+
+Static Library File :
+在 C/C++ 當中 static library 是以 .a 為副檔名的檔案
+簡單來看，所謂的 .a 檔案只是將一群 .o 包裝在一起的檔案
+
+
+——
+
+
+產生：
+要將一堆 .o 包裝成一個 .a 檔案要使用 ar 指令
+
+方式：
+ar -rsv libexample.a obj1.o obj2.o …
+
+
+——
+
+
+讓 linker 使用：
+可以直接將 .a 指定在 linker 的指令中
+例：gcc -o main obj1.o libexample.a
+
+也可以利用 gcc/g++ 的 flag
+例：gcc -o main -lexample obj1.o
+只要將 .a file 命名為 xxxx.a 的話
+就能直接將 xxxx 放到 -l flag 後面即可（即 -lxxxx）
+gcc 會自動在底下目錄搜尋這個 xxxx.a 檔案

@@ -1,0 +1,22 @@
+
+merge : 目前所在的 branch 會是最終留存的分支
+先切換到要保存結果的 branch（主幹）
+然後輸入要被合併的分支
+
+$ git merge bugfix
+
+如此一來，bugfix 就會被合併到我們想要保存的 branch 上
+
+——
+
+rebase : 目前所在的 branch 會被合併到目標分支
+先切換到要合併的分支
+輸入最後要保存結果的分支
+
+$ git rebase master
+
+這樣 bugfix 的分支就會線性的出現在 master 之後（保留提交歷史）
+接下來是回到 master，讓其 fast forward 到 bugfix 的位置
+
+$ git checkout master
+$ git rebase bugfix

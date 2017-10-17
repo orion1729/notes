@@ -1,0 +1,32 @@
+
+
+sorted function :
+
+可以接受 iterable 的類別（list, string, tuple 等等）
+並回傳一個新的已排序過（遞增）的 “list”
+（list.sort() 會對原本的 list 做改動）
+
+sorted(list, reverse=True)
+若有設定 reverse=True 的話，那麼排序的順序會倒過來
+
+
+——
+
+
+key argument (custom sort function) :
+
+sorted 有提供一個 key 參數，能讓你自行指定一個 function
+將 element 的某個特性拿出來作為 sort 的基準
+
+範例：
+strs = [‘aaa’, ‘bb’, ‘c’]
+sorted(strs, key=len)  # [‘c’, ‘bb’, ‘aaa’]
+如此一來，sort 的比較會以 element 之長度來排序
+
+key 也能接受自定義的 function
+只要這個 function 符合傳入一個參數並回傳一個值即可
+
+
+——
+
+

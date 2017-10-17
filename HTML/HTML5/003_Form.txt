@@ -1,0 +1,65 @@
+﻿
+對於 form，HTML5 提供了一些新的輸入種類
+
+可在 <input> 標籤內的 type attribute 設定
+
+設定了種類後，這些 <input> 標籤就帶有驗證功能
+
+    color
+    date
+    datetime
+    datetime-local
+    email
+    month
+    number
+    range
+    search
+    tel
+    time
+    url
+    week
+
+有些種類某些瀏覽器並不支援，倘若如此，那麼他們會如同一般的 text field 運作
+
+---
+
+number :
+
+number 種類可以設置最大最小的上下限
+
+ Quantity (between 1 and 5): <input type="number" name="quantity" min="1" max="5">
+
+---
+
+<form> 內的新標籤：
+
+- <datalist>
+  提供 <input> 文字輸入方塊一些預設選項（下拉）
+
+<input list="browsers">
+<datalist id="browsers">
+  <option value="Internet Explorer">
+  <option value="Firefox">
+  <option value="Chrome">
+  <option value="Opera">
+  <option value="Safari">
+</datalist> 
+
+- <keygen>
+  主要用途是提供一個安全的使用者驗證機制
+
+  會產生 private, public 兩支 key
+  private 存留在 client 端，public 則是在伺服器端
+
+  往後伺服器端可以用 public key 來產生一組 client 檢驗
+  送往 client 來作為使用者驗證
+
+- <output>
+  可以用來輸出一個計算結果
+
+<form oninput="x.value=parseInt(a.value)+parseInt(b.value)">0
+<input type="range" id="a" value="50">100 +
+<input type="number" id="b" value="50">=
+<output name="x" for="a b"></output>
+</form>
+

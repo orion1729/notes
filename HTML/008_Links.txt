@@ -1,0 +1,41 @@
+﻿
+<a> 定義了超連結
+內容可以是文字、圖片或其他 element
+
+<a href="url">Link text</a> 
+
+---
+
+瀏覽器預設的超連結狀態：
+- 未瀏覽的超連結，底線加藍色
+- 已瀏覽的連結，底線加紫色
+- 正被點擊的連結，底線加紅色
+
+---
+
+Attribute :
+
+- target
+  target="_blank" 會讓連結產生在新視窗或新分頁
+
+
+- id
+  可以造成書籤效果
+
+  例如 <a id="mark">content</a>
+  則我可以在同頁面其他地方 <a href="#mark">goto mark</a>
+  也能在其他頁面 <a href="url#mark">goto mark</a>
+
+---
+
+在資料夾為目的地的網址最後方加入 "/"
+可避免為了讓 server 幫你加上 "/" 而多作一次 request
+
+---
+
+在 href 的 value 寫入 mailto:someone@example.com?Subject=Hello%20good" 等
+可叫出 mail 程式寄信
+內容中的 %20 是為了讓瀏覽器能順利辨別字元
+
+mailto:someone@example.com?cc=someoneelse@example.com&bcc=andsomeoneelse@example.com&subject=Summer%20Party&body=You%20are%20invited%20to%20a%20big%20summer%20party!
+上面為其他用法

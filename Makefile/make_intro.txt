@@ -1,0 +1,94 @@
+
+功能：
+1. 簡化編譯的指令
+2. 如果在編譯完成後又修改了某個原始碼，那麼 make 只會去重新編譯那個程式碼，
+   不會去動到其他 object 檔案（依據相關性檢查）
+3. 如果沒有修改就再次 make 的話，make 會判斷出不需重新編譯
+
+ps. 修改的判別是利用檔案的修改時間
+
+——
+
+基本結構（語法）：
+
+target… : dependency…
+<tab>	command…
+
+target : 一個標籤（label）
+dependency : 完成 target 所需要的檔案（可用 object file）
+command : 完成 target 所需執行的 shell 命令，縮排必須用 tab
+
+範例：
+main : test1.o test2.o
+	gcc test1.o test2.o -o test
+
+註解：
+在 Makefile 中的註解是以 ‘#’ 為開頭
+
+—-
+
+執行 make :
+$ make <target1> <target2> …
+
+make 會依序執行 target1 與 target2 所規定的內容
+
+範例：
+$ make clean main
+make 會依序執行 clean, main 的命令
+
+如果執行 make 時不帶參數（target），那麼 make 會自動執行第一個 target
+
+——
+
+變數：
+1. 變數和其內容以 ‘=‘分開，兩邊可以有空白
+2. 變數左邊不可有 tab；變數與內容都不可以有 ‘:’
+3. 變數名稱最好以全部大寫為主
+4. 使用變數時，以 ${變數} 或 $(變數)
+5. 在 shell 底下的環境變數也可以定義，如 CFLAG
+
+範例：
+LIB = -lm
+OBJ = main.o test1.o test2.o
+
+特殊變數：
+$@ - 表示當前 target 的名稱（冒號:左邊的內容）
+$< - dependency 的第一個物件
+$^ - 所有的 dependency 物件（冒號:右邊的內容）
+
+範例：
+main:
+	gcc -c main.c -o $@
+會輸出一個名稱為 main 的執行檔
+
+——
+
+實際使用：
+
+1. 定義變數，使某些於其他目錄的檔案有較短的名稱
+
+2. 定義一連串的相關性：
+	一般會將 target 名稱定義為輸出的執行檔名稱或目標檔名稱，
+	並在冒號之後定義與「此輸出」相關的檔案。
+
+範例：
+有 main.c fibonacci.h fibonacci.c 這些檔案，其中
+	main.c include fibonacci.h（相關性）
+	fibonacci.c include fibonacci.h（相關性）
+
+Makefile 內容：
+# 最終輸出之執行檔
+main : main.o fibonacci.o
+	gcc -o main main.o fibonacci.o
+
+# 接下來繼續定義 main.o 與 fibonacci.o 的相關性
+# 如此一來執行 make main 時程式會自動檢查 main.o, fibonacci.o 等相關性
+# 並依此判斷是否需要重新編譯
+main.o : main.c fibonacci.h
+	gcc -c -o main.o main.c
+
+fibonacci.o : fibonacci.c fibonacci.h
+	gcc -c -o fibonacci.o fibonacci.c
+
+# 一旦改變了 fibonacci.h 的內容，那麼執行 make main 時，
+# 程式會自動重新編譯與此檔相關的 main.o, fibonacci.o 這兩個 target

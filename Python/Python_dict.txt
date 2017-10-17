@@ -1,0 +1,80 @@
+
+
+Dictionary hash table :
+
+dictionary 是由中括號包括起來的 key:value pair
+
+key 可以使用 string, number, tuple 這些類型
+（string, tuple 是因為他們的 immutable 特性）
+value 則沒有限制
+
+dict 同樣利用中括號來存取，中括號的內容是 key
+（倘若 key 不存在，則 throw KeyError）
+
+dictionary 能使用 in 來測試某個 “key” 是否存在
+或者使用 dict.get(key) 來取得這個 key 的 value
+（倘若 key 不存在，get 會回傳 None）
+
+
+——
+
+
+for loop :
+
+若直接將 dict 使用在 for loop 上
+那麼 iteration 的對象是 key
+（而且順序是不確定的）
+
+dict.keys() / dict.values()
+這兩個 method 會回傳 key / value 的 list
+
+dict.items()
+回傳 (key, value) 之 tuple 的 list
+
+可以利用 tuple 可用分開的 variable 提取的特性在 for 當中
+範例：
+for k, v in dict.items(): …
+
+
+——
+
+
+Dictionary Formatting :
+
+dict 可以搭配 string 和 % operator 同時使用
+如此一來可以將 dict 的內容根據 format 的形式代換到 string 中
+
+範例：
+hash = {}
+hash[‘word’] = ‘ball’
+hash[‘count’] = 42
+s = 'I want %(count)d copies of %(word)s' % hash  # %d for int, %s for string
+# 'I want 42 copies of ball’
+
+
+——
+
+
+Deletion :
+
+del operator 可以用來刪除 variable 的定義
+能用在 variable, list, dictionary 上面
+也能搭配 list 的 slices 使用
+
+範例：
+var = 6
+del var  # var no more!
+  
+list = ['a', 'b', 'c', 'd']
+del list[0]     ## Delete first element
+del list[-2:]   ## Delete last two elements
+print list      ## ['b']
+
+dict = {'a':1, 'b':2, 'c':3}
+del dict['b']   ## Delete 'b' entry
+print dict      ## {'a':1, 'c':3}
+
+
+——
+
+

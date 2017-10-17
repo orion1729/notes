@@ -1,0 +1,34 @@
+﻿
+在 JS 當中，function 也是一種物件
+
+---
+
+function 內宣告的變數為 local
+
+在 function 外的變數則為 global
+
+---
+
+自動 global :
+
+倘若在賦值給變數時，變數還未宣告的情況下
+此變數會自動變成 global
+
+---
+
+所有的 global 變數都屬於 HTML 中的 window 物件
+
+<script>
+myFunction();
+document.getElementById("demo").innerHTML =
+"I can display " + window.carName;
+
+function myFunction() {
+    carName = "Volvo";
+}
+</script>
+
+---
+
+可以利用 window object 來修改原本定義的變數或 function
+（function 是變數的一種）

@@ -1,0 +1,39 @@
+
+定義在 Class 內的 function 會被編譯器視為 inline function，
+因此會在外部呼叫的地方展開。
+
+——
+
+雙冒號（::）
+
+被稱為 scope resolution operator，是用來表明此變數或函數屬於哪一個類別。
+例如為了定義非 inline 的函數，所以要在 class 的外部定義其內容，
+此時就需要用到 scope resolution operator 來標明所屬類別。
+
+——
+
+成員保護等級：
+
+Private :
+宣告為 private 的變數或函數只能由 member function 存取。
+連繼承的類別都無法存取。
+
+Protected :
+較 private 寬鬆些，繼承的類別的 member function 可以存取。
+
+Public :
+無任何限制。
+
+——
+
+繼承：
+繼承會讓父類別與子類別具有 “is a” 的關係，也就是「子類別 is a 父類別」。
+
+不論是何種繼承，都無法繼承父類別中 private 等級的成員。
+
+Protected 繼承：
+可繼承父類別中的 public 與 protected，並將其全部轉為 protected 等級。
+
+Private 繼承：
+繼承父類別中的 public 與 protected，且全部轉為 private。
+

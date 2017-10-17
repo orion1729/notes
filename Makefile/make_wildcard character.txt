@@ -1,0 +1,54 @@
+
+
+Wildcard Character:
+
+- *
+  用處與 bash 中的相同，表示任意長度任意字元
+  因此 *.c 表示所有「目錄中」.c 結尾的檔案
+
+  此字元可用在 rule 中 (target, prerequisite, recipe)
+  若使用在 variable 的定義時，會維持 *.c 這個字串
+  除非將此 variable 用在 rule 中
+  如此一來在展開 variable 時就會維持正確的意義
+
+  若要讓 wildcard 作用在 variable 定義時
+  要使用 var = $(wildcard *.c)
+
+
+——
+
+
+錯誤用法：
+object = *.o
+
+main : $(object)
+	cc -o main $(object)
+
+當目錄中有 .o 結尾的檔案時，這個用法可以運作
+
+但是當沒有 .o 檔案存在時，就會出錯
+prerequisite 會變成單純的 ‘*.o’ 檔案
+想當然這種檔名一般是不存在的，因此 make 就會 error
+可以使用 wildcard function 來達成想要的效果
+
+
+——
+
+
+安全用法 wildcard:
+利用 wildcard function 讓 wildcard character 正確運作在 variable 上
+$(wildcard <pattern>) 會替換成符合 pattern 的 file names（以空白區隔）
+
+src = $(wildcard *.c)
+上述用法就能抓出所有已存在目錄中的 .c file
+
+範例：
+objects = $(patsubst %.c,%.o,$(wildcard *.c))
+
+foo : $(objects)
+	cc -o foo $(objects)
+
+
+——
+
+

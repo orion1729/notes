@@ -1,0 +1,32 @@
+﻿基本名詞：
+
+- Screen size
+  裝置的實際物理大小，以對角線為基準
+  Android 將所有大小分類為四類
+  small, normal, large, extra large
+  （Android 3.2 / API 13, 採用了新的方式）
+
+- Screen density
+  裝置的像素（Pixels）與裝置物理大小的比值
+  常以 dpi（dots per inch）表示
+  Android 也將所有 density 分為四類
+  low, medium, high, extra high
+
+- Orientation
+  螢幕的旋轉影響 View 的表現
+
+- Resolution
+  所有在螢幕上的 Pixels 數目
+  App 並非直接以 Resolution 為標準
+  而是以上述的 size, density 分類為準
+
+- Density-independent pixel(dp, dip)
+  虛擬的 Pixel 單位，應利用此單位於 layout 上
+  在 dpi 為 160 的裝置上，1 pixel = 1 dp
+  轉換關係：px = dp * (dpi / 160)
+  所以當螢幕密度變大時，需要較多 px 才能表達一個 dp
+
+---
+
+即使是同分類的 Android size，實際大小也可能有微小差異
+

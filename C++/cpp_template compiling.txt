@@ -1,0 +1,26 @@
+
+
+Template Compiling :
+實作 template 時，若將 header 與 cpp 分開實作，
+在 compile (link) 時會碰到 linking 問題。
+
+事實上，template 能夠運作，
+是因為 compiler 產生了每種 instantiation 所對應的程式碼，
+例如 vector<int>, vector<double> 會有兩種對應的程式碼。
+
+因此當我們單獨 compile template cpp 時，
+由於原始碼中並不會有任何 type 的資訊，
+導致最終要 link 時無法找到任何對應的 instantiation 程式碼。
+
+
+—-
+
+
+解法：
+最簡單的解法就是在 .h 中 #include template .cpp，
+如此一來有其他 a.cpp 要使用這個 template 時會先 #include template 的 .h，
+然後因為 .h 中已 include 了 template 的實作，
+因此 compiler 就能藉由 a.cpp 的宣告和 #include 知道該如何產生 code。
+
+注意：
+這種用法要注意的地方是「不需要再對 template.cpp compile」

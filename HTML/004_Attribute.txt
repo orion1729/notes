@@ -1,0 +1,11 @@
+﻿
+Attributes :
+為 element 提供額外的資訊
+
+存在於 start tag
+
+並且是 name/value 成對
+類似 name="value"（引號是必須使用的，單引號或雙引號均可）
+
+一樣以小寫為主較佳
+

@@ -1,0 +1,50 @@
+Activity 的主要三個狀態：
+- Resumed
+  表示 Activity 在前景執行，可與使用者互動
+
+- Paused
+  表示 Activity 仍然可見，但被其他 Activity 踢出前景
+  因此程式內容不會被繼續執行
+
+- Stopped
+  Activity 被完全隱藏，變成一個背景程式
+  但 Activity 內的 member variables 會被記錄起來
+  同樣不能執行任何程式碼內容
+
+---
+
+Launcher Activity :
+須有一個 Activity 作為 Main Activity 存在
+系統會以此為 App 進入點
+
+在 AndroidManifest.xml 中
+<activity android:name=".MainActivity" android:label="@string/app_name">
+    <intent-filter>
+        <action android:name="android.intent.action.MAIN" />
+        <category android:name="android.intent.category.LAUNCHER" />
+    </intent-filter>
+</activity>
+
+如此一來這個 Activity 就會成為程式進入點
+
+倘若都沒有宣告 action.Main, category.LAUNCHER 的話
+那麼系統中的主頁面就不會出現這個 App 的 icon
+
+---
+
+起始狀態：
+
+onCreate() -> 「Created」 -> onStart() -> 「Started(visible)」 ->
+onResume() -> 「Resumed(visible)」
+
+在 onCreate() 建置此 Activity 的基本內容後
+一旦到了 Created 狀態，系統會很快速的呼叫 onStart(), onResume()
+並不會停留在 Created, Started 太久
+
+---
+
+finish() 方法會馬上呼叫 onDestroy()
+而 onDestroy() 會將 Activity 從記憶體中消滅
+
+---
+

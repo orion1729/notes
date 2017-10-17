@@ -1,0 +1,20 @@
+﻿自定義的 header 檔在 include 的時候須用雙引號
+#include "selfdefine.h"
+
+---
+
+複數編譯：
+設有三個檔案 main.c, test.c, test.h
+
+# gcc -c main.c test.c
+產生兩個 object file
+
+# gcc -o main main.o test.o
+連結兩個 object file 產生 main 執行檔
+
+---
+
+若之後只有 main.c 做了修改
+
+# gcc -o main main.c test.o
+即可只重新編譯 main.c

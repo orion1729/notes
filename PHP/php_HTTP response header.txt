@@ -1,0 +1,41 @@
+﻿
+PHP 和 Apache Server 會幫你處理好 header 的一些欄位
+例如 body length 之類的資訊
+
+---
+
+header() :
+
+php 的 header() funtcion 可以完成以下的任務：
+- 設定頁面- expiration time
+- 將 client 的瀏覽器重新導向
+- 產生一個特定的 HTTP error
+等等...
+
+要設定一個 header 必須在任何 body 產生以前完成
+（也就是必須在 php file 的最上面出現，甚至在 <html> 標籤之前）
+
+---
+
+Content-Type :
+
+可以指定被回傳的是哪種文件類別
+一般 HTML 文件是以 "text/html" 來標記的
+
+而 "text/plain" 則可以強制讓瀏覽器將內容作為純文字來顯示
+
+<body>
+<?php
+    header("Content-Type: text/plain");
+?>
+Hi, I'm Jimmy.
+</body>
+
+---
+
+Redirections :
+
+<?php
+    header("Location: http://www.example.com");
+    exit();
+?>

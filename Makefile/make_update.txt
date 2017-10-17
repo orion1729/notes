@@ -1,0 +1,45 @@
+
+
+out of date:
+在 make 當中判斷一個 target (file) 是否 out of date 依據兩個原則：
+1) 如果 target 檔案不存在
+2) 如果 dependency 檔案比自己還新
+
+
+——
+
+
+Prerequisite 種類：
+
+target : normal-prerequisite | order-only-prerequisite
+
+- Normal prerequisite
+  寫在 ‘|’ 左邊的區域
+  此種相關性會根據 target 是否 out of date 進行 target 更新
+
+- Order only prerequisite
+  寫在 ‘|’ 右邊區域
+  這種相關性則不會依據 out of date 的規則
+  而是依據「prerequisite 是否已存在」這樣的規則
+
+  範例：
+  a : | b
+  	touch a
+
+  b :
+  	touch b
+
+  假如 a, b 都不存在，則依序執行 touch b -> touch a
+  假如 a, b 都存在
+  1) b 比 a 舊，沒動作
+  2) b 比 a 新，也不會執行 a 的更新
+
+當某個 target 的 prerequisite 牽扯到某個目錄時，
+就能將這個目錄作為此 prerequisite 的 order only prerequisite
+例如：
+DIR = obj
+OBJ = obj/a.o obj/b.o
+
+$(OBJ) : | $(DIR)
+$(DIR) :
+	mkdir $@

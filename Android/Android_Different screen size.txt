@@ -1,0 +1,45 @@
+分為兩個部分，一個是 Layout，另一個則是圖檔 Resource
+
+---
+
+Screen Size :
+small, normal, large, xlarge
+
+Density :
+low(ldpi), medium(mdpi), high(hdpi), extra high(xhdpi)
+
+---
+
+Layout :
+在 /res 目錄下創建各種 layout 目錄
+
+格式：layout-[size]
+範例：layout-large
+
+---
+
+Layout Orientation :
+也是在 /res 下創建各目錄
+
+格式：layout-[size]-[orientation]
+範例：layout-large-land
+
+land 代表螢幕橫向
+orientation 項目不填則表示直向
+
+---
+
+圖檔：
+圖檔分為四個等級，下面是它們的比例
+
+xhdpi -> 2.0
+hdpi  -> 1.5
+mdpi  -> 1.0
+ldpi  -> 0.75
+
+圖檔則是將目錄創建於 /res 底下的各種 drawable
+
+格式：drawable-[density]
+範例：drawable-hdpi
+
+* 當有提供 hdpi 時，ldpi 不是必需的，因為系統可以將其縮小一半變成 ldpi

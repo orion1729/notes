@@ -1,0 +1,48 @@
+﻿
+安裝完後，需設定 Git 的 username 以及 email
+
+這是 Git 用來分辨參與者的重要訊息
+
+
+
+$ git config --global user.name "<your_name>"
+
+$ git config --global user.email <your_email>
+
+用以上兩個指令即可設定，並且會出現一個設定檔 .gitconfig
+
+Windows 環境可在 C 槽 user 帳戶的資料夾中找到此檔
+
+（--global 表示此使用者適用於整個系統）
+
+---
+
+$ git config --list
+
+可用來檢查 config 的狀態
+
+---
+
+$ git config user.name
+
+會顯示 user.name
+
+---
+
+$ git help <verb>
+
+可用來顯示幫助訊息
+
+---
+
+Windows 換行字元設定
+
+由於 Windows 的換行字元不同於 Linux
+
+因此會被誤認為有更動
+
+輸入以下來避免
+
+$ git config --global core.autocrlf true
+$ git config --global core.safecrlf true
+

@@ -1,0 +1,32 @@
+﻿
+GSL 是 GNU Scientific Library 的縮寫
+
+內含許多科學中所用到的數值、函式
+
+可在 GSL 以及 GSL for Windows 找到
+1. http://www.gnu.org/software/gsl/
+2. http://gnuwin32.sourceforge.net/packages/gsl.htm
+
+---
+
+Code::Blocks 設定（等同於 MinGW 設定）：
+
+由於 Code::Blocks 有提供包裝 MinGW 在內的版本
+因此可以在 Code::Blocks 的目錄下找到 MinGW 目錄
+
+1. 安裝 GSL
+
+2. Settings -> Compiler -> Linker settings
+   於 Other Linker Options 中加入
+   -lgsl -lgslcblas -lm
+
+3. <GSL目錄>/include 中的所有文件複製到 <Code::Blocks目錄>/WinGW/include
+
+4. <GSL目錄>/bin 的 libgsl.dll, libgslcblas.dll 複製到 <Code::Blocks目錄>/WinGW/bin
+
+5. <GSL目錄>/lib 的 libgsl.a, libgslcblas.a 複製到 <Code::Blocks目錄>/WinGW/lib
+
+（6. 編譯指令為 gcc test.c -o test.exe -lgsl）
+
+---
+

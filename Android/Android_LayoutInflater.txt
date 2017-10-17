@@ -1,0 +1,7 @@
+﻿將 XML 的 layout 轉換成一個 View
+
+---
+
+通常是重複利用已有的 LayoutInflater 來使用
+有 getLayoutInflater() 和 (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE)
+兩個來取得已存在 LayoutInflater 實例

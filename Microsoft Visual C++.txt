@@ -1,0 +1,28 @@
+﻿一般新版本的套件會向下包含舊的版本
+而 MSCV 是特例，2005、2008、2010、2012無法相互替代
+
+在 x64 的系統上，仍需安裝 x86 的套件包
+以防運行 x86 程式時出現例外
+
+SP1 是原始包的更新版，所以安裝 SP1 即可包容原始版
+
+版本之下還有小版本之分，而中文官網有可能不是最新的
+
+Microsoft Visual c++ 2005 Redistributable Package(x86)
+Microsoft Visual c++ 2005 Redistributable Package(x64)
+Microsoft Visual c++ 2005 SP1 Redistributable Package(x86)
+Microsoft Visual c++ 2005 SP1 Redistributable Package(x64)
+
+Microsoft Visual c++ 2008 Redistributable Package(x86)
+Microsoft Visual c++ 2008 Redistributable Package(x64)
+Microsoft Visual c++ 2008 SP1 Redistributable Package(x86)
+Microsoft Visual c++ 2008 SP1 Redistributable Package(x64)
+
+Microsoft Visual c++ 2010 Redistributable Package(x86)
+Microsoft Visual c++ 2010 Redistributable Package(x64)
+Microsoft Visual c++ 2010 SP1 Redistributable Package(x86)
+Microsoft Visual c++ 2010 SP1 Redistributable Package(x64)
+
+Microsoft Visual c++ 2012 Redistributable Package(x86)
+
+Microsoft Visual c++ 2012 Redistributable Package(x64)

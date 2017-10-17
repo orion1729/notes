@@ -1,0 +1,17 @@
+﻿
+可在前端 HTML 中設定 checkbox 為陣列
+
+在 <input> 的 name 當中調整名稱
+
+<input type="checkbox" name="sport[]" value="run">
+
+如此一來接收時就會收到一個陣列了
+
+---
+
+可利用 implode() 函式來對陣列作處理
+
+例如可在每個陣列值之間加入逗號並串成字串
+
+implode(",", $array)
+

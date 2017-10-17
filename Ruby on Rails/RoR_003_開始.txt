@@ -1,0 +1,218 @@
+﻿
+用 rails new <project_name>
+來創建一個新的 project
+
+輸入後會看到程式創建了一些檔案
+
+Gemfile   設定Rails應用程式會使用哪些Gems套件
+README 	  專案說明：你可以用來告訴其他人你的應用程式是做什麼用的，如何使用等等。
+Rakefile  用來載入可以被命令列執行的一些Rake任務
+app/ 	  放Controllers、Models和Views檔案，接下來的內容主要都在這個目錄。
+config/   應用程式設定檔、路由規則、資料庫設定等等
+config.ru 用來啟動應用程式的Rack伺服器設定檔
+db/ 	  資料庫的結構綱要
+doc/ 	  用來放你的文件
+lib/ 	  放一些自定的Module和類別檔案
+log/ 	  應用程式的Log記錄檔
+public/   唯一可以在網路上看到的目錄，這是你的圖檔、JavaScript、CSS和其他靜態檔案擺放的地方
+script/   放rails這個指令和放其他的script指令
+test/ 	  單元測試、fixtures及整合測試等程式
+tmp/ 	  暫時性的檔案
+vendor/   用來放第三方程式碼外掛的目錄
+
+---
+
+啟動伺服器
+
+Rails 使用了 Bundler 工具，幫助我們檢查、安裝這個 Rails 程式使用的套件
+
+輸入：
+$ bundle install
+（每次修改 Gemfile 都要重新執行）
+
+由於 Ruby 本身有提供 HTTP 伺服器來執行 Rails
+故我們只要在專案目錄下輸入：
+$ rails server
+就可以啟動伺服器
+
+在瀏覽器上連結到 localhost:3000 可連結到 Rails 預設首頁
+
+停止伺服器 Ctrl + C 或 Ctrl + Z
+
+由於在開發模式，修改 config, vender 目錄內的檔案才需要重新啟動
+其他修改的檔案會自動載入
+
+---
+
+Hello World
+
+此程式只需要 Controller, View 即可
+以及讓路由指到這個 Controller
+
+產生一個空的 Controller 檔叫 welcome
+$ rails generate controller welcome
+  rails g controller welcome
+
+接下來要設定路由，在路由檔案 config/routes.rb 新增：
+Demo::Application.routes.draw do
+    get "welcome/say_hello" => "welcome#say"
+    # ...
+end
+
+
+get 那一行表示將 http://localhost:3000/welcome/say_hello 的網址
+對應到 welcome Controller 的 say Action
+
+
+在 app/controller/welcome_controller.rb 加入 say 方法
+class WelcomeController < ApplicationController
+    def say
+    end
+end
+
+
+在 Controller 中，一個 public method 代表一個 Action
+一個 Action 對應一個 HTTP 請求和回應
+
+
+接下來準備 View 檔案
+新增 app/views/welcome/say.html.erb
+（依照慣例，目錄名為 Controller 名稱，檔名是 Action 名稱
+  第一個副檔名說明這是 HTML 格式，第二個副檔名說明這是 ERb 樣板）
+
+
+此檔案內容如下：
+<h1>Hello World!</h1>
+
+
+連到 localhost:3000/welcome/say_hello 即可看到成果！
+
+---
+
+再新增一個擁有超連結的頁面
+在 config/routes.rb 加入新的路由
+get "welcome" => "welcome#index"
+表示將 http://localhost:3000/welcome 網址對應到 welcome Controller 的 index Action
+
+
+一樣在 app/controller/welcome_controller.rb 加入
+def index
+end
+
+
+一樣新增一個 Action，在 app/views/welcome/index.html.erb
+<p>Hola! It's <%= Time.now %></p>
+<p><%= link_to 'Hello!', welcome_say_hello_path %></p>
+
+
+Time 是內建類別，Time.now 會顯示現在時間
+link_to 可以輸出超連結，welcome_say_hello_path 會輸出 /welcome/say_hello
+
+
+這種出現在 View 中的輔助方法稱為 Helper
+
+---
+
+設定首頁
+
+將 public/index.html 移除，因 Rails 會預設回傳 public 內的靜態檔案
+
+在 config/routes.rb 中加入
+root :to => "welcome#index"
+
+要利用首頁連結可以：
+<p><%= link_to "Home", root_path %></p>
+
+---
+
+設定資料庫（SQLite3）
+
+Rails 預設使用 SQLite3 資料庫
+
+可在 config/database.yml 中找到設定資料
+主要分成三個部分開發、測試、正式上線
+
+---
+
+建立資料庫
+
+$ bundle exec rake db:create
+上述指令可以創建一個空的資料庫
+會在 db/ 底下創建 development, test 兩個 SQLite3 檔案
+
+---
+
+第一個 CRUD（Create, Read, Update, Delete）
+
+由於 Rails 擁有鷹架（scaffold）功能，會自動產生一組 Model, View, Controller
+完成一個簡易的 CRUD 用作學習
+
+輸入
+$ rails g scaffold person name:string bio:text birthday:date
+
+會產生一些檔案
+（Model 用單數型、Controller 用複數型）
+- db/migrate/20110517161435_create_people.rb
+  用來建立people資料庫資料表的Migration(你的檔案開頭名稱會有不同的時間)
+
+- app/models/person.rb
+  person model檔案
+
+- test/fixtures/people.yml
+  用來測試的假文章資料
+
+- app/controllers/people_controller.rb
+  people controller檔案
+
+- app/views/people/index.html.erb
+  用來顯示所有文章的index頁面
+
+- app/views/people/edit.html.erb
+  用來編輯文章的頁面
+
+- app/views/people/show.html.erb
+  用來顯示特定一篇文章的頁面
+
+- app/views/people/new.html.erb
+  用來新增文章的頁面
+
+- app/views/people/_form.html.erb
+  用來顯示編輯和新增文章的表單局部(Partial)樣板
+
+- app/helpers/people_helper.rb
+  可在文章Views中使用的Helper方法
+
+- test/unit/person_test.rb
+  people model的單元測試
+
+- test/functional/people_controller_test.rb
+  people controller的功能測試
+
+- test/unit/helpers/people_helper_test.rb
+  people helper的單元測試
+
+- config/routes.rb
+  設定URL路由規則的檔案，scaffold再此新增了一行resources :people
+
+- app/assets/stylesheets/scaffold.css.scss
+  Scaffold鷹架提供的樣式檔案
+
+- app/assets/stylesheets/people.css.scss
+  people的CSS樣式檔案
+
+- app/assets/javascripts/people.js.coffee
+  people的JavaScript檔案
+
+
+scaffold 還會產生一個 migration 檔
+用來建立、修改資料庫的資料表
+
+Rails 利用 rake 指令來執行 migration
+$ bundle exec rake db:migrate
+
+此時 Rails 會建立 people 資料表
+
+由於預設是 development 模式，所以會用 config/database.yml 的 development 設定
+
+這時用瀏覽器到 localhost:3000/people 就能操作資料庫了
+

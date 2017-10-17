@@ -1,0 +1,189 @@
+﻿讓開發者可以以動畫的方式
+來控制一個物件的 property
+
+---
+
+與 View Animation 不同的地方在於
+Property Animation 是對真正的 Object 作操作
+而 View Animation 則是只改變 View 如何被畫出來（drawn）
+
+因此當你用 View Animation 改變 button 的位置後
+仍然需要在原來的位置按下去才可 click button
+
+---
+
+主要有三個部分：Animator, Evaluator, Interpolator
+
+Animator :
+動畫的主要物件
+- ValueAnimator
+  用於用 timing 來計算 property 的動畫
+  內容有動畫 timing 的詳細資料、是否 repeat、update linstener、
+  custom type 的計算等等
+  
+  主要有兩個部分：計算 property 數值、設定數值到物件上
+
+  無法控制第二個物件，所以需要用監聽去判別
+
+
+- ObjectAnimator
+  ValueAnimator 的 subclass
+  可直接控制目標物件，較 ValueAnimator 容易使用
+  但有些限制，例如在目標物件上需要有 acessor method
+
+
+- AnimatorSet
+  可將多個 Animator 組織在一起
+  控制同時播放、連續、特定延遲等等
+
+
+- Animator
+  較少使用，是 Animation 最原始的框架
+  只有基本功能
+
+
+Evaluator :
+用於如何計算動畫的數值
+利用 Animator class 中的 timing data, start and end value
+來依此作計算
+- IntEvaluator
+  用於 int 的計算
+
+- FloatEvaluator
+  用於 float 的計算
+
+- ArgbEvaluator
+  用於計算顏色，以十六進位表示
+
+- TypeEvaluator
+  一個可以客製化的 interface
+
+
+Interpolator :
+定義動畫的時間設定
+例如加速減速、平穩等等
+下面的 Interpolator 是 android.view.animation 的
+用於 View Animation，但也能用在 Property Animation 中
+- AccelerateDecelerateInterpolator
+  開頭與尾巴會緩慢變化，中段則是變化率最大的地方
+
+- AccelerateInterpolator
+  起始較慢，但會慢慢加速
+
+- AnticipateInterpolator
+  像彈弓一樣，先往後拉，然後往目標地甩過去
+
+- AnticipateOvershootInterpolator
+  類似 AnticipateInterpolator，但到目的地後會衝過頭再拉回來
+
+- BounceInterpolator
+  抵達目的後會回彈，然後越彈越小直到停止
+
+- CycleInterpolator
+  重複 animation 特定次數
+
+- DecelerateInterpolator
+  起始較快，最後慢慢減速
+
+- LinearInterpolator
+  保持等速
+
+- OvershootInterpolator
+  到目的地會衝過頭再拉回來
+
+- TimeInterpolator
+  可以客製化的 interface
+
+---
+
+使用 ValueAnimator :
+利用 ValueAnimator.ofInt(), ofFloat(), ofObject() 三個 factory function 來獲得
+
+ValueAnimator animation = ValueAnimator.ofFloat(0f, 1f);  // 起始與結束的數值
+animation.setDuration(1000);                              // 單位 ms
+animation.start();
+
+ValueAnimator animation = ValueAnimator.ofObject(new MyTypeEvaluator(), startPropertyValue,              endPropertyValue);
+animation.setDuration(1000);
+animation.start();
+
+但上述並沒有作用於物件上
+需使用 listener 才行
+並藉由 getAnimatedValue() 來取得計算好的數值
+
+---
+
+使用 ObjectAnimator :
+較 ValueAnimator 方便，因為不用實作 ValueAnimator.AnimationUpdateListener 了
+
+ObjectAnimator anim = ObjectAnimator.ofFloat(foo, "alpha", 0f, 1f);
+anim.setDuration(1000);
+anim.start();
+
+在建構時就需要丟入物件、property 名稱（以字串型態）、起始結束數值
+
+- 需要設定 set function
+  以 set<propertyName>() 來設定
+
+  例如要改變叫 foo 的 property，就需加入一個 setFoo() 的 function
+  型態也需對齊
+
+- 如果在建構時只丟入一個數值，此值表示結束數值
+  且此時物件還需要有 get<propertyName>() 這個 getter
+
+- 視動畫作用於什麼數值上，適當地在 onAnimationUpdate() 當中呼叫 invalidate()
+  但 View 內建的 property（setter）都已呼叫 invalidate()，所以不用再呼叫
+
+---
+
+Animation Listener :
+監聽動畫中數值的變化或事件，還能藉此重畫桌面，讓動畫顯示出去
+
+- Animator.AnimatorListener
+  onAnimationStart() - 動畫開始時呼叫
+  onAnimationEnd() - 動畫結束時呼叫
+  onAnimationRepeat() - 當 repeat 時呼叫
+  onAnimationCancel() - 被取消時呼叫，也會呼叫 onAnimationEnd()
+
+- ValueAnimator.AnimatorUpdateListener
+  onAnimationUpdate() - 使用 ValueAnimator 就必須實作
+	  每一個 frame 都會被呼叫
+          並藉由傳入的 Animator 的 getAnimatedValue() 來取得計算好的數值
+          再根據使用的 property 或物件看要不要呼叫 invalidate()
+
+若不想實作 Animator.AnimationListener 的全部方法
+那麼可以使用 AnimatorListenerAdapter class
+此類別以實作空的各種方法
+
+ValueAnimatorAnimator fadeAnim = ObjectAnimator.ofFloat(newBall, "alpha", 1f, 0f);
+fadeAnim.setDuration(250);
+fadeAnim.addListener(new AnimatorListenerAdapter() {
+public void onAnimationEnd(Animator animation) {
+    balls.remove(((ObjectAnimator)animation).getTarget());
+}
+
+---
+
+客製化 TypeEvaluator :
+他只有一個 method，叫 evaluate()
+
+public class FloatEvaluator implements TypeEvaluator {
+
+    public Object evaluate(float fraction, Object startValue, Object endValue) {
+        float startFloat = ((Number) startValue).floatValue();
+        return startFloat + fraction * (((Number) endValue).floatValue() - startFloat);
+    }
+}
+
+TypeEvaluator 收到的 fraction 是 interpolated fraction
+（由 elapsed fraction 經 interpolator 計算得出的 fraction）
+
+---
+
+Interpolator :
+根據你使用的 interpolator，elapsed fraction 會被計算
+並且調整成 interpolated fraction
+再讓 Animator 據此計算適當的數值
+
+---
+

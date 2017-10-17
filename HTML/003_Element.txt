@@ -1,0 +1,26 @@
+﻿
+Element :
+一個 Element 包含了 opening/start tag, content, closing/end tag 三部分
+
+有些 element 可以有 empty content
+
+一個 empty element 表示以 start tag 作結束
+
+element 可以有 attributes
+
+---
+
+<body> element :
+其 content 是其他的 element
+
+<html> element :
+定義了整個 html 文件
+
+<br> element :
+換行 element，是個 empty element
+在 XHTML 中使用 <br />
+
+---
+
+tag 建議用小寫字母
+因為在 XHTML 當中有限制小寫字母

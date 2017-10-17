@@ -1,0 +1,55 @@
+﻿
+
+開啟檔案：
+
+[fid, message] = fopen('file_name', 'mode')
+
+fid 是檔案的識別碼，成功開啟會回傳正整數，失敗則是回傳 -1
+此時 message 會保存錯誤訊息
+
+mode：
+'r', 'r+' = 'w+', 'w', 'a', 'a+'
+
+
+---
+
+
+關閉檔案：
+
+status = fclose(fid)
+
+執行成功會回傳 0 給 status
+
+
+---
+
+
+內容讀取：
+
+分為二進制和 ASCII
+
+1) ASCII ： fscanf, fprintf
+
+content = fscanf(fid, 'format', size)
+
+format：
+%g - 浮點數
+%d - 十進位整數
+%s - 字串
+
+2) 二進制 ： fread, fwrite
+
+content = fread(fid, size, 'type')
+
+type：
+char - 有號字元（8 bit）
+uchar - 無號字元（8 bit）
+short - 短整數（16 bit）
+int - 整數（32 bit）
+long - 長整數（32 bit）
+ushort - 無號短整數
+uint - 無號整數
+ulong - 無號長整數
+float - 單精度浮點數（32 bit）
+double - 雙精度浮點數（64 bit）
+

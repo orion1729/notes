@@ -1,0 +1,53 @@
+﻿
+用來接收複數行的文字輸入
+
+<textarea> 沒有字數限制
+
+所使用的字體（Courier）是每個字元所占用的寬度是相同的
+
+---
+
+可利用 row, col 等來控制長與寬
+
+更好的是利用 CSS 的 height, width
+
+---
+
+form attribute :
+
+就算 <textarea> 沒有被包含在 <form> 的區域內
+使用此 attribute 也能讓其隸屬於特定的 <form>
+
+<form action="demo_form.asp" id="usrform">
+Name: <input type="text" name="usrname">
+<input type="submit">
+</form>
+
+<textarea name="comment" form="usrform">Enter text here...</textarea>
+
+---
+
+在 Chrome, Firefox 中，<textarea> 的右下角會有可拖曳控制大小的小三角
+
+可用 CSS 來消除：
+
+textarea {
+  resize : none;
+}
+
+---
+
+融入背景、看不見的 <textarea>：
+
+textarea {
+  border : 0;
+  overflow-y : auto; /* IE */
+  resize : none;     /* Firefox, Chrome */
+}
+
+textarea:focus {
+  outline : 0;       /* Chrome */
+}
+
+---
+

@@ -1,0 +1,71 @@
+﻿
+Style :
+是以一個「View」為對象
+藉由 style 這個 attribute 的使用
+把 styling 和 layout 設計分開了
+
+Theme :
+以「Activity」或「application」為對象的 style
+
+---
+
+定義 Style :
+把 XML 檔放在 res/values/ 下
+檔名可隨意，但一定得是 .xml 副檔名
+
+root node 必須為 <resources>
+
+當想要設計一個 style 時
+新增一個 <style> 標籤
+（parent 則是用來繼承一些預設的 property）
+
+而在其中加入 <item>
+並將 item 的 name attribute 設定成你想調整的 property（android:layout_width 等等）
+而 item 的 value 可以是各種值
+像是 keyword string, hex color, another resource
+
+範例：
+<?xml version="1.0" encoding="utf-8" ?>
+<resources>
+    <style name="CodeFont" parent="@android:style/TextAppearance.Medium">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">#00FF00</item>
+        <item name="android:typeface">monospace</item>
+    </style>
+</resources>
+
+<resources> 中的每個子標籤會在 compile-time 被轉換成物件
+並且以 @style/CodeFont 的格式被 reference
+
+
+繼承：
+parent 可用來繼承一些已存在的 style
+
+想繼承自己定義的 sytle 可以用「.」的方式
+
+範例：
+<style name="CodeFont.Red">
+    <item name="android:textColor">#FF0000</item>
+</style>
+
+---
+
+有些 properties 並不支援 View
+像是隱藏式窗標題等等
+
+---
+
+根據版本選擇 theme :
+res/ 內可以有許多 values/
+像是 values-v11/, vlaues/ 等等
+
+你可以在每個資料夾內定義相同 name 的 <style>
+如此一來程式會自動在版本之間轉換 theme
+
+---
+
+物件與 resources 的轉換
+在物件的分隔項是底線「_」
+而在 resources 當中則是點「.」
+

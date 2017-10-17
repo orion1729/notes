@@ -1,0 +1,52 @@
+
+
+正確的 Include :
+
+include 與 forward declare 的差別：
+- forward declare 只告知 compiler 有這個 type 存在
+  無法知道這個 type 的 layout (size, member, method 等等)
+  這種宣告稱為 incomplete type
+- include 則能夠知道此 type 的 layout
+
+暴力嘗試法：
+基本可分為三種嘗試的層次
+1) 什麼都不做
+如果無法過編譯
+2) 使用 forward declare
+仍然無法過
+3) 將其 include 進來
+
+能夠使用 forward declare 的時機：
+class X;
+- 宣告一個此 type 的 pointer 或 reference 時
+  （因為不需要知道此 type 內容有什麼，若要使用詳見下）
+  class Foo{
+    X *a;
+    X &b;
+  }
+- “declare” function 時，其 return 或 argument 可使用 incomplete type
+  void fun(X);
+  X fun();
+- “define” function 時，
+  其 return 或 argument 是 incomplete type 的 pointer 或 reference
+  void fun(X *a, X &b){}
+  X* fun(){}
+  X& fun(){}
+
+不能使用 forward declare 的情況（需要 include）：
+- 繼承 incomplete type 時 (incomplete type 是 base class)
+  class Foo : X {};
+- “declare” as member variable
+  class Foo{
+    X x;
+  }
+- “define” function 的 return 或 argument 是非 pointer, reference
+  void fun(X x){}
+  X fun(){}
+- 使用 incomplete type 的 member, method
+  (即使是 pointer, reference 也要 include)
+  class Foo{
+    X *x;
+    x->doSomeThing();
+  }
+

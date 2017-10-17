@@ -1,0 +1,26 @@
+﻿
+Code Blocks :
+
+當安裝 Code Blocks 附帶 MinGW 的版本時
+MinGW 就已內附 gl, glu 了，因此我們只需裝上 glut 即可
+
+1. 下載 glut bin for windows
+
+2. 將 glut32.dll 複製到 <code_blocks>\MinGW\bin
+      glut32.lib 複製到 <code_blocks>\MinGW\lib
+      glut32.h   複製到 <code_blocks>\MinGW\include\GL
+
+3. 開啟 Code Blocks
+   File -> New -> Project
+
+4. 選擇 GLUT project
+
+5. 設定 project title
+
+6. 然後要選擇 glut 的位置，選擇以下位置：（即剛才放了 glut 相關檔案的 MinGW 底下）
+   <code_blocks>\MinGW
+
+7. 要在 Windows 上執行
+   在 #include <GL/glut.h> 之前
+   必須加上 #include <windows.h> 才行
+

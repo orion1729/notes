@@ -1,0 +1,137 @@
+
+
+詞類(word)：
+構成句子最基本的要素。
+
+1. 名詞(Noun)
+2. 代名詞(Pronoun)
+3. 形容詞(Adjective)
+4. 副詞(Adverb)
+5. 動詞(Verb)
+6. 連結詞(Conjunction)
+   用來連結單字、片語、子句、句子
+7. 介系詞(Preposition)
+   放在名詞之前，表示該名詞與前面其他字詞的關係
+8. 感嘆詞(Interjection)
+
+
+——
+
+
+片語(Phrases)：
+由兩個以上的單字組成（不含主詞、動詞）。
+
+1. 名詞片語(Noun Phrase)
+2. 形容詞片語(Adjective Phrase)
+   - 不定詞片語
+   - 分詞片語
+   - 介系詞片語
+3. 副詞片語(Adverb Phrase)
+
+
+——
+
+
+子句(Clauses)：
+子句本身就包含主詞、動詞，是句子的一部份。
+
+1. 對等子句
+   由連結詞(and, or, but...)連結的兩個子句，地位對等。
+2. 從屬子句（簡單講就是非對等關係）
+   - 名詞子句：常與連結詞有關，能作主詞、受詞、補語
+   - 形容詞子句：與關係詞有關，「置於名詞之後」並修飾
+   - 副詞子句：與連結詞有關
+
+
+——
+
+
+句子(Sentences)：
+英文的句子是由主部(Subject)、述部(Predicate)組成。
+簡單說就是主詞(Subject word, S)和動詞(Predicate verb, V)。
+
+S : 主部、主詞
+V : 述部、動詞、述詞
+
+
+——
+
+
+基本五大句型(Sentence Patterns)：
+英文句子可由五種基本句型組成，組成元素是以下四大要素：
+1. 主詞(Subject)
+2. 動詞(Verb)
+3. 受詞(Object)
+4. 補語(Complement)
+
+五大句型：
+A. 不及物動詞(Vi)
+   (1) 完全不及物：S + Vi
+   (2) 不完全不及物：S + Vi + SC
+B. 及物動詞(Vt)
+   (3) 完全及物：S + Vt + O
+   (4) 授與：S + Vt + IO + DO
+   (5) 不完全及物：S + Vt + O + OC
+
+註：
+SC = Subject Complement = 主詞補語
+IO = Indirect Object = 間接受詞
+DO = Direct Object = 直接受詞
+OC = Object Complement = 受詞補語
+
+第一句型 (1) S + Vi
+「主詞 + 不及物動詞」
+本身包含主詞和動詞即表達了完整的意思
+
+第二句型 (2) S + Vi + SC
+「主詞 + be 動詞/連綴動詞 + 主詞補語」
+需有補語才有完整意思
+
+連綴動詞(linking verbs)
+似乎：appear, seem
+感覺：look, smell, sound, taste, feel
+變成：become, come/go, get, grow/run, turn, fall
+依然：remain, continue, stay, keep
+
+第三句型 (3) S + Vt + O
+「主詞 + 及物動詞 + 受詞」
+動詞需要一個受詞才有完整意思
+
+第四句型 (4) S + Vt + IO + DO
+這種句型需要兩個受詞才能有完整意思
+「主詞 + 及物動詞 + 間接受詞 + 直接受詞」
+
+授與動詞：
+需要兩個受詞（間接、直接）的動詞即為此類。
+間接受詞：人
+直接動詞：事物
+
+其中 IO 與 DO 的位置可以對調，但需要補上適當的介系詞
+「DO + 介系詞 + IO」
+
+1. to
+   bring(帶來), give(給), lend(借給), offer(提供), pay(付), teach(教),
+   tell(告訴), write(寫), sell(賣), send(寄給), show(示出)...
+
+2. for
+   buy(買給), choose(選擇), make(做), leave(留給), order(訂購)...
+
+3. of
+   ask(要求、問)
+
+第五句型 (5) S + Vt + O + OC
+此句型的受詞需要補語才能有完整意思
+「主詞 + 及物動詞 + 受詞 + 受詞補語」
+
+不完全及物動詞：
+儘管動詞後有受詞，意思仍然不完整
+例如：為 xxx 命名為 ooo（命名這個動作為不完全及物）
+
+受詞補語：
+1. 以名詞做補語
+   call(稱呼), name(取名), elect(選舉), choose(選擇), appoint(指定), make(使成為)...
+2. 以分詞、動詞原形為補語
+   have, make, see, watch, hear, notice, feel
+3. 以分詞、形容詞為補語
+   find, keep, leave, catch
+

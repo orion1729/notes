@@ -1,0 +1,57 @@
+﻿
+Semantic 代表著意義的意思
+
+---
+
+範例：
+
+- non-semantic
+  <div>, <span> 這兩個標籤並沒有對其所包含的內容賦予意義
+
+- semantic
+  <form>, <table>, <img> 此類則對於內容有賦予意義
+
+---
+
+很多現存網頁是以 <div id="nav">, <div class="header">, <div id="footer">
+
+等方式來對 <div> 賦予內容分類
+
+
+
+在 HTML5 中提供直接的 semantic elements
+
+他們的效果跟 <div>, <span> 是一樣的
+
+只是被賦予了區塊意義
+
+<article> 	Defines an article
+<aside> 	Defines content aside from the page content
+<details> 	Defines additional details that the user can view or hide
+<figcaption> 	Defines a caption for a <figure> element
+<figure> 	Specifies self-contained content, like illustrations, diagrams, photos, code listings, etc.
+<footer> 	Defines a footer for a document or section
+<header> 	Specifies a header for a document or section
+<main> 		Specifies the main content of a document
+<mark> 		Defines marked/highlighted text
+<nav> 		Defines navigation links
+<section> 	Defines a section in a document
+<summary> 	Defines a visible heading for a <details> element
+<time> 		Defines a date/time
+
+他們的排版位置：
+
+    *********************
+    *      <header>     *
+    *********************
+    *       <nav>       *
+    *********************
+    * <section> *       *
+    *************<aside>*
+    * <article> *       *
+    *********************
+    *      <footer>     *
+    *********************
+
+---
+

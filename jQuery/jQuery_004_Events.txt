@@ -1,0 +1,41 @@
+﻿
+常用事件：
+
+Mouse
+click, dblclick, mouseenter, mouseleave
+
+Keyboard
+keypress, keydown, keyup
+
+Form
+submit, change, focus, blur
+
+Document / Window
+load, resize, scroll, unload
+
+---
+
+通常會利用 $(document).ready(){ } 來定義我們要的 jQuery
+
+像是點擊事件可以如此定義
+$(document).ready(function(){
+    $("p").click(function(){
+        $(this).hide();
+    });
+});
+
+---
+
+hover() - 是 mouseenter(), mouseleave() 的組合
+
+$(document).ready(function(){
+    $("p").hover(
+        function(){
+            alert("enter");
+        },
+        function(){
+            alert("leave");
+        }
+    );
+});
+

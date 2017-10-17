@@ -1,0 +1,113 @@
+﻿
+在 HTML 中有一些特殊符號（字元）被保留
+
+例如 <, > 這種用於 tag 的符號，可能被瀏覽器誤認為 tag
+
+因此 HTML 為它們保留了特殊的顯示格式
+
+有兩種格式：
+
+&entity_name;
+
+&#entity_number;
+
+---
+
+Non breaking space :
+
+在 HTML 中，縱使輸入了很多空白，仍然會被瀏覽器視為只有一個
+
+此時就需要 &nbsp; 這個保留字了
+
+---
+
+變音符號：
+
+有些字母會需要變音符號
+
+HTML 提供以英文字母以及符號兩者結合的格式來表現變音
+
+符號    字元    格式            結果
+  ̀ 	a 	a&#768; 	à
+  ́ 	a 	a&#769; 	á
+̂ 	a 	a&#770; 	â
+  ̃ 	a 	a&#771; 	ã
+  ̀ 	O 	O&#768; 	Ò
+  ́ 	O 	O&#769; 	Ó
+̂ 	O 	O&#770; 	Ô
+  ̃ 	O 	O&#771; 	Õ
+
+---
+
+常用 entities :
+
+注意 entity 名稱有大小寫之分
+
+  	non-breaking space 	&nbsp; 	&#160;
+< 	less than 	        &lt; 	&#60;
+> 	greater than 	        &gt; 	&#62;
+& 	ampersand 	        &amp; 	&#38;
+¢ 	cent 	                &cent; 	&#162;
+£ 	pound 	                &pound; &#163;
+¥ 	yen 	                &yen; 	&#165;
+€ 	euro 	                &euro; 	&#8364;
+© 	copyright 	        &copy; 	&#169;
+® 	registered trademark 	&reg; 	&#174;
+
+---
+
+有些符號可能沒有 entity name，此時就要使用數字或十六進位
+
+使用 entity name, 十六進位兩者是不會受 HTML 頁面使用的 charset 影響的
+
+範例：
+<p>I will display &euro;</p>
+<p>I will display &#8364;</p>
+<p>I will display &#x20AC;</p>
+
+↓
+
+I will display €
+I will display €
+I will display € 
+
+---
+
+一些數學符號：
+∀ 	&#8704; 	&forall; 	FOR ALL
+∂ 	&#8706; 	&part; 	        PARTIAL DIFFERENTIAL
+∃ 	&#8707; 	&exist; 	THERE EXISTS
+∅ 	&#8709; 	&empty; 	EMPTY SETS
+∇ 	&#8711; 	&nabla; 	NABLA
+∈ 	&#8712; 	&isin; 		ELEMENT OF
+∉ 	&#8713; 	&notin; 	NOT AN ELEMENT OF
+∋ 	&#8715; 	&ni; 		CONTAINS AS MEMBER
+∏ 	&#8719; 	&prod; 		N-ARY PRODUCT
+∑ 	&#8721; 	&sum; 		N-ARY SUMMATION
+
+---
+
+希臘字母：
+Α 	&#913; 	&Alpha; 	GREEK CAPITAL LETTER ALPHA
+Β 	&#914; 	&Beta; 		GREEK CAPITAL LETTER BETA
+Γ 	&#915; 	&Gamma; 	GREEK CAPITAL LETTER GAMMA
+Δ 	&#916; 	&Delta; 	GREEK CAPITAL LETTER DELTA
+Ε 	&#917; 	&Epsilon; 	GREEK CAPITAL LETTER EPSILON
+Ζ 	&#918; 	&Zeta; 		GREEK CAPITAL LETTER ZETA
+
+---
+
+其他：
+© 	&#169; 		&copy; 		COPYRIGHT SIGN
+® 	&#174; 		&reg; 		REGISTERED SIGN
+€ 	&#8364; 	&euro; 		EURO SIGN
+™ 	&#8482; 	&trade; 	TRADEMARK
+← 	&#8592; 	&larr; 		LEFTWARDS ARROW
+↑ 	&#8593; 	&uarr; 		UPWARDS ARROW
+→ 	&#8594; 	&rarr; 		RIGHTWARDS ARROW
+↓ 	&#8595; 	&darr; 		DOWNWARDS ARROW
+♠ 	&#9824; 	&spades; 	BLACK SPADE SUIT
+♣ 	&#9827; 	&clubs; 	BLACK CLUB SUIT
+♥ 	&#9829; 	&hearts; 	BLACK HEART SUIT
+♦ 	&#9830; 	&diams; 	BLACK DIAMOND SUIT
+

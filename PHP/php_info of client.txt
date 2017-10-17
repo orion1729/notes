@@ -1,0 +1,4 @@
+﻿
+ $ip = getenv('REMOTE_ADDR');
+
+ REMOTE_ADDR 可以拿到 client 的 IP

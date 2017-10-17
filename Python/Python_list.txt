@@ -1,0 +1,141 @@
+
+
+Introduction :
+
+assignment operator (=) :
+將一個 list assign 給另一個變數，並不是 copy 一整個 list，
+而是類似 C pointer 的概念，兩個變數都指向記憶體中同一個 list
+
+empty list :
+empty list 是 []
+
+append :
+可以用 + 來串接各個 list
+[1, 2] + [3, 4] # 相當於 [1, 2, 3, 4]
+
+
+——
+
+
+for 與 in :
+
+可以使用 for var in list 這個語法，利用 var 這個變數
+在每個 iteration 中照順序存取 list 中的 element
+
+不要在 loop iteration 中增加或刪減 list 的內容
+
+
+in :
+
+單獨使用 in 的時候，可以當作判斷式使用，測試某個內容是否存在於 list 中
+list = [2, 3, 4]
+if 3 in list : print list
+
+
+for 與 in 也可以使用在 string 上面
+
+
+——
+
+
+range function :
+
+可用來產生照順序遞增的數字 list（從 0 開始）
+例如 range(3) 則會產生 [0, 1, 2]
+
+而 range(a, b) 則會產生 a 到 b-1 的數字 list
+
+配合 for, in, range 就能產生 C 當中 for iteration 的作用
+
+
+——
+
+
+Methods :
+
+- list.append(x)
+  新增一個 element x 到 list 的最後面
+  此 method 並非回傳一個新的 list，而是直接改變 list 的內容
+
+- list.insert(index, x)
+  新增一個 element x 到 index 所在的位置，其餘 element 會往右移（後移）
+
+- list.extend(list2)
+  能將 list2 的內容串接到 list 後面，與 + 和 += 的效果類似
+
+- list.index(x)
+  在 list 中搜尋 element x 的 index（第一個找到的）
+  如果沒有找到的話會 throw 一個 ValueError
+  （in 只檢查是否存在，因此不會 throw ValueError）
+
+- list.remove(x)
+  同樣會搜尋 x 是否在 list 中，且將其從 list 中移除
+  （與 index 一樣，沒找到會 throw ValueError）
+
+- list.sort()
+  將 list 的內容做排序（從小到大）
+  此 method 會改變 list 的內容
+
+- list.reverse()
+  將 list 內容的順序顛倒過來
+  會改變 list 內容
+
+- list.pop(index), pop()
+  會將給定 index 的 element 從 list 中移除並將其回傳
+  若不給參數，則將最尾巴的那個 element 做 pop 的動作
+
+
+——
+
+
+list build up :
+
+list 的建構經常是由 empty list 開始的
+之後使用 append() 或者 extend() 來加入內容
+
+
+——
+
+
+slices :
+
+slices 同樣適用於 list 上面
+也可一次改變複數個內容
+
+範例：
+list = [‘a’, ‘b’, ‘c’, ‘d’]
+list[1:-1]  #[‘b’, ‘c’]
+list[0:2] = ‘z’  #[‘z’, ‘c’, ‘d’]
+
+
+——
+
+
+list comprehension :
+
+list 有一種特殊的使用方式，可以對一個 list 做篩選並運算
+再將結果 assign 給一個新的 list
+
+其語法如下：（for-in 後面沒有冒號：）
+[“expr” for “var” in list]
+左右的中括號表示結果會是一個新的 list
+而 expr 則是一個 expression
+會對 list 中的每一個 element 執行再將結果放到新的 list 中
+
+範例：
+nums = [1, 2, 3]
+result = [n * n for n in nums]  # [1, 4, 9]
+
+另外在 for-in 的後面還能增加一個 if 判斷式
+這樣會對 list 中的每一個 element 做檢查
+符合判斷式的才會執行 for-in 之前的 expression
+
+範例：
+## Select fruits containing 'a', change to upper case
+fruits = ['apple', 'cherry', 'banana', 'lemon']
+afruits = [ s.upper() for s in fruits if 'a' in s ]
+## ['APPLE', 'BANANA']
+
+
+——
+

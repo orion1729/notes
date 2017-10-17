@@ -1,0 +1,69 @@
+﻿
+HTML5 是 HTML 最新的標準
+
+支援以下新功能：
+
+- new elements
+- new attributes
+- 完整支援 CSS3
+- video, audio
+- 2D, 3D graphics
+- local storage
+- local SQL database
+- 網頁 APP
+
+---
+
+簡介：
+
+上一個 HTML 版本是 1999 年的 HTML 4.01
+
+HTML5 被設計來取代 HTML 4, XHTML, HTML DOM level 2
+
+
+
+HTML5 讓網頁內容不再需一些 plugins 才能運作
+
+同時消除了平台限制，不論在什麼平台都能呈現
+
+---
+
+HTML5 的開始：
+
+發展 XHTML 2.0 的 World Wide Web Consortium（W3C）和
+發展網頁表單、APP 的 Web Hypertext Application Technology Working Group（WHATWG）
+於 2006 決議共同開發一個新的 HTML
+
+期望有以下特徵被納入：
+- 新功能需建立在 HTML, CSS, DOM, JavaScript 之上
+- 外部 plugins 的需求減少
+- Error 處理更簡易
+- 以更多 markup 取代 script
+- 不被平台、裝置所限制
+- 開發過程是公開的
+
+---
+
+宣告 HTML5：
+
+<!DOCTYPE html>
+
+---
+
+最簡易構造：
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Title of the document</title>
+</head>
+
+<body>
+Content of the document......
+</body>
+
+</html>
+
+---
+

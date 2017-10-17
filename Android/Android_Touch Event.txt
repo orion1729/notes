@@ -1,0 +1,40 @@
+﻿onInterceptTouchEvent(MotionEvent)
+回傳 True:
+  阻截事件，不讓事件繼續向下傳遞
+  並將事件交由目前的 ViewGroup 的 onTouchEvent 處理
+  且接下來的事件不會出現在此方法
+  被阻截事件的 View 會收到 ACTION_CANCEL
+
+回傳 False:
+  不阻截事件，並將事件繼續傳遞
+  且此方法仍會接收接下來發生的事件（如果前次事件沒被某個 onTouchEvent 處理）
+
+在 ViewGroup 是預設回傳 False
+如此才能將事件傳遞給 View
+
+View 沒有此方法
+
+---
+
+onTouchEvent(MotionEvent)
+回傳 True:
+  表示處理了事件，且會持續看到接下來的事件（不會再經過阻截了）
+
+回傳 False:
+  則表示不處理事件
+
+ViewGroup 預設是 False
+View 則是 True
+
+---
+
+所以整體流程為：
+事件先抵達較高層級的 onInterceptTouchEvent（通常是 ViewGroup）
+若沒被阻截，則繼續向下傳遞
+碰到 onInterceptTouchEvent 一樣判斷是否被阻截
+如此向下直到 View 的 onTouchEvent 回傳 True 處理了事件
+
+但若是不斷往下，最底層的 View 的 onTouchEvent 回傳了 False
+那麼事件會反彈往上傳遞
+傳遞給 parents（ViewGroup們）的 onTouchEvent
+

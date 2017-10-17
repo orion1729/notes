@@ -1,0 +1,58 @@
+﻿
+JS 沒有任何 print, output 的函式
+因為它主要用於 HTML element 的處理
+
+---
+
+處理 HTML element :
+
+利用 document.getElementById(id) 來取得特定的 element
+（element 需使用 id attribute 來設定 id）
+
+取得 element 後再使用 innerHTML 來取得 element 的內容
+
+範例：
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>My First Web Page</h1>
+
+<p id="demo">My First Paragraph</p>
+
+<script>
+document.getElementById("demo").innerHTML = "Paragraph changed.";
+</script>
+
+</body>
+</html> 
+
+---
+
+寫入 HTML document :
+
+可以使用 document.write() 直接輸出至 HTML page
+
+範例：
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>My First Web Page</h1>
+
+<p>My first paragraph.</p>
+
+<script>
+document.write(Date());
+</script>
+
+</body>
+</html> 
+
+若在 page load 時執行到此 function
+那輸出的內容會與其他 element 一樣出現
+
+但若是 page 已 loaded，呼叫此 function 會將原來的 element 內容覆蓋掉
+
+---
+

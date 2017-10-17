@@ -1,0 +1,11 @@
+
+
+Mode :
+latex 有兩種書寫數學式子的模式，分別是 inline 和 displayed
+
+inline 用於式子要顯示於內文中，如此一來數學式子就像句子中的一部分
+使用方則是用 $$, \( \), \begin{math} \end{math}
+
+而 displayed mode 有分為 numbering 和 unnumbering 兩種
+unnumbering 可使用 \[ \], $$ $$, \begin{displaymath} \end{displaymath}
+而要有標號則使用 \begin{equation} \end{equation}

@@ -1,0 +1,206 @@
+
+Process : 執行中的程式
+擁有五種狀態，分別是New, Ready, Running, Wait, Terminate
+
+New : 行程產生中
+Ready : 在 Queue 中等待 CPU
+Running : 正在執行，一旦 CPU 被搶走就會轉回 Ready 狀態
+Wait : 等待 I/O 或者資源
+Terminate : 完成執行
+
+在以前的分時系統中是基本的運作單位，
+於近期的作業系統中是執行緒的容器
+
+——
+
+排程方式：
+FIFO - First In First Out
+SJF - Shortest time Job First
+	為了讓整體 Process 的平均等待時間較短
+SRJF - Shortest Remaining time Job First
+Priority Scheduling
+RR - Round Robin
+
+經由排程而造成某些 Process 始終無法取得 CPU，
+稱為 Starvation
+
+——
+
+Content Switch
+將一個執行中的 Process 切換成另一個 Process 就會有 Content Switch 的動作，
+目的是把執行的狀態儲存起來，以便日後再度取得執行權時可以較快的開始
+
+但缺點是需要成本，因此有了 Thread
+
+——
+
+Thread : Light Weight Process
+是 CPU 分配資源的最小單位
+在同一個 Process 內的 Thread 可以共享 code section, data section, 以及一些 OS 資源
+
+Thread Pool
+建立 Thread 也有成本，但可以利用 Thread Pool 來達成空間換取時間
+
+——
+
+中途總結：
+1. 若只有單一 Process，一旦進入 I/O 等待期，CPU 就會閒置而浪費
+
+2. 因此有了 Multi Process，進而產生排程問題
+
+3. 在排程的過程中，需要考慮 Content Switch 的成本
+
+4. 採用 Thread，而 Thread 的成本是 Thread Pool
+
+——
+
+Dead Lock :
+
+同時滿足四個條件：
+1. No preemptive
+	資源只能由佔用的 Process 自願釋放
+2. Hold and wait
+	Process 在等待其他資源的同時並不會釋放自己所佔用的資源
+3. Mutual exclusion
+	一項資源只能讓一個 Process 使用
+4. Circular waiting
+	每個等待下一個資源的 Process 之間形成了一個環
+
+preemptive 理解：
+preemptive 表示由他人強制 interrupt 某個正在使用資源的人
+
+處理 Dead Lock 的三種方式：
+1. 預防
+	破壞上述四個條件中至少一項
+2. 避免
+3. 偵測並修正
+
+—-
+
+Communication :
+有兩種方式——Shared Memory、Message Send
+
+Producer & Consumer Problem
+	有一個共用 Buffer，Producer 負責填充，Consumer 負責消耗。
+	當 Buffer 是空的時候，Consumer 無法有動作
+	當 Buffer 是滿的時候，Producer 無法填充
+	可用一個共用的 Counter 來確定 Buffer 的狀態
+
+	若是 Concurrent 的系統，雙方在改變 Counter 時可能會被對方所搶斷，
+	這是由於改變 Counter 的動作不是 Atomic 的（Race Condition），
+	因此必須確保同一個時間只有一個 Process 在存取變數。
+
+問題：
+Shared Memory 可能會造成被分享的變數產生 Race Condition。
+例如上述的 Producer 與 Consumer 將 Buffer size 作為共享變數，
+但由於不是 atomic 操作而可能會產生不正確的 size 值，
+這是由於需要從記憶體將變數內容轉移到暫存器再進行運算。
+
+——
+
+Critical Section :
+在多 Thread 的環境中，多個 Thread 可能會使用共同的資源，
+為了在多 Thread 的情況下保護這些資源，被保護的程式碼區段稱為 Critical Section。
+
+有三個條件要「同時」滿足：
+1. Mutual Exclusion
+	一個 Critical Section 不會同時讓兩個以上的 Process 執行
+2. Progress
+	若沒有 Process 在 Critical Section 中，
+	那麼控制的機制不會阻擋其他 Process 做進入 C.S. 的請求
+3. Bounded Waiting
+	控制機制必須讓等待進入 Critical Section 的 Process 在有限時間內進入
+
+Semaphore（信號）：
+	有一個初始化的整數值 s 被稱為信號，分為 signal(s) 和 wait(s) 兩個動作，
+	signal(s) 會把 s 的值減一；
+	wait(s) 則會判斷 s 是否小於零，若成立則不讓現在的 Process 繼續執行。
+
+	要進入 Critical Section 之前，都必須先執行 wait(s)，若 s 已被用完，
+	那麼這個 Process 會被擋住；而在離開 C.S. 之前都會呼叫 signal(s)，
+	代表釋放可用權限。
+
+可有以下幾種方式實作：
+- Software Solution
+- Hardware Solution
+- Semaphore
+- Monitor
+- Critical Region
+
+——
+
+Synchronization Problem :
+1. Dining Philosophers Problem
+2. Producer-Consumer Problem
+3. Readers-Writers Problem
+4. Sleeping Barber Problem
+
+解：
+1. Semaphore
+2. Monitor
+3. Critical Region
+
+——
+
+Critical Section 設計（軟體）：
+
+—
+演算法（一）：兩個 process P(i), P(j)
+共享一個變數 turn，當 turn 不是自己的編號時就 busy waiting
+
+P(i)之程式碼
+while( turn != i ) no-op;
+	<critical section>
+turn = j;
+	<remainder>
+
+缺點：違反 Progress
+若 P(i) 不想進入 critical section，但此時 turn 是 i 的話，
+P(j) 就無法進入 C.S. 了
+—
+演算法（二）：兩個 Process P(i), P(j)
+用一 flag 來表示有要進入 C.S. 的意願
+
+P(i)之程式碼
+flag[i] = true;
+while( flag[j] ) no-op;
+	<critical section>
+flag[i] = false;
+	<remainder>
+
+缺點：不滿足 Bounded Waiting
+若執行順序如下就會產生 Dead lock
+T1 - flag[i] = true;
+T2 - flag[j] = true;
+T3 - while( flag[i] ) // P(i)卡住
+T4 - while( flag[j] ) // P(j)卡住
+最後兩個 Process 都無法進入 C.S.
+—
+演算法（三）：兩個 Process P(i), P(j)
+結合 flag（意願）和 turn（禮讓）的概念
+
+P(i)之程式碼
+flag[i] = true; // 表明意願
+turn = j; // 先禮讓對方
+while( flag[j] and turn == j ) no-op;
+	<critical section>
+flag[i] = false;
+	<remainder>
+
+滿足 C.S. 之三個條件
+
+——
+
+Mutex, Semaphore, Spinlock
+
+- Mutex
+  Mutex 是一把鑰匙，拿到鑰匙的 Process 就能進入房間使用資源，
+  而這個房間一次只能容納一個 Process。
+  Mutex 其實就是 Binary Semaphore（Counter 被設為 1）
+
+- Semaphore
+  Semaphore 是多把相同的鑰匙，只要有鑰匙的 Process 都可以享有資源。
+  可以簡單看成是 Counter。
+
+- Spinlock
+  Spinlock 是 busy waiting，Semaphore 是 sleep

@@ -1,0 +1,159 @@
+
+簡介：
+- latex 的指令是有區分大小寫的，且是由反斜線 \ 開頭
+  而指令可以使用 [] 來加入選擇性參數
+  由大括號 {} 包含的參數是不可省略的
+  也有指令是沒有參數的，此時的情況一般是有預設值
+
+- 在 latex 中一個空白跟複數個空白是一樣的
+
+- 註解符號是 %
+
+
+——
+
+
+Environment :
+所有的環境都是使用 \begin{環境名稱} … \end{環境名稱} 包含的
+在這兩個指令中的內文都會有環境的效果
+而且環境當中還可以使用其他的環境
+
+而 latex 的內文都是被包含在 document 這個環境當中
+例如：
+\begin{document}
+…
+\end{document}
+
+
+——
+
+
+LaTeX 文件的架構：
+
+\documentclass{article}
+% preamble 區域
+\begin{document}
+% 內文區
+\end{document}
+
+說明：
+\document{article} 是在告訴 latex 要使用哪一種格式
+
+preamble 區則是可以放一些會影響個文件的指令，例如使用巨集套件等等
+
+內文區則是實際上文章內容置放的地方
+
+
+——
+
+
+documentclass :
+語法：documentclass[paras]{format}
+標準的 format 有 article, report, book, slides, letter 等等
+
+paras :
+- 10pt
+  內定文字之大小，大小是 10point
+  其他基準線的間距、段落的縮排與間距、各類標題字形都有所規範
+
+- 11pt
+  內定文字放大 10%，其他規範也跟著放大
+
+- 12pt
+  放大 20%
+
+- latterpaper
+  以美國信紙規格 8.5in x 11in 來排版
+
+- a4paper
+  以國際規定的 A4 格式(210mm x 297mm)來排版
+
+- twocolumn
+  將本文分為兩個部份表示
+
+
+——
+
+
+Preamble :
+用來放置 title, author, date 等資訊
+
+範例：
+\documentclass[12pt]{article}
+\title{myfirst\LaTeX}
+\author{jimmy\footnote{good}}
+\date{\today}
+\begin{document}
+\maketitle
+This is my first \LaTeX
+\end{document}
+
+
+——
+
+
+Newline :
+可以使用 \\, \newline
+其中 \\[length] 可以指定換行的間隔
+
+
+——
+
+
+Font Variance :
+即粗體、斜體等等設定
+\bf{內容}, \it{內容}
+
+
+——
+
+
+Font Size :
+\tiny         ->  5pt
+\scriptsize   ->  7pt
+\footnotesize ->  8pt
+\small        ->  9pt
+\normalsize   -> 10pt
+\large        -> 12pt
+\Large        -> 14.4pt
+\LARGE        -> 17.28pt
+\huge         -> 20.74pt
+\Huge         -> 24.88pt
+
+
+——
+
+
+Section Command :
+用來作出章節的一些指令
+
+- \part (in book, report)      -> Lv -1
+- \part (in article)           -> Lv 0
+- \chapter (only book, report) -> Lv 0
+- \section                     -> Lv 1
+- \subsection                  -> Lv 2
+- \subsubsection               -> Lv 3
+- \paragraph                   -> Lv 4
+- \subparagraph                -> Lv 5
+
+
+——
+
+
+條列（環境）:
+是用來條列一些句子所使用的
+條列中還能再次使用條列來達成更小的項目條列
+
+\begin{itemsize}
+\item 第一大項
+\item 第二大項
+\begin{itemsize}
+\item 第一小項目
+\item 第二小項目
+\end{itemsize}
+\item 第三大項
+\end{itemsize}
+
+可以將 itemsize 改成 enumerate
+這樣一來條列的內容就會以數字來編號
+

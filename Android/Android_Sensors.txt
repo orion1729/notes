@@ -1,0 +1,208 @@
+Android 提供三個面向的 Sensors
+雖說如此，但仍然須看硬體裝置是否有提供
+
+- Motion Sensors
+  主要用於量測加速力、旋轉力
+  包括 accelerometer, gravity sensors, gyroscopes, rotational vector sensors.
+
+- Enviromental sensors
+  量測環境參數，如溫度、壓力、光亮度、溼度等
+  包括 barometers, photometers, thermometers.
+
+- Position sensors
+  用於量測裝置的實際位置
+  包括 orientation sensors, magnetometers.
+
+---
+
+Sensor 種類：
+
+- TYPE_ACCELEROMETER / hardware
+  主要用於動作偵測（shake, tilt, etc.）
+  以 m/s^2 量測三軸的加速力，有包含重力
+
+- TYPE_AMBIENT_TEMPERATURE / hardware
+  監測空氣的溫度
+  以攝氏（Celsius, 度C）當單位
+
+- TYPE_GRAVITY / hardware or software
+  動作偵測（shake, tilt, etc.）
+  以 m/s^2 偵測三軸的重力
+
+- TYPE_GYROSCOPE / hardware
+  偵測旋轉（spin, turn, etc.）
+  以 rad/s 來偵測三軸的旋轉程度
+
+- TYPE_LIGHT / hardware
+  用於控制螢幕亮度
+  以 lx 量測環境的光亮程度
+
+- TYPE_LINEAR_ACCELERATION / hardware or software
+  監測單一軸的加速度
+  以 m/s^2 表示三軸的加速力，有排除重力
+
+- TYPE_MAGNETIC_FIELD / hardware
+  用於羅盤
+  以 uT 監測環境的三軸磁力
+
+- TYPE_ORIENTATION / software
+  用於確認裝置位置
+  以「度」來量測裝置根據三軸的旋轉程度
+
+- TYPE_PRESSURE / hardware
+  用於監測空氣壓力的變化
+  以 hPa 或 mbar 來量測周遭環境的空氣壓力
+
+- TYPE_PROXIMITY / hardware
+  打電話時電話的位置
+  以 cm 來確認電話是否被使用者拿在耳邊
+
+- TYPE_RELATIVE_HUMIDIRY / hardware
+  用於監測露點、絕對相對濕度
+  以 % 來表示相對環境濕度
+
+- TYPE_ROTATION_VECTOR / hardware or software
+  用於偵測裝置移動與旋轉動作
+  用三個 element 的 vector 量測 orientation
+
+- TYPE_TEMPERATURE / hardware
+  用於監測溫度
+  在 API 14 被 TYPE_AMBIENT_TEMPERATURE 取代
+
+---
+
+API :
+
+- SensorManager
+  可以存取或列出 sensors、已註冊的 event listeners、獲取 orientation 資訊
+  也提供 sensor constants，用來確定 sensor 精確度或校準 sensor
+
+- Sensor
+  可創造一個 sensor 的實例
+
+- SensorEvent
+  代表一個 event object，可提供相對應 sensor 的資訊
+  包括 sensor data、造成 event 的 sensor 種類、data 精確度、event 的 timestamp
+
+- SensorEventListener
+  可用來監聽 sensor value change, sensor accuracy change
+
+---
+
+取得 Sensor :
+
+需先獲得 SensorManager 的實例
+private SensorManager mSensorManager;
+mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+
+
+然後再藉由這個 manager 來取得裝置上所有 sensor
+List<Sensor> deviceSensors = mSensorManager.getSensorList(Sensor.TYPE_ALL);
+
+也可只取得特定 type 的 sensor
+利用 SensorManager.getDefaultSensor()
+if (mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD) != null){
+  // Success! There's a magnetometer.
+}
+else {
+  // Failure! No magnetometer.
+}
+倘若裝置上沒有此 sensor，getDefaultSensor() 會回傳 null
+
+---
+
+監測 sensor 事件：
+
+需實作 SensorEventListener interface 的兩個 callback
+- onAccuracyChanged(Sensor sensor, int accuracy)
+  當改變精準度時被呼叫，有幾個 constant 可使用
+  SENSOR_STATUS_ACCURACY_LOW, SENSOR_STATUS_ACCURACY_MEDIUM,
+  SENSOR_STATUS_ACCURACY_HIGH, SENSOR_STATUS_UNRELIABLE
+
+- onSensorChanged(SensorEvent event)
+  當 sensor 有新數據時會呼叫此方法
+  在 SensorEvent 中可以獲得一些資訊
+  資料精確度、製造此數據的 sensor、數據的 timestamp
+
+一個較好的實作方式是在 onResume()、onPause() 兩個階段當中
+註冊或取消註冊 sensor listener
+
+範例：
+public class SensorActivity extends Activity implements SensorEventListener {
+  private SensorManager mSensorManager;
+  private Sensor mLight;
+
+  @Override
+  public final void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+
+    mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+    mLight = mSensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
+  }
+
+  @Override
+  public final void onAccuracyChanged(Sensor sensor, int accuracy) {
+    // Do something here if sensor accuracy changes.
+  }
+
+  @Override
+  public final void onSensorChanged(SensorEvent event) {
+    // The light sensor returns a single value.
+    // Many sensors return 3 values, one for each axis.
+    float lux = event.values[0];
+    // Do something with this sensor value.
+  }
+
+  @Override
+  protected void onResume() {
+    super.onResume();
+    mSensorManager.registerListener(this, mLight, SensorManager.SENSOR_DELAY_NORMAL);
+  }
+
+  @Override
+  protected void onPause() {
+    super.onPause();
+    mSensorManager.unregisterListener(this);
+  }
+}
+
+還可以為 sensor 訂定 delay interval
+但只有在 register 時才能設定
+要重設時需要取消註冊再重新註冊
+
+---
+
+檢查是否有 sensor :
+
+- 在 runtime 時檢查
+  此方法是利用前述的 getDefaultSensor() 來判別
+  倘若回傳 null 代表此裝置沒有這一類的 sensor
+
+- 在 AndroidManifest.xml 中設定
+  利用 <uses-feature> 標籤來作判別
+  此方法只適合有上架的 APP
+  因為此方式是以標籤來過濾讓使用者是否能在 Google Play 上看到此 APP
+
+  <uses-feature android:name="android.hardware.sensor.accelerometer"
+                android:required="true" />
+
+---
+
+座標：
+
+以手機右方為正 X 軸；上方為 Y 軸；從螢幕垂直穿出來的是 Z 軸
+
+可利用 Display.getRotation() 來確認螢幕方向
+確認以後再使用 SensorManager.remapCoordinateSystem() 來重新調整座標
+
+---
+
+好的實作方式：
+
+- 在 Activity pause 時 unregister
+- 別在模擬上測試
+- 別在 onSensorChanged() 裡做太多事造成 block
+- 避免使用被淘汰的 sensor type
+- 在使用以前檢查 sensor
+- 在註冊時設定適當的 delay

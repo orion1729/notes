@@ -1,0 +1,14 @@
+﻿
+在程式內的不同頁面有幾種切換方式
+
+- Tabs
+  單純的分頁標籤
+
+- Spinners
+  ActionBar 中的下拉選單
+
+- Navigation drawers
+  ActionBar 點擊按鈕後
+  會有一個小頁面滑出來
+  把原本畫面擠出去大半
+

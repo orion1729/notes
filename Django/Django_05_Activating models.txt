@@ -1,0 +1,64 @@
+﻿
+編寫完 app 的 model 後，Django 就能利用這些 model code 去架構（CREATE TABLE）app 的 database
+
+同時也會創造一個 Python database-access API 能對 table 做存取
+
+---
+
+啟用 App：
+
+到 <project_name>/<project_name>/settings.py 中的 INSTALLED_APPS 去宣告剛才的 app
+
+EX.
+INSTALLED_APPS = (
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'polls',
+)
+
+宣告完畢後，將 app 登記到 project 中
+
+   $ python manage.py makemigrations polls
+
+Migrations for 'polls':
+  0001_initial.py:    <---- migration name
+    - Create model Question
+    - Create model Choice
+    - Add field question to choice
+
+makemigrations 告訴 Django 說 model 有了變化並且需要儲存
+
+你可以用 sqlmigrate 檢查資料庫將如何建置
+
+   $ python manage.py sqlmigrate polls 0001
+
+可以看到相關的 table 和 field 的「將要被」建置方式，還有相關名稱也是根據 model 來命名的
+
+Primary Key 的 auto_increment(MySQL) 等等 Django 都會幫忙處理
+
+
+
+也能用 python manage.py check 來檢查
+
+這個指令並不會 migrate project 或者動到 database
+
+
+
+等到都設置完畢後，利用 python manage.py migrate 來真正開始執行
+
+migrate 會將所有 migrations 的變化實現
+
+
+
+流程：
+
+1) 創建 model（在 models.py 中）
+
+2) 用 makemigrations 來創建 migrations
+
+3) 用 migrate 實現 migrations
+

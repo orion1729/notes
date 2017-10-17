@@ -1,0 +1,168 @@
+
+
+表示：
+Python 中的 string 可用單引號 ’ 或雙引號 ” 來表示
+
+
+——
+
+
+Multilines :
+
+如果一個 string 太長可用 multilines 的方式來表示
+在行末加上一個反斜線 \ 即可
+（字串內容不會包含換行）
+
+或者使用三重單引號 ‘’’ 和三重雙引號 “”” 來包括字串能直接表示有換行的字串內容
+（換行的地方會直接有換行字元存在）
+
+
+——
+
+
+Immutable :
+
+Python 中的字串一旦創建後是不能改變的（Java 也是如此）
+因此如果有類似 ‘hello’ + ‘you’ 的情況
+那麼 Python 會創造第三個新的字串 ‘helloyou’
+
+
+——
+
+
+raw string :
+
+在 string 最前面加上一個 r 來表示 raw string
+如此一來，字串內的跳脫字元就不會產生作用
+
+範例：
+s = r’x\nx’
+print s
+會印出 x\nx 這四個字元
+
+若在最前面加 u，則會變成 unicode
+
+
+——
+
+
+Method :
+
+以下改變 string 的 method 只作用於回傳的結果
+並不會改變 string variable 本身的內容
+
+- s.lower(), s.upper()
+  內容是把字串轉成小寫或者大寫
+
+- s.strip()
+  將字串前面或後面的空白（可複數）移除
+
+- s.isalpha(), s.isdigit(), s.isspace()
+  測試字串是哪種類別
+
+- s.startswith(x), s.endswith(x)
+  測試字串是否由 x 字串開頭或者結尾
+
+- s.find(x)
+  在字串中尋找是否有出現 x 字串
+  找到的話會回傳 x 出現的第一個字元 index，否則回傳 -1
+
+- s.replace(old, new)
+  將字串中的所有 old 取代成 new 這個字串
+
+- s.split(x)
+  回傳一個子字串的 list，子字串是由 x 這個字串作切割點
+
+  範例：
+  s = ‘aaa,bob,ccc’
+  s.split(‘,’)  #會回傳 [‘aaa’, ‘bbb’, ‘ccc’]
+
+  特例：
+  若不傳入參數 s.split()，則會以空白做切割
+
+- s.join(list)
+  與 split() 功能相反，是把 list 組成一個字串
+  且是用 s 本身作為分割符號
+
+  範例：
+  ‘——‘.join([‘aaa’, ‘bbb’, ‘ccc’])
+  會回傳 ‘aaa——bob—-ccc’
+
+
+——
+
+
+string slices :
+
+用於取用 string 的某個段落
+s[2:5] 會取得 s 這個字串 index 2 到 4 的子字串（不包含 5）
+（事實上，這種取用方式可用於 Python sequence，像是 list）
+
+s[2:] 會從 index 2 到字串結束都取出
+
+s[:] 與原來字串完全一樣
+
+若 end 的 index 比字串本身還長，那麼功能會變成 s[2:]
+
+
+negative index :
+ H  e  l  l  o
+ 0  1  2  3  4
+-5 -4 -3 -2 -1
+Python 提供倒反順序的 string access
+
+s[:-3] 會從 -3 到字串頭的內容，也就是 ‘He’（注意不包含 -3 那個）
+
+s[-3:] 從 -3 到字串尾，也就是 ‘llo’
+
+
+s[:n] + s[n:] == s
+換句話說，以上這種用法必定能將 s 以 n 為切割點，區分為兩段
+
+
+——
+
+
+extended slices :
+
+s[begin:end:step]
+
+當 step 是負數的時候，把 begin 當作是最右邊開始往回的起點
+把 end 當做最左邊結束的點（同樣會受 slice 最後一點不包括影響）
+因此 s[-1:0:-1] 會將除了 s 第一個字元的其他所有字元反轉
+利用這種方式可以很方便的 reverse 一個 string, list 等等：s[::-1]
+
+
+——
+
+
+formatted string :
+
+Python 有提供 printf 功能的字串表示，可以有 %d 等格式功能
+在字串後面接 % (arg1, arg2, …) 即可
+
+範例：
+s = ‘%s : %d’ % (‘result’, 20)
+
+
+——
+
+
+unicode string :
+
+在字串前面加上 u 就可以將字串轉為 unicode 的編碼
+而且字串中可以使用 \u 這個跳脫字元來表示一個 unicode 字元
+
+unicode string 與一般的 byte string 是不同的類別
+但是有些 Libraries 的 method 是可以共通的（例如 regular expression）
+
+- Unicode string to byte string
+  ustring.encode(‘utf-8’)
+
+- Byte string to unicode string
+  unicode(s, ‘utf-8’)
+
+print 不是可以完全支援 unicode 格式
+（但是 utf-8 可以）
+因此在 print 之前可以先使用 encode 編碼成其他格式
+

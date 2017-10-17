@@ -1,0 +1,81 @@
+﻿Table 包含三個部分
+
+<table> 最外圍的標籤，表示一個表格區塊
+
+<tr> table row，一個列（row）的單位
+
+<td> table data，用於一個列當中，做為一個 cell 將列分割為數個行的單位
+
+<th> table heading，與 <td> 相似，也可當作一個 cell 單位
+用於表格的項目名稱，會自動粗體和置中
+可用 CSS 的 text-align 來調整
+th
+{
+text-align:left;
+}
+
+---
+
+表格預設是沒有分隔線的
+
+可用 border 屬性來設定粗細（不建議）
+
+HTML 建議使用 CSS 的方式來設定
+
+<style>
+table,th,td
+{
+border:1px solid black;
+}
+</style>
+
+此時分隔線是雙線的狀態
+
+---
+
+摺疊分隔線（單一條）：
+
+利用 CSS 中的 border-collapsed 來設定狀態
+
+<style>
+table,th,td
+{
+border:1px solid black;
+border-collapse:collapse
+}
+</style> 
+
+---
+
+每個 cell 的空間控制：
+
+th,td
+{
+padding:15px;
+}
+
+---
+
+cell 間的大小（cell spacing）：
+
+table
+{
+border-spacing:5px;
+}
+
+---
+
+表格標題（table caption）：
+
+用 <caption> 標籤來標示表格標題
+
+不論放在 <table> 中的何處，標題均會出現在表格正上方
+
+---
+
+跨行、跨列：
+
+當有一個 cell 需要佔據多個列或行時
+在 <td>, <th> 標籤內加入 colspan, rowspan 屬性來達成
+
+colspan="number" 在 number 處設定要橫跨多少行

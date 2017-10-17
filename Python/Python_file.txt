@@ -1,0 +1,66 @@
+
+
+file open :
+
+要開啟 file 就需要使用 open(name, mode) function
+name 與 mode 都是 string 參數
+
+mode 有以下選擇：’r’ 用於 read；’w’ 用於 write；’a’ 是 append
+最特別的是 ‘rU’，被稱為 Universal，其作用是處理 line-ending
+一旦使用這個 mode，那麼不論是何種 line-ending 都會轉換成 ‘\n’
+
+使用完畢後呼叫 f.close() 將檔案關閉
+
+
+——
+
+
+text file and for-loop :
+
+當開啟的檔案是 text file 時，可以簡單地使用 for-in 語法來取得每一行內容
+（每次一個 iteration 就能拿出一行內容）
+
+這種用法並不適用於 binary file
+
+
+——
+
+
+read and memory :
+
+使用 for-in 在 text file 對於 memory 使用是有效率的
+因為一次只需讀取一行的內容出來
+
+f.readlines()
+此 method 則會將整個 file 讀進 memory 中
+並以一個 list 保存，而 list 的每一個 element 是每一行的 string
+
+f.read()
+會將整個 file 讀進來，並以一個單獨的 string 保存
+此方式對於以 regular expression 處理整個檔案較為方便
+
+
+——
+
+
+write into file :
+
+使用 f.write(string) 將內容寫到檔案中
+
+
+—-
+
+
+Unicode :
+
+要讀取 unicode 的檔案時，需搭配 codecs 這個 module 使用
+範例：
+import codecs
+f = codecs.open('foo.txt', 'rU', 'utf-8')
+for line in f:
+# here line is a *unicode* string
+
+
+——
+
+

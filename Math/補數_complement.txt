@@ -1,0 +1,11 @@
+
+基底為 r，且小數點之前有 n 位，則數字 N 的
+
+1. r’s complement
+   r^n - N
+
+2. (r - 1)’s complement
+   (r^n - 1) - N
+
+——
+

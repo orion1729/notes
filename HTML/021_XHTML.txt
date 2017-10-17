@@ -1,0 +1,28 @@
+﻿
+XHTML 是 EXtensible HTML 的縮寫
+
+通常與 HTML 4.01 是相等的意義
+
+
+
+是為了避免不好的 HTML 寫法而產生的
+
+---
+
+差別：
+
+- 文件結構
+  以下東西是必要的：
+  DOCTYPE, <html> 的 xmlns attribute（指定一個 xml namespace）,
+  以及以下標籤 <head>, <head>, <title>, <body>
+
+- Elements
+  巢狀結構必須正確、結束標籤必定需要、elements 都是小寫的、
+  每個文件都會有個 root element
+
+- Attributes
+  attribute 名稱必須小寫、values 必須被引號包含
+  attribute minimization 是被禁止的
+
+---
+

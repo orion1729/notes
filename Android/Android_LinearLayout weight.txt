@@ -1,0 +1,14 @@
+weight 可看成是比重
+把所有帶有 weight 的 view 找出來
+並將其值總和，則這個數字就是分母
+
+而剛剛帶有 weight 的 view 各自所帶的 weight 值作為分子
+如此一來比重就出來了
+
+---
+
+一個 view 預設的 weight 值是 0
+0 具有最大的優先度
+
+也就是說，必須等 weight 0 的 view 都排好之後
+剩餘的空間才由帶有 weight 的 view 依據比重瓜分

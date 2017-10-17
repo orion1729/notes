@@ -1,0 +1,56 @@
+
+System call :
+是 User Program 和 OS 間的介面；
+當 Process 需要 OS 的服務時，就會發出 Trap，而 OS 則根據對應的 Trap Routine 執行。
+
+Trap :
+可由 User Mode 的 Program 發出；或是由 Error 而產生。
+
+流程：
+1. Process 發出 Trap，OS 從 User Mode 切換到 Kernel Mode
+2. OS 暫停 Process
+3. 根據 System call 的 ID 查詢 Trap Vector 並找到處理程序
+4. 從 Stack 或 memory 或 register 取出 System call 的 parameter
+   （以 memory 的方式：將參數存在記憶體，並將此位址存入 register 中傳遞）
+5. 執行處理程序
+6. 執行結束，從 Kernel Mode 切回 User Mode
+7. Proces 恢復執行
+
+——
+
+Multi-Processing :
+多個 Process 共用一個 CPU，且每個 Process 被切成很多段，
+每個段可佔用 CPU 的一個 time slice
+
+—-
+
+Context Switch :
+當一個 CPU 要將一個 Process 切換到另一個 Process 執行時，
+需要把要退出的 Process 之執行狀態記錄起來。
+這些狀態通常是用一個稱為 Process Control Block (PCB) 的結構紀錄。
+
+記錄之狀態：
+Process State (new, waiting …)
+Program Counter
+Register
+OS Information (Scheduling, Memory Management, I/O state)
+
+——
+
+Process vs. Thread
+
+Process :
+Heavy weight process
+Context switch 之成本較高
+無法利用多處理器加速
+
+Thread :
+Light weight process
+Context switch 之成本較低
+要考慮共享資源的保護
+可利用多處理器加速
+
+—-
+
+CPU Scheduling 之目標：
+1. CPU 使用率

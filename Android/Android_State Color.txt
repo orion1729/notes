@@ -1,0 +1,49 @@
+﻿用 XML 定義 View 在某種狀態下的顏色
+
+---
+
+檔案位置：
+res/color/<file_name>.xml
+
+物件形態：
+ColorStateList
+
+Resource Reference :
+Java - R.color.<file_name>
+無法用在 background attribute
+
+---
+
+XML - @[package:]color/<file_name>
+
+語法：
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item
+        android:color="hex_code"
+        android:state_pressed=["true" | "false"]
+        android:state_focused=["true" | "false"]
+        android:state_selected=["true" | "false"]
+        android:state_checkable=["true" | "false"]
+        android:state_checked=["true" | "false"]
+        android:state_enabled=["true" | "false"]
+        android:state_window_focused=["true" | "false"] />
+</selector>
+
+Element :
+<selector>
+  必定需要，且為 Root
+
+  android:xmlns - 定義了 XML 的 namespace
+
+<item>
+  在 <selector> 內
+  可定義某種 state 要哪種 color
+
+  android:color - 定義顏色
+    #RGB, #ARGB, #RRGGBB, #AARRGGBB
+
+---
+
+狀態的檢查會從第一個 <item> 到依序下去
+所以什麼狀態都沒有的應該擺最後

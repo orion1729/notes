@@ -1,0 +1,75 @@
+﻿
+#include <opencv2/core/core.hpp>
+#include <opencv2/highgui/highgui.hpp>
+#include <iostream>
+
+using namespace cv;
+using namespace std;
+
+int main( int argc, char** argv )
+{
+    if( argc != 2)
+    {
+     cout <<" Usage: display_image ImageToLoadAndDisplay" << endl;
+     return -1;
+    }
+
+    Mat image;
+    image = imread(argv[1], CV_LOAD_IMAGE_COLOR);   // Read the file
+
+    if(! image.data )                              // Check for invalid input
+    {
+        cout <<  "Could not open or find the image" << std::endl ;
+        return -1;
+    }
+
+    namedWindow( "Display window", WINDOW_AUTOSIZE );// Create a window for display.
+    imshow( "Display window", image );                   // Show our image inside it.
+
+    waitKey(0);                                          // Wait for a keystroke in the window
+    return 0;
+}
+
+---
+
+讀取圖片：
+
+利用一個 Mat 去接 imread 回傳的東西
+
+- imread(const string &filename, int flags)
+  Flags 有三種：
+  1. CV_LOAD_IMAGE_UNCHANGED(< 0)
+     完全與 image 內容一樣（若有 Alpha 也會 load 進來）
+  2. CV_LOAD_IMAGE_GRAYSCALE(= 0)
+     以 gray scale 的方式 load 進來
+  3. CV_LOAD_IMAGE_COLOR(> 0)
+     以 RGB 的格式 load 進來
+
+---
+
+創造一個視窗：
+
+- namedWindow(const string& winname, int flags)
+  Flags 可以用來設定視窗大小
+  1. CV_WINDOW_AUTOSIZE
+     視窗會依據圖片大小調整，不允許 resize
+  2. CV_WINDOW_NORMAL
+     圖片會依據視窗大小去 resize
+     還須利用 '|' 與另外的 flags 做組合才有作用
+     CV_WINDOW_KEEPRATIO, CV_WINDOW_FREERATIO，分別是保持圖片比例或者不保持
+
+---
+
+Show 出視窗：
+
+- imshow(const string& winname, InputArray mat)
+  指定一個 window name 以及要顯示的內容（Mat）即可
+
+---
+
+Wait for key :
+
+為了防止程式太快結束，設定了 waitKey(0) 去等待使用者輸入
+
+參數表示該等待多久（millisecond），0 表示永遠等待
+

@@ -1,0 +1,464 @@
+﻿
+基本的兩個 Class：
+
+1. GLSurfaceView
+   是一個 Container，容納那些要被畫出來的 graph
+
+2. GLSurfaceView.Renderer
+   控制要畫出哪些東西
+
+---
+
+宣告 OpenGL ES 的使用：
+
+在 Manifest 中使用以下宣告，告知系統說要使用 OpenGL ES 2.0
+<uses-feature android:glEsVersion="0x00020000" android:required="true" />
+
+若在有支援 texture compression 的裝置上，要使用 texture compression 也須宣告
+<supports-gl-texture android:name="GL_OES_compressed_ETC1_RGB8_texture" />
+<supports-gl-texture android:name="GL_OES_compressed_paletted_texture" />
+
+---
+
+於 Activity 中設置 GLSurfaceView：
+
+public class OpenGLES20Activity extends Activity {
+
+    private GLSurfaceView mGLView;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        // Create a GLSurfaceView instance and set it
+        // as the ContentView for this Activity.
+        mGLView = new MyGLSurfaceView(this);
+        setContentView(mGLView);
+    }
+}
+
+---
+
+GLSurfaceView：
+
+GLSurfaceView 只是提供可以畫出 graphic 的 View
+實際畫出 graphic 的動作是 GLSurfaceView.Renderer 完成的
+而這個 Renderer 是要被設定在 GLSurfaceView 上的
+
+建議用 extends 來寫一個自己的 GLSurfaceView
+這樣才能加入 touch event 的控制
+
+class MyGLSurfaceView extends GLSurfaceView {
+
+    public MyGLSurfaceView(Context context){
+        super(context);
+
+        // Set the Renderer for drawing on the GLSurfaceView
+        setRenderer(new MyRenderer());
+    }
+}
+
+---
+
+GLSurfaceView.Renderer：
+
+主要控制要畫什麼在 GLSurfaceView 上
+有三個方法會讓 Android 系統呼叫
+
+- onSurfaceCreated()
+  用來設置 GLSurfaceView 的 OpenGL ES 環境參數，只會被呼叫一次
+
+- onDrawFrame()
+  每次執行 redraw 的動作時被呼叫
+
+- onSurfaceChanged()
+  當 View 的幾何特性改變時被呼叫。例如螢幕的 orientation 改變時
+
+public class MyGLRenderer implements GLSurfaceView.Renderer {
+
+    public void onSurfaceCreated(GL10 unused, EGLConfig config) {
+        // Set the background frame color
+        GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    }
+
+    public void onDrawFrame(GL10 unused) {
+        // Redraw background color
+        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
+    }
+
+    public void onSurfaceChanged(GL10 unused, int width, int height) {
+        GLES20.glViewport(0, 0, width, height);
+    }
+}
+
+以上 code 只是畫出一個 gray 的背景，沒做其他的事
+
+---
+
+定義形狀：
+
+座標 (0, 0, 0) 位於 GLSurfaceView 的正中間，右上角是 (1, 1, 0)，左下角是 (-1, -1, 0)
+
+OpenGL ES 是利用各種 Buffer 來儲存要畫的 Vertex 座標
+一般 Vertex 會使用 FloatBuffer，但創造的時候是以 float 陣列以及 ByteBuffer 搭配來完成
+
+以下定義了一個三角形的三個點：
+
+public class Triangle {
+
+    private FloatBuffer vertexBuffer;
+
+    // number of coordinates per vertex in this array
+    static final int COORDS_PER_VERTEX = 3;
+    static float triangleCoords[] = {   // in counterclockwise order:
+             0.0f,  0.622008459f, 0.0f, // top
+            -0.5f, -0.311004243f, 0.0f, // bottom left
+             0.5f, -0.311004243f, 0.0f  // bottom right
+    };
+
+    // Set color with red, green, blue and alpha (opacity) values
+    float color[] = { 0.63671875f, 0.76953125f, 0.22265625f, 1.0f };
+
+    public Triangle() {
+        // initialize vertex byte buffer for shape coordinates
+        ByteBuffer bb = ByteBuffer.allocateDirect(
+                // (number of coordinate values * 4 bytes per float)
+                triangleCoords.length * 4);
+        // use the device hardware's native byte order
+        bb.order(ByteOrder.nativeOrder());
+
+        // create a floating point buffer from the ByteBuffer
+        vertexBuffer = bb.asFloatBuffer();
+        // add the coordinates to the FloatBuffer
+        vertexBuffer.put(triangleCoords);
+        // set the buffer to read the first coordinate
+        vertexBuffer.position(0);
+    }
+}
+
+以下是定義了一個正方形：
+
+public class Square {
+
+    private FloatBuffer vertexBuffer;
+    private ShortBuffer drawListBuffer;
+
+    // number of coordinates per vertex in this array
+    static final int COORDS_PER_VERTEX = 3;
+    static float squareCoords[] = {
+            -0.5f,  0.5f, 0.0f,   // top left
+            -0.5f, -0.5f, 0.0f,   // bottom left
+             0.5f, -0.5f, 0.0f,   // bottom right
+             0.5f,  0.5f, 0.0f }; // top right
+
+    private short drawOrder[] = { 0, 1, 2, 0, 2, 3 }; // order to draw vertices
+
+    public Square() {
+        // initialize vertex byte buffer for shape coordinates
+        ByteBuffer bb = ByteBuffer.allocateDirect(
+        // (# of coordinate values * 4 bytes per float)
+                squareCoords.length * 4);
+        bb.order(ByteOrder.nativeOrder());
+        vertexBuffer = bb.asFloatBuffer();
+        vertexBuffer.put(squareCoords);
+        vertexBuffer.position(0);
+
+        // initialize byte buffer for the draw list
+        ByteBuffer dlb = ByteBuffer.allocateDirect(
+        // (# of coordinate values * 2 bytes per short)
+                drawOrder.length * 2);
+        dlb.order(ByteOrder.nativeOrder());
+        drawListBuffer = dlb.asShortBuffer();
+        drawListBuffer.put(drawOrder);
+        drawListBuffer.position(0);
+    }
+}
+
+畫的時候須注意順序，面的法向量是利用右手定則來決定的
+因此若面的法向量是垂直出螢幕的，那麼那些點就要以逆時針的順序來畫
+
+---
+
+畫出形狀：
+
+首先需要將剛剛定義好的形狀作初始化
+一般為了效率，會在 onSurfaceCreated() 中完成
+
+public void onSurfaceCreated(GL10 unused, EGLConfig config) {
+    ...
+
+    // initialize a triangle
+    mTriangle = new Triangle();
+    // initialize a square
+    mSquare = new Square();
+}
+
+
+在 OpenGL ES 2.0 中要畫東西需要用到 GLSL 寫成的 Shader
+因此下一步是準備 Vertext, Fragment Shader 的 code
+
+private final String vertexShaderCode =
+    "attribute vec4 vPosition;" +
+    "void main() {" +
+    "  gl_Position = vPosition;" +
+    "}";
+
+private final String fragmentShaderCode =
+    "precision mediump float;" +
+    "uniform vec4 vColor;" +
+    "void main() {" +
+    "  gl_FragColor = vColor;" +
+    "}";
+
+
+再來須要把這些 Shader 讀取到 OpenGL ES 當中
+首先要先讀出 shader 的 GLSL 並拿到 shader id
+1. GLES20.glCreateShader(int type)
+2. GLES20.glShaderSource(int shader, string code)
+
+接著要 compile 這段  GLSL
+3. GLES20.glCompileShader(shader)
+
+Vertex, Fragment 兩個 Shader 都必須經過以上讀取的步驟並且 compile
+接下來拿到兩種 shader 之後，要把它們變成 program 並且 attach 到 OpenGL ES 中
+最後再將它們 link 好，才算完成 shader 的設定
+4. GLES20.glCreateProgram()
+5. GLES20.glAttachShader(program, int shader)	// 兩種 shader 都必須 attach
+6. GLES20.glLinkProgram(program)
+
+public static int loadShader(int type, String shaderCode){
+
+    // create a vertex shader type (GLES20.GL_VERTEX_SHADER)
+    // or a fragment shader type (GLES20.GL_FRAGMENT_SHADER)
+    int shader = GLES20.glCreateShader(type);
+
+    // add the source code to the shader and compile it
+    GLES20.glShaderSource(shader, shaderCode);
+    GLES20.glCompileShader(shader);
+
+    return shader;
+}
+
+public class Triangle() {
+    ...
+
+    int vertexShader = loadShader(GLES20.GL_VERTEX_SHADER, vertexShaderCode);
+    int fragmentShader = loadShader(GLES20.GL_FRAGMENT_SHADER, fragmentShaderCode);
+
+    mProgram = GLES20.glCreateProgram();             // create empty OpenGL ES Program
+    GLES20.glAttachShader(mProgram, vertexShader);   // add the vertex shader to program
+    GLES20.glAttachShader(mProgram, fragmentShader); // add the fragment shader to program
+    GLES20.glLinkProgram(mProgram);                  // creates OpenGL ES program executables
+}
+
+由於 compile 和 link 很花費 CPU 時間，因此將這些動作放在 shape 的初始化的步驟
+確保這些動作只會執行一次
+
+
+接下來可以把一系列畫圖的動作寫成一個 draw() method
+你必須利用 GLES20.glUseProgram(program) 來使用前面準備好的 shader program
+然後丟入參數給每個 shader 中設定好的變數
+
+public void draw() {
+    // Add program to OpenGL ES environment
+    GLES20.glUseProgram(mProgram);
+
+    // get handle to vertex shader's vPosition member
+    mPositionHandle = GLES20.glGetAttribLocation(mProgram, "vPosition");
+
+    // Enable a handle to the triangle vertices
+    GLES20.glEnableVertexAttribArray(mPositionHandle);
+
+    // Prepare the triangle coordinate data
+    GLES20.glVertexAttribPointer(mPositionHandle, COORDS_PER_VERTEX,
+                                 GLES20.GL_FLOAT, false,
+                                 vertexStride, vertexBuffer);
+
+    // get handle to fragment shader's vColor member
+    mColorHandle = GLES20.glGetUniformLocation(mProgram, "vColor");
+
+    // Set color for drawing the triangle
+    GLES20.glUniform4fv(mColorHandle, 1, color, 0);
+
+    // Draw the triangle
+    GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, vertexCount);
+
+    // Disable vertex array
+    GLES20.glDisableVertexAttribArray(mPositionHandle);
+}
+
+---
+
+Projection, Camera View：
+
+- Projection
+  projection transform 是建立於 GLSurfaceView 的長寬來調整物件座標
+  因此使用 projection 的話就不會因為螢幕的 orientation 而改變物體的比例
+  通常 projection 的計算會在 OpenGL view 被建立時或者在 onSurfaceChanged() 被改變
+
+- Camera View
+  Camera View 則是依據一個假想的 camera 來調整物體位置
+  這個 Camera View 可以只計算一次，也可以動態地去調整
+
+
+設定 projection
+
+在 onSurfaceChanged() 中，取得 GLSurfaceView 的長與寬
+然後利用 Matrix 物件的 frustumM() 來得到 ProjectionMatrix
+
+@Override
+public void onSurfaceChanged(GL10 unused, int width, int height) {
+    GLES20.glViewport(0, 0, width, height);
+
+    float ratio = (float) width / height;
+
+    // this projection matrix is applied to object coordinates
+    // in the onDrawFrame() method
+    Matrix.frustumM(mProjectionMatrix, 0, -ratio, ratio, -1, 1, 3, 7);
+}
+
+有了 projection 後，就要在 onDrawFrame() 當中結合 Camera View 來完成整個轉換
+
+
+設定 Camera View
+
+視角的位置是利用 Matrix.setLookAtM() 完成的
+取得視角的 matrix 後要再與 projection matrix 結合，也就是相乘
+最後才能丟到我們寫好的 draw 當中使用
+
+@Override
+public void onDrawFrame(GL10 unused) {
+    ...
+    // Set the camera position (View matrix)
+    Matrix.setLookAtM(mViewMatrix, 0, 0, 0, -3, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
+
+    // Calculate the projection and view transformation
+    Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mViewMatrix, 0);
+
+    // Draw shape
+    mTriangle.draw(mMVPMatrix);
+}
+
+
+最後是要新增一些程式碼在我們前面的 draw() 當中
+讓我們準備好的 matrix 可以發揮作用
+方式也很類似，要先用 GLES20.glGetUniformLocation() 取得 shader 中的變數
+然後再利用 GLES20.glUniformMatrix4fv() 去傳入我們準備好的 matrix
+
+public void draw(float[] mvpMatrix) { // pass in the calculated transformation matrix
+    ...
+
+    // get handle to shape's transformation matrix
+    mMVPMatrixHandle = GLES20.glGetUniformLocation(mProgram, "uMVPMatrix");
+
+    // Pass the projection and view transformation to the shader
+    GLES20.glUniformMatrix4fv(mMVPMatrixHandle, 1, false, mvpMatrix, 0);
+
+    // Draw the triangle
+    GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, vertexCount);
+    ...
+}
+
+---
+
+旋轉：
+
+為了要讓物件可以旋轉，我們必須在前面的 view projection matrix 上再乘上一個 rotate matrix
+
+private float[] mRotationMatrix = new float[16];
+public void onDrawFrame(GL10 gl) {
+    ...
+    float[] scratch = new float[16];
+
+    // Create a rotation transformation for the triangle
+    long time = SystemClock.uptimeMillis() % 4000L;
+    float angle = 0.090f * ((int) time);
+    Matrix.setRotateM(mRotationMatrix, 0, angle, 0, 0, -1.0f);
+
+    // Combine the rotation matrix with the projection and camera view
+    // Note that the mMVPMatrix factor *must be first* in order
+    // for the matrix multiplication product to be correct.
+    Matrix.multiplyMM(scratch, 0, mMVPMatrix, 0, mRotationMatrix, 0);
+
+    // Draw triangle
+    mTriangle.draw(scratch);
+}
+
+---
+
+更新畫面：
+
+若在 GLSurfaceView 當中使用 setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY)
+會造成必須在 GLSurfaceView 中呼叫 requestRender() 才會更新畫面
+
+---
+
+Touch Event：
+
+必須在 GLSurfaceView 當中實作 onTouchEvent() 這個 method，以監聽 touch 事件
+
+@Override
+public boolean onTouchEvent(MotionEvent e) {
+    // MotionEvent reports input details from the touch screen
+    // and other input controls. In this case, you are only
+    // interested in events where the touch position changed.
+
+    float x = e.getX();
+    float y = e.getY();
+
+    switch (e.getAction()) {
+        case MotionEvent.ACTION_MOVE:
+
+            float dx = x - mPreviousX;
+            float dy = y - mPreviousY;
+
+            // reverse direction of rotation above the mid-line
+            if (y > getHeight() / 2) {
+              dx = dx * -1 ;
+            }
+
+            // reverse direction of rotation to left of the mid-line
+            if (x < getWidth() / 2) {
+              dy = dy * -1 ;
+            }
+
+            mRenderer.setAngle(
+                    mRenderer.getAngle() +
+                    ((dx + dy) * TOUCH_SCALE_FACTOR);  // = 180.0f / 320
+            requestRender();
+    }
+
+    mPreviousX = x;
+    mPreviousY = y;
+    return true;
+}
+
+注意計算完角度後需要用 requestRender() 去讓 render 重繪整個 frame
+
+為了讓 mRender.setAngle() 有作用，必須在 GLSurfaceView.Render 中加入
+public volatile float mAngle 才行
+
+public class MyGLRenderer implements GLSurfaceView.Renderer {
+    ...
+    public volatile float mAngle;
+
+最後就能在 onDrawFrame() 中利用這個 mAngle 去設定 ratate matrix 並整合到最後的矩陣中
+
+public void onDrawFrame(GL10 gl) {
+    ...
+    float[] scratch = new float[16];
+
+    // Create a rotation for the triangle
+    // long time = SystemClock.uptimeMillis() % 4000L;
+    // float angle = 0.090f * ((int) time);
+    Matrix.setRotateM(mRotationMatrix, 0, mAngle, 0, 0, -1.0f);
+
+    // Combine the rotation matrix with the projection and camera view
+    // Note that the mMVPMatrix factor *must be first* in order
+    // for the matrix multiplication product to be correct.
+    Matrix.multiplyMM(scratch, 0, mMVPMatrix, 0, mRotationMatrix, 0);
+
+    // Draw triangle
+    mTriangle.draw(scratch);
+}
+

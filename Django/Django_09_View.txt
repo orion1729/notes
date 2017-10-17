@@ -1,0 +1,128 @@
+﻿
+在 Django 中，網頁和其內容都是由 View 傳遞的
+
+而每一個 View 可被一個 Python function 表示
+
+Django 會根據 request 的 URL 去選擇 View
+
+---
+
+創建 View：
+
+在 <app_name>/views.py 中編輯
+
+from django.http import HttpResponse
+
+def index(request):
+    return HttpResponse("Hello world.")
+
+就創建了一個叫作 index 的 view
+
+---
+
+在 app 內連結 View：
+
+為了將剛創建好的 View 與 app 底下路徑結合
+
+需要有一個 urls.py 來控制
+
+因此在 <app_name>/ 底下新增一個 urls.py 的文件
+
+內容：
+
+from django.conf.urls import url
+
+from . import views
+
+urlpatterns = [
+    url(r'^$', views.index, name='index'),
+]
+
+表示創造了一個 app 底下的 url 連結到 views.py 裡的 index，並取名叫 index
+
+---
+
+與 root url 連結：
+
+到目前為止只連結了 app 和其底下的 view
+
+現在要與網頁的整個目錄做連結
+
+回到 <project_name>/urls.py 中新增一個 url
+
+from django.conf.urls import include, url
+from django.contrib import admin
+
+urlpatterns = [
+    url(r'^polls/', include('polls.urls')),    <--- 與剛剛在 polls 底下的 url 連結
+    url(r'^admin/', include(admin.site.urls)),
+]
+
+
+
+現在可以啟動 server 並連結到 <domain_name>/polls/ 看到 Hello world. 的字樣
+
+---
+
+url 參數：
+
+1) regex（必要）
+   表示 regular expression，目的是讓 Django 找到符合 regex 的 URL
+
+   這個 regex 不包含 POST 和 GET 的參數
+   例如 http://www.example.com/myapp/，URLconf 只會尋找 myapp/ 的字樣
+   或者 http://www.example.com/myapp/?page=3，一樣只會找 myapp/
+
+2) view（必要）
+   Django 隨著 regex 找到吻合的 view，並呼叫相對應的 function
+   以 HttpRequest 作為第一個參數，隨後是其他被 regex 抓到的 value
+
+3) kwargs（非必要）
+   keyword arguments
+
+4) name（非必要）
+   為 URL 命名，於 templates 時很好用
+
+---
+
+運作方式：
+
+每當有人對網頁提出 request
+Django 就會讀取 <mysite>.urls 這個被 ROOT_URLCONF 所指向的 Python module
+
+它會從 urlpatterns 這個變數開始照順序對照 regular expression
+
+而 root url 中會利用 include() function
+這個 function 的作用只是引入其他的 URLconfs 而已（例如 polls/urls.py）
+
+PS. 而金錢符號 $ 表示的是 end-of-string match character
+
+一旦 Django 遇到了 include()，它會將剩餘還未 match 的部分傳給 include 的另一個 URLconf
+
+PS. include 是為了方便目錄的可調整性而使用的
+
+---
+
+View 的目的：
+
+View 的主要責任就是回傳 HttpResponse 或者一個 exception（Http 404 等等）
+
+因此可以基於這個目的，去調整自己的 View
+
+Django 只要求 HttpResponse 和 exception
+
+---
+
+搭配資料庫回傳內容：
+
+def index(request):
+    latest_question_list = Question.objects.order_by('-pub_date')[:5]  <-- 新增
+    output = ', '.join(p.question_text for p in latest_question_list)  <-- 新增
+    return HttpResponse(output)
+
+會從資料庫拿出 5 筆 Question，並以逗號分隔
+
+---
+
+利用 templates：
+

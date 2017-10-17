@@ -1,0 +1,40 @@
+﻿
+Unix(1973) :
+由貝爾實驗室的一群工程師
+因自身需求而開發出來的
+
+---
+
+System V(1979) 和 BSD(1977) :
+兩者皆是由 Unix 修改而來
+System V 更可在 x86 硬體上運作
+
+System V 是 AT&T 公司所發行
+而 BSD（Berkeley Software Distribution）則是 Berkeley 大學開發
+
+兩個被稱為純種的 Unix
+
+System V 也被 AT&T 公司以版權加以限制
+（貝爾實驗室就是 AT&T 的）
+
+---
+
+Minix(1984) :
+為了解決版權與教學問題
+教授 Andrew Tanenbaum 親自寫了一套 Unix Like 系統
+
+---
+
+GNU(1984) 與 FSF（Free Software Foundation）:
+Richard Mathew Stallman 堅持軟體分享的理念
+創建了 GNU 計畫
+
+為了提高知名度
+開發了在 Unix 系統上的免費程式
+更完成了 GNU C Compiler（GCC）編譯器
+
+GNU 計畫中最重要的就是 GPL（General Public License）
+可避免程式被拿去當成專利產品
+
+---
+

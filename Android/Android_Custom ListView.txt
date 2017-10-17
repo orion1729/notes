@@ -1,0 +1,55 @@
+﻿有兩個重點
+一個是自製 XML layout
+另一個則是 Adapter 的處理
+
+Adapter 有許多種類
+- ArrayAdapter
+  將陣列聯繫到 ListView
+- SimpleAdapter
+  適用在自訂 ListView 外觀時
+- BaseAdapter
+  抽象類別，需實作許多方法，但可靈活控制 ListView 外觀
+- SimpleCursorAdapter
+  將從資料庫或其他地方存取來的 ContentProvider 與 ListView 聯繫
+
+---
+
+XML 的部分是將自己想要的「一個」item 的佈局完成
+要注意的是，至少需有一個 TextView 存在
+基本上沒什麼大問題
+
+---
+
+Constructor 的部分
+可實作其中一種方法
+public <Constructor>(Context context, int layoutResourceId, <T>[] array)
+layoutResourceId 是 item XML 的 resource id
+array 則是你自己要使用的陣列形式
+
+另外一個方法是 getView(int position, View convertView, ViewGroup parent)
+第一個 postition 是在 ListView 中的位置
+convertView 則是使用者拖曳 ListView 時，被擠出螢幕外不被使用的 View
+parent 則是容器
+
+最好在 getView 當中檢查 convertView 是否為 null
+
+若是 null，則我們需要創造一個新的 View 回傳
+
+若不是，則我們更改 convertView 當中的內容即可
+配合 position 來將舊內容以新內容替換
+
+我們可以在 Adapter 當中包入一個小的 static class
+內容為你 XML 所用到的內容物（ImageView, TextView 等等）物件
+搭配 View.setTag(Object), View.getTag() 就可以重複利用變數
+
+---
+
+SimpleCursorAdapter :
+
+Constructor(Context context, int layout, Cursor c, String[] from, int[] to, int flags)
+
+---
+
+android.R.layout.simple_list_item_1.xml
+當中的 TextView 其 id 為 android.R.id.text1
+

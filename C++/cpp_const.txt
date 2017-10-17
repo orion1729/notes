@@ -1,0 +1,31 @@
+
+Const :
+
+- const 置於 function name 之後
+  int f1(int x) const {…}
+  表示 function 不能修改 member variable of class
+
+- const 置於 function 宣告最前面
+  const int f2(int x) {…}
+  回傳的資料型態是 const 的
+
+- const 放在 function 的引數名稱前
+  int f3(int const x) {…}
+  則引數是 const
+
+  倘若引數是指標，const 在 * 左邊
+  int f4(int const *x) {…}
+  int f4(const int *x) {…}
+  則指標所指的變數為 const
+
+  若引數是參考（reference）
+  int f5(int const &x) {…}
+  則參考所參考的變數為 const
+
+  若引數是指標，const 在 * 右邊
+  int f6(int *const x) {…}
+  指標變為 const
+
+  指標是 const，且所指變數也是 const
+  int f7(const int *const x) {…}
+

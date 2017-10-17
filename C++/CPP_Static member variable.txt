@@ -1,0 +1,47 @@
+﻿
+static member variable 就像是 C 的 global variable
+
+在 class 中宣告 static member variable 有 private, public 兩種
+
+- private 表示此 static member variable 是屬於此 class 的全域變數
+
+- public 表示是整個程式的都可使用
+
+---
+
+宣告：
+
+class Test{
+private:
+    static int privateNum;  // 只屬用 Test class 使用
+
+public:
+    static int publicNum;   // 可供整個程式使用
+
+};
+
+---
+
+初始化：
+
+static member variable 並不是在宣告時初始化
+
+而是像 C 的 global variable 一樣，需在 main() 外面初始化
+
+class Test{
+private:
+    static int privateNum;  // 只屬用 Test class 使用
+
+public:
+    static int publicNum;   // 可供整個程式使用
+
+};
+
+int Test::privateNum = 0;
+int Test::publicNum = 1;
+
+int main(){
+    // 可以使用 publicNum
+    // 須利用 <class>::<member_name> 來引用
+}
+

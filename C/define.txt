@@ -1,0 +1,91 @@
+
+是一個 directive
+
+功能：
+讓 preprocessor 將接下來出現的 identifier 替換成 replacement-list，
+如果 identifier 出現在註解、字串、更長的 identifier 中的時候則不會被替換。
+
+如果沒有提供 replacement-list，
+那麼 preprocessor 會將原始碼中出現的 identifier 給移除，
+並且設定為「已定義」，可用 #id define 和 #ifdef 來檢查。
+
+——
+
+語法：
+
+1. #define identifier [replacement-list]
+
+2. #define identifier( parameters ) replacement-list
+
+3. #undef identifier
+
+C++11 之後：
+
+4. #define identifier( parameters, … ) replacement-list
+
+5. #define identifier( … ) replacement-list
+
+parameters 可視為 identifier 來看，
+因出現在 replacement-list 中一定是以 identifier 的形式出現。
+
+——
+
+Object-like :
+
+如同語法 1. 所定義的，將所有 identifier 替換成 replacement-list
+
+—-
+
+Function-like :
+
+除了將 identifier 替換成 replacement-list 之外，
+還會把出現在 replacement-list 中的 parameters（identifiers）替換掉。
+replacement-list 中會使用 parameters 的 identifier，用來標記取代時的位置，
+且出現順序與數量沒有限制。
+
+如果 identifier 不是 function 形式（帶有左右括號）的話就不會被取代。
+
+如同 2., 4., 5. 那樣使用。
+4. 和 5. 的差別在於是否有固定的 parameters，
+剩下不定數量的參數要用 __VA_ARGS__ 這個 identifier 來存取。
+
+
+# Operator :
+又被稱為「stringification」，若加在於 replacement 的 identifier（parameters） 之前，
+就會將其的取代內容變為字串（被雙引號前後包起來）。
+倘若中間有需要 escape 的字元（如 \, “）時，preprocessor 會自動將其跳脫（加一個 \）。
+頭、尾的空白會被去除，而出現在中間的空白若是一個以上時會被替換成只剩一個空白。
+
+範例：
+#define showlist(…) puts(#__VA_ARGS__)
+showlist();		// puts(“”);
+showlist(1, “x”, int);	// puts(“1, \”x\”, int”);
+
+
+## Operator :
+被稱為「concatenation」或「token pasting」。
+出現在 replacement-list 中的兩個 identifier 之間，
+會將緊連的那個 identifier（parameters）替換成傳進來的參數，
+再把兩個 identifier concatenate 起來。
+
+範例：
+#define FUNCTION(name, a) fun_##name(){ return a; }
+
+FUNCTION(abc, 12)
+FUNCTION(gg, 3)
+
+int main(){
+	cout << fun_abc() << endl;
+	cout << fun_gg() << endl;
+	return 0;
+}
+
+會印出
+12
+3
+
+——
+
+#undef
+將「已定義」的 identifier 取消
+

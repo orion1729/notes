@@ -1,0 +1,161 @@
+﻿
+創建 admin user：
+
+ $ python manage.py createsuperuser
+
+再依序輸入 Username, e-mail, Password 即可
+
+---
+
+啟用 Admin site：
+
+Admin site 是隨 development server 預設啟動的
+
+
+
+啟動後可用瀏覽器打開 admin site，位置在 host name 底下的 /admin 目錄
+
+---
+
+讓 app 的 Object 可在 admin 修改：
+
+原先 app object 是不會出現在 admin site 的
+
+必須到 <app_name>/admin.py 中去修改成以下
+
+from django.contrib import admin
+
+from .models import Question     <--- 新增
+
+admin.site.register(Question)    <--- 新增
+
+之後 Question 這個 object 就會出現在 admin site 上了
+
+並且可以新增、修改
+
+
+
+這個編輯的 form 樣式是 Django 依據 model 中的設置而產生的
+
+---
+
+自訂 admin form：
+
+可在 <app_name>/admin.py 中編輯
+
+主要流程就是創建一個 admin object，並丟入 register 第二個參數
+
+- 修改 field 的順序
+
+  from django.contrib import admin
+
+  from .models import Question
+
+  class QuestionAdmin(admin.ModelAdmin):        <--- 新增
+      fields = ['pub_date', 'question_text']    <--- 新增
+
+  admin.site.register(Question, QuestionAdmin)  <--- 新增
+
+- 切割 fieldset
+
+  class QuestionAdmin(admin.ModelAdmin):
+      fieldsets = [
+          (None,               {'fields':['question_text']}),
+          ('Date information', {'fields':['pub_date']}),
+      ]
+
+  格式：('fieldset_title', {'fields':['field_name']})
+
+- 指定 HTML class
+
+  例如 collapse 這個 class，可以讓 fieldset 預設是摺疊的
+
+  ('Date information', {'fields':['pub_date'], 'classes':['collapse']}),
+
+---
+
+相關 object：
+
+table 間可能會有關聯性（ForeignKey），我們也能將這種關聯性註冊到 admin 上
+
+註冊方式有兩種：
+
+1) 第一種方式與前述相同，在 admin.py 中 register 新的 object 即可
+
+   關聯方式 Django 會自動處理
+
+   可是一旦關聯的東西一多，這種在 admin 上一個一個新增的方式就不好
+
+2) 第二種則是讓關聯的東西依附於原先的 object
+
+   如此一來我們在新增原本的 object 時，也能一同新增關聯的 object
+
+   class ChoiceInline(admin.StackedInline):
+       model = Choice       <--- 關聯的  object 名稱
+       extra = 3            <--- 新增 Question 時同時可新增幾個 Choice
+
+   class QuestionAdmin(admin.ModelAdmin):
+       fieldsets = [
+          (None,               {'fields': ['question_text']}),
+          ('Date information', {'fields': ['pub_date'], 'classes': ['collapse']}),
+       ]
+       inlines = [ChoiceInline]   <--- 新增
+
+   但 extra 的三個 Choice fieldset 可能很佔空間
+
+   可以在 ChoiceInline 中改繼承 TabularInline
+
+   class ChoiceInline(admin.TabularInline)
+
+---
+
+自訂編輯 list 的樣式：
+
+可以在 admin object 中加入 list_display 這個 option
+
+即可讓 list 在顯示時設定要顯示那些欄位
+
+class QuestionAdmin(admin.ModelAdmin):
+    # ...
+    list_display = ('question_text', 'pub_date', '<object_method>')
+
+在 list_display 中加入欄位名稱或者 object method 都可以
+
+
+
+由於預設的 method 名稱是固定的，例如 was_published_recently
+
+這會使得在 list 上不好看
+
+因此可以回到 <app_name>/models.py 中新增一些程式碼到 Object method 中
+
+polls/models.py
+
+class Question(models.Model):
+    # ...
+    def was_published_recently(self):
+        return self.pub_date >= timezone.now() - datetime.timedelta(days=1)
+    was_published_recently.admin_order_field = 'pub_date'
+    # ↑依據 pub_date 這個欄位排序
+    was_published_recently.boolean = True
+    was_published_recently.short_description = 'Published recently?'
+    # ↑list 上的欄位名稱
+
+
+
+還可以在 list 旁加上 filter
+
+回到 polls/admin.py 中，在 QuestionAdmin 再加上一個 option
+
+list_filter = ['pub_date']
+
+這樣 Django 會在 list 旁新增一個有關時間的 filter（因 pub_date 是時間類別）
+
+
+
+也可加上搜尋功能
+
+search_fields = ['question_text']
+
+---
+

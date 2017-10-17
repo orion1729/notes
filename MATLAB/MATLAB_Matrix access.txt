@@ -1,0 +1,48 @@
+﻿
+矩陣的儲存：
+
+MATLAB 儲存矩陣時是使用單一序列，一個 column 串著一個 column
+
+A = [2 6 9; 4 2 8; 3 5 1]
+
+A = 
+    2   6   9
+    4   2   8
+    3   5   1
+
+但實際上在記憶體中的順序是：
+2, 4, 3, 6, 2, 5, 9, 8, 1
+
+因此若要存取 5 這個值，可以使用 A(6)
+
+---
+
+Matrix pre-allocate：
+
+利用 zeros(row, column) 這個 function
+
+A = zeros(20, 30)
+
+執行後，MATLAB 會為 A 準備 20 x 30 的大小空間
+
+---
+
+單一元素：
+
+A(row, column)
+
+---
+
+一整列、欄：
+
+整列 - A(row, :)
+整欄 - A(:, column)
+
+---
+
+一段區間：
+
+A(1:m, n)
+
+可提取第 n 個 column 其 row 1 到 row m 的值
+

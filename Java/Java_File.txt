@@ -1,0 +1,4 @@
+﻿是一種 Abstract Representation
+用來表示一個檔案或資料夾的 Path（位置）
+
+可以有 Absolute 和 Relative 兩種

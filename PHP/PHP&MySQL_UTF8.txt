@@ -1,0 +1,29 @@
+﻿可以在 MySQL 的設定檔 my.ini 當中設定一些基本的變數（character_set_server 等等）
+
+檢查資料庫目前編碼狀態
+可在 SQL 指令列輸入：show variables like 'character%'
+
+set name x =
+    set character_set_client = x
+    set character_set_results = x
+    set character_set_connection = x
+
+set character set x =
+    set character_set_client = x
+    set character_set_results = x
+    set collation_connection = @@collation_database
+
+資料路徑：
+進來 - client -> connection -> server
+出去 - server -> connection -> results
+
+---
+
+MySQL 資料庫的設定分五級
+1. 伺服器（my.ini）
+2. 資料庫
+3. 資料表
+4. 欄位
+5. 連線校對
+
+效力：5 > 4 > 3 > 2 > 1

@@ -1,0 +1,32 @@
+﻿
+以往網頁開發方式多是以 HTML 當中嵌入程式碼
+或者程式碼中嵌入 HTML
+
+這對於靜態的資料顯示並不是多大問題
+但現在有許多網站是需要複雜的邏輯動作
+
+因此需要一個架構讓開發人員遵循，以便往後的維護
+
+---
+
+RoR 遵循著 MVC 軟體架構
+Model - 物件包裝著資料與邏輯
+View - 用於表示
+Controller - 把資料送給物件或者處理 HTTP request
+
+---
+
+Web 框架大多包括下功能
+
+- ORM（Object-relational mapping）
+  用物件導向式的語法來操作關聯式資料庫
+
+- URL
+  與以往 PHP 的檔案路徑對應網址不同
+  可以用 Controller 來改變
+
+---
+
+Ruby on Rails 是一套以 Ruby 來開發的 Web 框架
+
+ 

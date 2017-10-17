@@ -1,0 +1,15 @@
+
+MP3 data :
+mp3 格式是以許多 frame 組成的，而 frame 其實可分為兩種，
+分別是無法單獨解碼的 physical frame 以及可以單獨解碼的 logical frame。
+
+logical frame 擁有 4 bytes 的 header，17 - 32 bytes 的 side information，
+還有幾百 bytes 的 main data。
+
+physical frame 有 4 bytes 的 header，也有 side information 的欄位，
+還有選擇性的 2 bytes checksum。
+
+physical frame 的大小是固定的，利用此特點，player 可以很容易地尋找到任意的 frame。
+此外，當 frame 並沒有以固定的 bits 表示的話，那些複雜聲音的訊號可以利用前面 frame 的內容，
+這提供了 mp3 可變化的 bit rate。
+

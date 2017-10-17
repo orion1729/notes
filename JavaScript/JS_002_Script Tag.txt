@@ -1,0 +1,87 @@
+﻿
+JavaScript 在 HTML 中是出現於 <script> 的標籤中
+被 <script> 包起來的會被視為 JavaScript 程式碼
+（在現今的瀏覽器和 HTML5 當中，<script> 被預設是 JavaScript）
+（不再需要 type="text/javascript" 這個 attribute 了）
+
+---
+
+JavaScript 一般用於以 function 作為某個 event 的反應
+
+---
+
+<script> 可出現於 <head>, <body> 之中
+且數量並沒有限制
+
+但將 JavaScript 與 HTML 分開是較好的習慣
+
+將 JavaScript 的 function 寫在 <head> 中
+
+將 JavaScript 放在 <body> 的末端有助於瀏覽器加快 page 的 load 速度
+（這樣其他網頁內容不會被 <script> 的讀取給阻斷）
+
+---
+
+In <head> :
+
+<!DOCTYPE html>
+<html>
+
+<head>
+<script>
+function myFunction() {
+    document.getElementById("demo").innerHTML = "Paragraph changed.";
+}
+</script>
+</head>
+
+<body>
+
+<h1>My Web Page</h1>
+
+<p id="demo">A Paragraph</p>
+
+<button type="button" onclick="myFunction()">Try it</button>
+
+</body>
+</html> 
+
+---
+
+In <body> :
+
+將 <script> 寫在 <body> 末端對於讀取速度有較好的幫助
+
+<!DOCTYPE html>
+<html>
+
+<body> <h1>My Web Page</h1>
+
+<p id="demo">A Paragraph</p>
+
+<button type="button" onclick="myFunction()">Try it</button>
+
+<script>
+function myFunction() {
+   document.getElementById("demo").innerHTML = "Paragraph changed.";
+}
+</script>
+
+</body>
+</html> 
+
+---
+
+外部檔案：
+
+在 <script> 中使用 src 這個 attribute 來連結外部 .js 檔
+
+<!DOCTYPE html>
+<html>
+<body>
+<script src="myScript.js"></script>
+</body>
+</html>
+
+---
+

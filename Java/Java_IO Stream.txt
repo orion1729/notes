@@ -1,0 +1,34 @@
+﻿Stream :
+Stream 就像一個河流一樣
+擁有通道（有目的地）及資料流（傳送的內容）
+
+---
+
+Java 中有四個類為基本
+1. InputStream
+2. OutputStream
+3. Reader
+4. Writer
+
+其中 InputStream, OutputStream 是以 Byte 為單位
+而 Reader, Writer 則是以 Character 為單位（故會有編碼相關）
+
+他們底下都有各自的 Subclass
+分別專於各自的工作而產生
+例如檔案、標準輸入等不同面向
+
+---
+
+而關於 Buffered 的相關類別
+與 Stream 差別在於 Buffered 可以暫存某大小的量
+以便往後快速讀寫
+
+而 Stream 則無法暫存
+資料來了就必須處理
+
+---
+
+通常順序會先接收 Stream
+我們可以用 Reader 並定義編碼來包裝第一層
+再用 Buffered 包裝成第二層
+使其有暫存的效果

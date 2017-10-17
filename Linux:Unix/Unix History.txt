@@ -1,0 +1,45 @@
+﻿Unix 在 1969 年由 AT&T 的貝爾實驗室發展
+
+---
+
+BSD:
+70 年代末期
+Berkeley 大學的 CSRG（電腦系統研究小組）將 Unix 的程式改寫
+變成一個新的系統 BSD Unix（Berkeley Software Distribution）
+
+後來由於一家發行 BSD Unix 的商業公司違反了與 AT&T 的許可
+因此 CSRG 刪除了 AT&T 的程式碼
+發布了 4.4 BSD Lite
+但對於 386 計算機來說並不完整
+
+因此另一方面，Bill Jolitz 發起將 4.3 BSD 移植到 80386 的計畫
+最後於 1993 年 12 月發布了 FreeBSD 1.0
+但由於與 AT&T 的法律問題
+直到 1995 年 1 月才正式推出 FreeBSD 2.0（完全的 4.4 BSD Lite）
+
+---
+
+Linux:
+Linus Torvalds 將 Unix 的核心剖析
+並將繁複的部份去除
+將系統改寫為適合 x86 系統
+
+1991 年 Linux 發布了
+並且受到大家肯定
+一起投入 Linux 的發展
+
+1994 年第一個完整核心 Linux Version 1.0 出爐
+
+---
+Linux 與 BSD
+
+而 Linux 與 BSD 均是由 4.3 BSD 發展而來
+所以兩者都繼承了許多特性
+
+只是核心內部的實作方式並不一樣
+Linux 是 POSIX（Portable Operating System Interface, X 表示 Unix 傳承）標準
+BSD 則是繼續發展 BSD 路線
+因此兩者標準不同，程式移植上也會有問題
+
+---
+

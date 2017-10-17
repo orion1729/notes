@@ -1,0 +1,15 @@
+﻿
+Define：用於定義巨集（macro）
+
+語法：
+#define <macroname> <string>
+
+- <macroname> 不包含空白字元。也可以類似函式 Header 來使用
+  macro(arg1, arg2)
+
+- Compiler 在處理 #define 時，會將 <macroname> 的部分以 <string> 來取代
+
+- 通常是以一行為主。若要換行，需在此行結尾加一個 '\' 表示下一行繼續是 macro
+  #define set_nonnegtive(A); if(A < 0)\
+                             A=A*(-1);
+

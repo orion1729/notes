@@ -1,0 +1,51 @@
+﻿
+創建 templates：
+
+於 project 的根目錄（manage.py 所在）下新增一個 templates 的目錄
+
+---
+
+Template 搜尋路徑：
+
+到 <project_name>/<project_name>/settings.py 找到 TEMPLATES 區塊
+
+並修改 DIRS option
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        # ↑ 新增搜尋路徑
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+
+---
+
+admin templates：
+
+於 templates 目錄下新增一個 admin 目錄，表示是 admin 用的 template
+
+然後再將 Django 內建的 admin template（admin/base_site.html）複製過來
+
+位置在 django/contrib/admin/templates 裡面
+
+
+
+找路徑：
+python -c "
+import sys
+sys.path = sys.path[1:]
+import django
+print(django.__path__)
+"
+---
+

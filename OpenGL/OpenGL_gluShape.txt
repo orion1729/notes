@@ -1,0 +1,18 @@
+﻿
+gluCylinder(GLUquadric* quad,       物件的參考
+            GLdouble    base,       在 z = 0 的半徑
+            GLdouble    top,        在 z = height 的半徑
+            GLdouble    height,     cylinder 的高度
+            GLint       slices,     圍繞 z 軸的細分
+            GLint       stacks);    沿著 z 軸的細分
+
+---
+
+gluDisk(GLUquadric* quad,
+        GLdouble    inner,      指定內半徑
+        GLdouble    outer,      外半徑
+        GLint       slices,     圍繞 z 軸的細分
+        GLint       loops);     指定同心圓的數量
+
+---
+

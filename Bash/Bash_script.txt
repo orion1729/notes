@@ -1,0 +1,149 @@
+
+
+Introduction :
+
+- #!/bin/bash
+  通常會將這一行放在 script 的第一行
+  能夠在執行時讓程式判斷這個 script 該用哪種 shell 來執行
+
+- 回傳值
+  終止程式可以使用 exit # 來結束
+  後面接一個數字表示回傳給系統的回傳值
+  範例：exit 0
+  那麼當 script 執行完畢後，可以使用 $? 來看回傳值
+
+- 數學運算（僅支援 int）
+  使用方式為 $((計算式))
+  能作的運算有 +, -, *, /, %
+
+  若想作小數點運算，可以利用 echo 並 pipe 到 bc
+  範例：echo “123.123*55.9” | bc
+  會得到 6882.575
+
+——
+
+
+預設變數：
+與執行 C 程式類似，script 也能在執行時傳入參數
+範例：sh script.sh arg1 arg2 …
+
+要提取執行時傳入的參數需使用 ${0}, ${1}, …（或者 $0, $1）
+而 ${0} 代表的是 script 檔名
+${1} 開始才是第一個參數、第二個參數
+
+一些相關的內建變數：
+- $#
+  表示 args 的個數（不包含 script 檔名）
+
+- $@
+  表示 ${1} ${2} …
+  範例：
+  sh script.sh good bye man
+  echo “$@” -> good bye man
+
+
+——
+
+
+判斷式：
+在 bash 中的判斷式是以中括號 [] 表示
+範例：
+[ “${home}” == “${path}” ]
+ _         _  _         _
+
+需要注意的是中括號內的每個元件都要以空白來區隔
+（上面範例中，底下有底線的地方就是要放空白之處）
+
+第二個要注意的則是用雙引號將變數包起來
+目的是要防止以下情形：
+var=“good bye”
+[ $var == “good bye” ]
+上述的例子會變成
+good bye == “good bye”
+很明顯是不同的
+
+if…then… 語句：
+if [判斷式1]; then
+    …
+elif [判斷式2]; then
+    …
+else
+    …
+fi
+
+邏輯判斷可加上 && 和 ||
+例如：[判斷式1] && [判斷式2]
+
+—-
+
+
+switch 條件判斷：
+case ${變數名稱} in
+    “變數內容1”)
+        …
+    ;;  <-  每個 case 結束時要用兩個分號來區別
+    “變數內容2”)
+        …
+    ;;
+esac  <-  case 倒過來
+
+
+——
+
+
+function :
+function fun_name{
+    …
+}
+
+
+——
+
+
+迴圈（loop）：
+
+while [判斷式]
+do
+    …
+done
+
+
+until [判斷式]
+do
+    …
+done
+
+
+for var in con1 con2 con3…
+do
+    …
+done
+var 表示迴圈內可取用的變數
+而 var 的內容會隨著每個 iteration 而變化
+變化的順序為 con1, con2, con3, …
+
+目錄下檔案的迴圈：
+for f in *      <- 支援 bash wildcard *
+do
+    …
+done
+
+連續數字：
+當 iteration 是從數字 1 到 100 時，可以用以下的方式
+for var in $(seq 1 100)
+或者
+for var in {1..100}
+
+
+for ((初始值; 限制值; 每階變化))
+do
+    …
+done
+
+範例：
+for ((i=1; i<=100; i=i+1))
+
+
+——
+
+

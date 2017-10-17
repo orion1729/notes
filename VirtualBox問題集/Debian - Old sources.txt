@@ -1,0 +1,7 @@
+/etc/apt/sources.list
+
+deb http://archive.debian.org/debian/ <version> main non-free contrib
+deb-src http://archive.debian.org/debian/ <version> main non-free contrib
+
+deb http://archive.debian.org/debian-security/ <version>/updates main non-free contrib
+deb-src http://archive.debian.org/debian-security/ <version>/updates main non-free contrib

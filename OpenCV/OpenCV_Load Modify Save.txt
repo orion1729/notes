@@ -1,0 +1,64 @@
+﻿
+#include <cv.h>
+#include <highgui.h>
+
+using namespace cv;
+
+int main( int argc, char** argv )
+{
+ char* imageName = argv[1];
+
+ Mat image;
+ image = imread( imageName, 1 );
+
+ if( argc != 2 || !image.data )
+ {
+   printf( " No image data \n " );
+   return -1;
+ }
+
+ Mat gray_image;
+ cvtColor( image, gray_image, CV_BGR2GRAY );
+
+ imwrite( "../../images/Gray_Image.jpg", gray_image );
+
+ namedWindow( imageName, CV_WINDOW_AUTOSIZE );
+ namedWindow( "Gray image", CV_WINDOW_AUTOSIZE );
+
+ imshow( imageName, image );
+ imshow( "Gray image", gray_image );
+
+ waitKey(0);
+
+ return 0;
+}
+
+---
+
+讀取圖片：
+
+同 002 的 imread()
+
+也是用 Mat 去接住
+
+---
+
+Color space 的轉換：
+
+- cvtColor(InputArray src, OutputArray dst, int code, int dstCn = 0)
+  從 src Mat 以 code 指定的方式，將結果轉換到 dst Mat
+  有各種 Color space 之間的轉換，這邊使用 CV_RGB2GRAY
+
+  最後一個參數代表 dst 的 channel（ARGB 表示是 4 channel）數目
+  0 表示依據 src, code 來決定
+
+---
+
+儲存圖片：
+
+- bool imwrite(const string& filename, InputArray img, const vector<int>& params=vector<int>())
+  主要是前兩個參數：檔名、要輸出的圖片 Mat
+  第三個參數是決定各種參數用
+
+---
+

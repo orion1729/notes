@@ -1,0 +1,44 @@
+﻿
+Color :
+
+Color 的 resource 可分為兩種
+一種存於 res/values/colors.xml
+另一種存於 res/color/<file_name>.xml
+
+---
+
+在 res/values/colors.xml 當中定義的顏色
+是單純的將色碼給予稱號
+如此便可在一些需要顏色的地方以稱號來呼叫
+
+使用：
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="color_name">hex_color</color>
+</resources>
+
+---
+
+而 res/color/<file_name>.xml 則是以 color state list 為主
+主要是利用 <selector> 來達成因應不同狀態而提供不同顏色
+
+使用：
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item
+        android:color="hex_code"
+        android:state_pressed=["true" | "false"]
+        android:state_focused=["true" | "false"]
+        android:state_selected=["true" | "false"]
+        android:state_checkable=["true" | "false"]
+        android:state_checked=["true" | "false"]
+        android:state_enabled=["true" | "false"]
+        android:state_window_focused=["true" | "false"] />
+</selector>
+
+狀態的檢查會從第一個 <item> 到依序下去
+所以什麼狀態都沒有的應該擺最後
+
+---
+
+上述兩者都能以 R.color.name, @color/name 來存取

@@ -1,0 +1,64 @@
+﻿
+<canvas> 	用 JavaScript 來定義圖畫
+
+---
+
+Media :
+
+<audio> 	定義聲音、音樂的內容
+<embed> 	供外部 APP 鑲嵌的容器
+<source> 	<video>, <audio> 的 source
+<track> 	<video>, <audio> 的 track
+<video> 	定義影片、電影的內容
+
+---
+
+Form :
+
+<datalist> 	Defines pre-defined options for input controls
+<keygen> 	Defines a key-pair generator field (for forms)
+<output> 	Defines the result of a calculation
+
+---
+
+Semantic, Structural :
+
+<article> 	Defines an article in the document
+<aside> 	Defines content aside from the page content
+<bdi> 		Defines a part of text that might be formatted in a different direction from other text outside it
+<details> 	Defines additional details that the user can view or hide
+<dialog> 	Defines a dialog box or window
+<figcaption> 	Defines a caption for a <figure> element
+<figure> 	Defines self-contained content, like illustrations, diagrams, photos, code listings, etc.
+<footer> 	Defines a footer for the document or a section
+<header> 	Defines a header for the document or a section
+<main> 		Defines the main content of a document
+<mark> 		Defines marked or highlighted text
+<menuitem>  	Defines a command/menu item that the user can invoke from a popup menu
+<meter> 	Defines a scalar measurement within a known range (a gauge)
+<nav> 		Defines navigation links in the document
+<progress> 	Defines the progress of a task
+<rp> 		Defines what to show in browsers that do not support ruby annotations
+<rt> 		Defines an explanation/pronunciation of characters (for East Asian typography)
+<ruby> 		Defines a ruby annotation (for East Asian typography)
+<section> 	Defines a section in the document
+<summary> 	Defines a visible heading for a <details> element
+<time> 		Defines a date/time
+<wbr> 		Defines a possible line-break
+
+---
+
+捨棄的 HTML 4.01 標籤：
+
+    <acronym>
+    <applet>
+    <basefont>
+    <big>
+    <center>
+    <dir>
+    <font>
+    <frame>
+    <frameset>
+    <noframes>
+    <strike>
+    <tt>

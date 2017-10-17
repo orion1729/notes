@@ -1,0 +1,23 @@
+﻿在擁有 convertView 的 adapter 當中
+Android 系統會將可以重複利用的 View 以此參數傳入
+若沒有則會傳入 null
+所以實作時需判斷
+
+也就是當螢幕變動（滑動等）時
+會造成某些 View 被擠出螢幕外，同時也有新的 View 需要進入螢幕內
+而被擠出去的物件可以直接給新的使用
+這樣就不用在實例一個物件了
+
+---
+
+Holder Pattern:
+主要做法是利用一個 static class 在 adapter 內
+內容為每個 item layout 中你所要用到的 View 的 reference
+
+並且將此 class 以 View.setTag(Object) 的方式設定在 View 中
+這樣重複使用時，可以用 getTag(Object) 把 holder 叫出來
+利用 reference 將 View 的內容修改為新的即可
+
+也就是說我們只需要在 convertView == null 時再 inflate layout 即可
+可以提升效能
+

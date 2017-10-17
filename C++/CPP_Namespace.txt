@@ -1,0 +1,47 @@
+﻿
+Namaspace 是用來管理程式中變數、函數、類別等名稱的方式
+
+---
+
+定義 Namaspace :
+
+通常連同變數、函式等定義於 .h 檔中
+
+namespace <name>{
+    // 各種變數的定義
+    // ...
+
+    // 各種函數的定義
+    // ...
+
+    // 各種類別的定義
+    // ...
+};
+
+---
+
+使用某一個 Namespace :
+
+在 include 之後想使用某個 Namespace 中的東西
+需要使用 :: 這個範圍解析 operator
+
+格式：<space_name> :: <member>
+
+另外也能使用 using 關鍵字，如此一來就不需要上面的格式，可直接呼叫 member
+- using <space_name> :: <member>
+  只能使用某個 namespace 中的一個成員
+
+- using namespace <space_name>
+  整個 namespace 都可直接使用
+
+---
+
+C++ 的標準函式庫都定義於 std 這個 Namespace 之中
+
+---
+
+衝突：
+
+一次使用多個 using namespace <space_name> 可能會造成衝突
+
+此時就須要明確宣告：<space_name> :: <member>

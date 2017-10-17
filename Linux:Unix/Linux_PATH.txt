@@ -1,0 +1,23 @@
+﻿
+export PATH=/xxx/bin:$PATH 這種方式每次重新開機後就會消失了
+
+為了讓嵌入至系統中，可有以下作法：
+
+1. 修改 /etc/profile
+   改成 "PATH=/xxx/bin:$PATH"
+   這樣會造成整個系統都會加入這個路徑，變成每個使用者都能使用
+
+2. 修改 /etc/profile
+   在 manipulation 中，並在原本存在的路徑之前加入 /xxx/bin
+   這樣只會影響這個 user 帳號
+
+3. 修改 /etc/bashrc
+   變成 export PATH=/xxx/bin:$PATH
+   這個方式只限目前的使用者權限
+
+---
+
+在 Ubuntu 系統上：
+
+1. 修改 /etc/environment
+

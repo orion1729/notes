@@ -1,0 +1,28 @@
+
+Binary Tree :
+每個節點最多只能擁有兩個子節點的樹。
+
+Full Binary Tree :
+除了 leaf 之外，其餘節點都有兩個子節點。
+
+Complete Binary Tree :
+除了最底層，其餘皆填滿；且最底層只能從左向右開始填充。
+
+Perfect Binary Tree :
+所有節點都被填滿。
+相當於 Full Binary Tree + Complete Binary Tree
+
+——
+
+Tree Traversal :
+
+1. Preorder : root -> left -> right
+2. Inorder : left -> root -> right
+3. Postorder : left -> right -> root
+4. level-order : 每一層從左向右開始印
+
+其中 1 至 3 可分類為 Depth-First Search
+第四項則是 Breadth-First Search
+
+——
+

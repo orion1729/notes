@@ -1,0 +1,9 @@
+
+adduser :
+用來新增使用者帳戶的一個「script」
+真正用來創建帳號的指令是 useradd
+
+adduser script 除了創立帳號以外還會自動新增帳號的家目錄
+同時也會複製一些預設的檔案到家目錄中
+
+使用：sudo adduser [username]

@@ -1,0 +1,84 @@
+﻿
+OpenCV（Open Source Computer Vision Library）是處理電腦視覺相關的 API
+
+支援 C, C++, Java 等等介面
+
+---
+
+座標：
+
+ O———————→ X
+｜
+｜
+｜
+｜
+↓
+ Y
+
+---
+
+安裝（Windows）：
+
+OpenCV 提供 source code 讓使用者自行針對環境來編譯產生 library
+
+在 Windows 上也是一樣的情況
+
+
+
+因此需要如同 Linux 上的 configure 後再 meke
+
+-
+
+此處是使用 Code::Blocks 內附的 MinGW 來編譯（make）
+
+1. 下載 OpenCV 並安裝（解壓縮）
+
+2. 在 Windows 上的 configure 工具是 CMake
+   安裝完 CMake 後啟動 CMake-gui.exe
+
+3. 設定 source code 目錄到 <OpenCV目錄>/opencv/sources
+   設定 build the binaries 指定到自己想要的目錄（存放 binaries）
+
+4. 點 Configure 後，會需要指定編譯環境
+   選擇 MinGW Makefiles
+
+   下面選擇 Specify native compilers 按下一步
+
+5. 此處需選擇 compiler 所在的目錄
+   即 Code::Blocks 內附的 MinGW 的 bin 目錄底下之 mingw32-gcc, mingw32-g++
+
+6. 完成後 CMake 視窗會有項目可供勾選
+   此時可以勾選 BUILD_EXAMPLES，這樣 make 完成後可以有範例使用
+
+   勾選完後再點一次 Configure
+
+7. 點選 Generate
+
+8. 結束後在你指定的 binaries 目錄下會有 Makefile 檔
+   此時用 Code::Blocks 內附的 MinGW 的 mingw32-make 這個 make 程式來 make
+   （可將 <code_blocks目錄>\MinGW\bin 加入環境變數 PATH，較方便）
+
+9. 用 cmd 視窗進入 binaries 目錄（有 Makefile 的）
+   然後使用 mingw32-make 來 make（加入環境變數是方便在此）
+   make 所需的時間挺長的，約一個小時
+
+10.一樣在 cmd 視窗下輸入 mingw32-make install
+   之後會在 binaries 的目錄下發現 install 目錄
+   install 目錄中會包含了 include，即以後原始碼中需要 include 的標頭檔都在這
+
+11.最後還須將 binaries 目錄下的 bin 加到環境變數 PATH 中才行
+   因為有一些用於 link 的 DLL 在此目錄之下
+
+-
+
+Code::Blocks 設定：
+
+1. Project -> Build options -> Linker settings -> Link libraries
+   加入 <binaries目錄>\lib 中的 .a 檔
+
+2. Project -> Build options -> Search directories -> Compiler
+   加入 <binaries目錄>\istall\include
+
+3. Project -> Build options -> Search directories -> Linker
+   加入 <binaries目錄>\lib
+

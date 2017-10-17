@@ -1,0 +1,70 @@
+﻿
+這邊不用 calcHist 這個 function 來計算 Histogram
+
+而是自製一個 function 來設定 image 的 Histogram
+
+---
+
+1. 建立用來儲存 Histogram 資訊的 Mat
+
+  Mat hist = Mat::zeros(1, bin_number, CV_32SC1)
+
+---
+
+2. 利用雙重迴圈、三重迴圈（R, G, B 各別累積時用）來 count image 的 pixel value
+
+  for(int i = 0; i < img.rows; i++){
+      for(int j = 0; j < img.cols; j++){
+          /* R, G, B 各別累積的情況，多一層迴圈
+          for(int k = 0; k < color_number; k++){ ... }
+          */
+
+          uchar index = img.at<uchar>(i, j);
+          hist.at<int>(index) += 1;
+      }
+  }
+
+---
+
+3. 為了 Histogram 的圖好看，我們要找出最大值，以 normalize Histogram
+
+   說明：例如某個 gray level 的 bin 值為 x，整個 Histogram 最大值為 M，用來顯示的 image 高度 H
+         則此 x 會在此條件下被 normalize，h = (x / M) * H
+
+  hmax = 0;
+
+  for(int i = 0; i < bins - 1; i++){
+      hmax = hist.at<int>(i) > hmax ? hist.at<int>(i) : hmax;
+  }
+
+---
+
+4. 接下來是利用 line function 來在新的 Mat 中畫出我們想要的高度線
+   （一個 gray level 為單位，一個 column 一個 column 往右邊（正 X 方向）掃）
+   這邊須注意 OpenCV 的座標系統
+
+   線段指定顏色須使用 Scalar(r, g, b) 來指定（灰色的話就 r, g, b 三個值一樣即可）
+
+   line function 是利用兩個 Point 來定義線段
+
+
+
+  char winName[] = "name";
+  Scalar color = Scalar(200, 200, 200);
+
+  Mat canvas = Mat::ones(125, bins, CV_8UC3);
+
+  for(int i = 0, rows = 125; i < bins - 1; i++){
+      line(
+        canvas,
+        Point2f(i, rows),
+        Point2f(i, rows - ((float)hist.at<int>(i) / hmax * rows)),
+        color,
+        1, 8, 0
+      );
+  }
+
+  imshow(winName, canvas);
+
+---
+

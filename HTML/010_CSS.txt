@@ -1,0 +1,17 @@
+﻿
+有三種方式使用在 html 裡
+1. inline : 使用 style attribute
+  <p style="color:blue;margin-left:20px;">This is a paragraph.</p> 
+
+2. internal : 使用 <style> 在 <head> 裡
+  <head>
+  <style>
+  body {background-color:yellow;}
+  p {color:blue;}
+  </style>
+  </head> 
+
+3. external : 使用外部 CSS 檔
+  <head>
+  <link rel="stylesheet" type="text/css" href="mystyle.css">
+  </head>

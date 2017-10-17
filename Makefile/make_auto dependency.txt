@@ -1,0 +1,48 @@
+
+
+Auto-Dependency Generation:
+一旦程式當中有用到使用者自訂的 header 時，
+就必須在 Makefile 中將這些 header 加入 .o 的相關性中，
+否則修改 header 並不會讓相依的 .o 重新編譯
+
+暴力法：
+最單純的方式就是手動的撰寫每一條 rule，
+並將每一個 .o 相關的 .h 寫入 prerequisite 當中
+
+Compiler 解法：
+現在的 compiler 當中都有提供一些 option，
+讓 compiler 自動辨識 .c 中 #include，
+並將那些 header 以 Makefile target 的格式輸出。
+
+以下是相關的 flag:
+-MD
+可辨識 user 和 system 的 headers
+
+-MMD
+辨識 user 的 headers
+
+-MM
+功能與 MMD 相同，但是多了 -E 的 flag
+E flag 表示只跑 preprocessor 的部分
+
+-M
+與 MD 相同，但多了 -E flag
+
+-MP
+會自動加入 header 的 PHONY target
+例如：
+main.o : main.c foo.h
+foo.h :  # <—— PHONY target
+功能是防止 rename header 而產生的 file missing 錯誤
+
+-MT<value>
+指定 .d 中的 object target name，
+主要是用在當 object file 放在不同目錄時
+例如：
+-MTobj/main.o 會產生
+obj/main.o : main.c foo.h
+
+-MF<value>
+用於輸出 .d 的檔案，可指定包含目錄的檔名
+例如：
+-MFobj/main.d 會在 obj 目錄底下產生 main.d 檔案

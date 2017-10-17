@@ -1,0 +1,328 @@
+﻿
+由於 PHP 的更改與建議，在與 MySQL 資料庫作互動時不再用舊的函式
+而是改成更為模組化的 MySQLi（improved）或 PDO（PHP Data Object）
+
+
+
+---
+
+
+
+Connection :
+
+在使用資料庫前都須建立連線
+
+mysqli_connect(host, username, password, dbname);
+
+host - host name 或者 IP
+username - 資料庫的使用者帳號
+password - 使用者帳號之密碼
+dbname - 預設選擇的資料庫
+
+仍有其他許多參數，但上述的較為基本重要的幾個
+
+範例：
+<?php
+// Create connection
+$con = mysqli_connect("example.com","peter","abc123","my_db");
+
+// Check connection
+if (mysqli_connect_errno()) {
+  echo "Failed to connect to MySQL: " . mysqli_connect_error();
+}
+?> 
+
+
+
+---
+
+
+
+Close :
+
+資料庫連線會在程式執行完畢後自動關閉，但仍可自行關閉
+
+mysqli_close($con);
+
+
+
+---
+
+
+
+Create Database :
+
+利用 mysqli_query() 來創建一個新的資料庫
+
+// Create database
+$sql = "CREATE DATABASE my_db";
+
+if (mysqli_query($con,$sql)) {
+  echo "Database my_db created successfully";
+} else {
+  echo "Error creating database: " . mysqli_error($con);
+}
+
+
+
+---
+
+
+
+Create Table :
+
+也是由 mysqli_query() 來完成
+
+// Create table
+$sql = "CREATE TABLE Persons(FirstName CHAR(30),LastName CHAR(30),Age INT)";
+
+// Execute query
+if (mysqli_query($con,$sql)) {
+  echo "Table persons created successfully";
+} else {
+  echo "Error creating table: " . mysqli_error($con);
+}
+
+
+
+Primary Key and Auto Increment :
+
+Primary Key 是用來辨別一個 row 的，因此必須在 table 中是唯一的
+通常會與 auto_increment 一起使用
+利用 PRIMARY KEY() 來設定
+
+$sql = "CREATE TABLE Persons 
+(
+PID INT NOT NULL AUTO_INCREMENT,
+PRIMARY KEY(PID),
+FirstName CHAR(15),
+LastName CHAR(15),
+Age INT
+)";
+
+
+
+---
+
+
+
+Insert :
+
+有兩種格式可以使用
+
+INSERT INTO table_name
+VALUES (value1, value2, value3,...)
+
+INSERT INTO table_name (column1, column2, column3,...)
+VALUES (value1, value2, value3,...)
+
+同樣是利用 mysqli_query() 來執行
+
+範例：
+<?php
+$con = mysqli_connect("example.com","peter","abc123","my_db");
+// Check connection
+if (mysqli_connect_errno()) {
+  echo "Failed to connect to MySQL: " . mysqli_connect_error();
+}
+
+mysqli_query($con, "INSERT INTO Persons (FirstName, LastName, Age)
+VALUES ('Peter', 'Griffin', 35)");
+
+mysqli_query($con, "INSERT INTO Persons (FirstName, LastName, Age)
+VALUES ('Glenn', 'Quagmire', 33)");
+
+mysqli_close($con);
+?>
+
+
+
+Form :
+
+使用表單時可搭配 mysqli_real_escape_string() 來避免 SQL injection
+
+<?php
+$con = mysqli_connect("example.com","peter","abc123","my_db");
+// Check connection
+if (mysqli_connect_errno()) {
+  echo "Failed to connect to MySQL: " . mysqli_connect_error();
+}
+
+// escape variables for security
+$firstname = mysqli_real_escape_string($con, $_POST['firstname']);
+$lastname = mysqli_real_escape_string($con, $_POST['lastname']);
+$age = mysqli_real_escape_string($con, $_POST['age']);
+
+$sql = "INSERT INTO Persons (FirstName, LastName, Age)
+VALUES ('$firstname', '$lastname', '$age')";
+
+if (!mysqli_query($con,$sql)) {
+  die('Error: ' . mysqli_error($con));
+}
+echo "1 record added";
+
+mysqli_close($con);
+?> 
+
+
+
+---
+
+
+
+Select :
+
+SELECT column_name(s)
+FROM table_name
+
+送出 query 後，mysqli_query() 會傳回一個 recordset
+此資源可利用 mysqli_fetch_array() 來取得資料內容
+每次呼叫 mysqli_fetch_array() 都會傳回下一個 row 的內容
+
+範例：
+<?php
+$con = mysqli_connect("example.com","peter","abc123","my_db");
+// Check connection
+if (mysqli_connect_errno()) {
+  echo "Failed to connect to MySQL: " . mysqli_connect_error();
+}
+
+$result = mysqli_query($con, "SELECT * FROM Persons");
+
+while($row = mysqli_fetch_array($result)) {
+  echo $row['FirstName'] . " " . $row['LastName'];
+  echo "<br>";
+}
+
+mysqli_close($con);
+?>
+
+
+
+---
+
+
+
+Where :
+
+SELECT column_name(s)
+FROM table_name
+WHERE column_name operator value
+
+範例：
+<?php
+$con = mysqli_connect("example.com","peter","abc123","my_db");
+// Check connection
+if (mysqli_connect_errno()) {
+  echo "Failed to connect to MySQL: " . mysqli_connect_error();
+}
+
+$result = mysqli_query($con,"SELECT * FROM Persons
+WHERE FirstName='Peter'");
+
+while($row = mysqli_fetch_array($result)) {
+  echo $row['FirstName'] . " " . $row['LastName'];
+  echo "<br>";
+}
+?>
+
+
+
+---
+
+
+
+Order by :
+
+預設是 ascending（遞增）模式
+可使用 ASC 或 DESC 來切換
+
+SELECT column_name(s)
+FROM table_name
+ORDER BY column_name(s) ASC | DESC
+
+範例：
+<?php
+$con = mysqli_connect("example.com","peter","abc123","my_db");
+// Check connection
+if (mysqli_connect_errno()) {
+  echo "Failed to connect to MySQL: " . mysqli_connect_error();
+}
+
+$result = mysqli_query($con,"SELECT * FROM Persons ORDER BY age");
+
+while($row = mysqli_fetch_array($result)) {
+  echo $row['FirstName'];
+  echo " " . $row['LastName'];
+  echo " " . $row['Age'];
+  echo "<br>";
+}
+
+mysqli_close($con);
+?>
+
+
+
+可設定一次比較兩個 column，但只有在第一個 column 等值時才會使用第二個 column
+
+
+
+
+---
+
+
+
+Update :
+
+用來修改資料
+
+UPDATE table_name
+SET column1=value, column2=value2,...
+WHERE some_column=some_value
+
+如果沒用 WHERE 指定特定 row，那麼所有 row 的資料都會被動到
+
+範例：
+<?php
+$con = mysqli_connect("example.com","peter","abc123","my_db");
+// Check connection
+if (mysqli_connect_errno()) {
+  echo "Failed to connect to MySQL: " . mysqli_connect_error();
+}
+
+mysqli_query($con,"UPDATE Persons SET Age=36
+WHERE FirstName='Peter' AND LastName='Griffin'");
+
+mysqli_close($con);
+?> 
+
+
+
+---
+
+
+
+Delete :
+
+DELETE FROM table_name
+WHERE some_column = some_value
+
+範例：
+<?php
+$con = mysqli_connect("example.com","peter","abc123","my_db");
+// Check connection
+if (mysqli_connect_errno()) {
+  echo "Failed to connect to MySQL: " . mysqli_connect_error();
+}
+
+mysqli_query($con,"DELETE FROM Persons WHERE LastName='Griffin'");
+
+mysqli_close($con);
+?>
+
+
+
+---
+
+
+

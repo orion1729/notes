@@ -1,0 +1,13 @@
+
+功能：
+可以創造一個型別的同義名
+
+——
+
+語法：
+typedef type_declaration;
+
+——
+
+解讀方式：
+以 right-left rule 來解讀

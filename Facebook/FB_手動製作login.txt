@@ -1,0 +1,39 @@
+﻿
+
+調用 login dialog :
+
+先將使用導向到 https://www.facebook.com/dialog/oauth?
+		client_id={app-id}
+	       &redirect_uri={redirect-uri}
+
+包含了兩個參數，client_id, 和一個當使用者登入後的頁面 uri
+這個頁面會接收 login dialog 回傳的 response
+
+還有一些其他參數可以選擇：
+- state
+  是一個隨機的字串，防止 cross-site request forgery
+
+- response_type
+  是用來確認是否有 response data 被包含在 URL parameter 或 fragments
+
+  * code - response data 被包含在 code 這個 URL parameter 中
+      如果沒有指定 response_type 的話，這是預設 type
+      若是在 server 處理 token 的話比較推薦
+
+  * token - response data 被包含在 URL parameter 中，並且包含了一個 access token
+      通常用在是 client 會處理 token
+
+  * code%20token - response data 被包含在 URL parameter 中，連同 access token 和 code parameter
+
+  * granted_scopes - 回傳一個用逗號分隔的 permission list，這個 list 是由使用者在登入時所確認
+      可以結合其他 response_type 的 value 使用
+
+- scope
+  用逗號分隔的 permission list
+
+
+---
+
+
+確認身分：
+

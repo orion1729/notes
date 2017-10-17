@@ -1,0 +1,38 @@
+﻿
+在 /res/menu/???.xml 當中加入 <item>
+（顯示 action bar item 的 xml）
+
+<item android:id="@+id/search"
+      android:title="@string/title"
+      android:icon="@drawable/ic"
+      android:showAsAction="collapseAcionView|ifRoom"
+      android:actionViewClass="android.widget.SearchView"
+
+      <!-- Support -->
+      yourapp:actionViewClass="android.support.v7.widget.SearchView" />
+
+---
+
+為了讓 Search Bar 有功能
+我們需要設定 Searchable Configuration 資源檔
+
+位置在 res/xml/searchable.xml
+
+範例：
+<?xml version="1.0" encoding="utf-8" ?>
+<searchable xmlns:android="http://schemas.android.com/apk/res/android"
+    android:label="@string/label"
+    android:hint="@string/hint" />
+
+至少需要有 android:label
+且值須與 <application> 或 <activity> 的 android:label 相同
+（讓你的 app 可以在系統的 search settings 當中有辨識）
+
+
+接下來在 Manifest.xml 當中的 <activity>
+利用 <meta-data> 來指向 /res/xml/searchable.xml
+<meta-data android:name="android.app.searchable"
+    android:resource="@xml/searchable" />
+
+---
+

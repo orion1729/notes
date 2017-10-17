@@ -1,0 +1,114 @@
+﻿
+jQuery 可以處理 HTML 的 DOM
+
+
+***
+
+Get
+
+text()
+
+可以設定或取得一個 element 的 text content
+
+$("#btn1").click(function(){
+  alert("Text: " + $("#test").text());
+});
+
+---
+
+html()
+
+可以設定或取得一個 element 的 content
+（包含內容當中的 html 標籤，例如 <b>）
+
+$("#btn2").click(function(){
+  alert("HTML: " + $("#test").html());
+});
+
+---
+
+val()
+
+可以設定或取得 value
+
+<p>Name: <input type="text" id="test" value="Mickey Mouse"></p>
+
+$("#btn1").click(function(){
+  alert("Value: " + $("#test").val());
+});
+
+---
+
+attr()
+
+可以取得指定 attribute 的值
+
+$("button").click(function(){
+  alert($("#w3s").attr("href"));
+});
+
+
+***
+
+
+Set
+
+$("#btn1").click(function(){
+  $("#test1").text("Hello world!");
+});
+$("#btn2").click(function(){
+  $("#test2").html("<b>Hello world!</b>");
+});
+$("#btn3").click(function(){
+  $("#test3").val("Dolly Duck");
+});
+
+---
+
+Callback Function
+
+text(), html(), val() 可以設定 callback function
+function 擁有兩個參數，一個是 element 的 index，另一個是 original value
+
+function 必須回傳字串用於新的內容
+
+$("#btn1").click(function(){
+  $("#test1").text(function(i,origText){
+    return "Old text: " + origText + " New text: Hello world!
+    (index: " + i + ")";
+  });
+});
+
+$("#btn2").click(function(){
+  $("#test2").html(function(i,origText){
+    return "Old html: " + origText + " New html: Hello <b>world!</b>
+    (index: " + i + ")";
+  });
+});
+
+---
+
+Set attr()
+
+$("button").click(function(){
+  $("#w3s").attr("href","http://www.w3schools.com/jquery");
+});
+
+也可同時設定多個 attribute
+
+$("button").click(function(){
+  $("#w3s").attr({
+    "href" : "http://www.w3schools.com/jquery",
+    "title" : "W3Schools jQuery Tutorial"
+  });
+});
+
+attr() 也可以設定 callback function
+
+$("button").click(function(){
+  $("#w3s").attr("href", function(i,origValue){
+    return origValue + "/jquery";
+  });
+});
+
+

@@ -1,0 +1,54 @@
+
+
+Access :
+在變數名稱前加上 $ 即可
+例如：$var
+
+近期除了加上 dollar sign 以外還會用大括號包住變數名稱
+例如：${var}
+
+
+——
+
+
+Set, Modify :
+利用 = 來改變變數內容，變數預設是一個空的值
+例如：var=good
+
+- 等號兩邊不能有空白
+  var = good 或 var=good bye 都是錯的
+  若要讓變數內容包含空白，可以使用單引號 ‘ 和雙引號 “
+
+- 引號包含內容
+  雙引號：能讓 $ 有提取變數內容的動作
+  str=“hey, $var” -> str=“hey, good”
+  單引號：沒有提取變數的動作
+  str=“hey, $var” -> str=“hey, $var”
+
+- 跳脫字元 \
+  能夠跳脫 [enter], $, \, 空白, ‘ 這些特殊字元
+  如此一來可以不用引號也能讓變數內容包含空白
+  var=good\ bye
+
+- 擴增變數內容（冒號 :）
+  能夠讓變數在原來的內容之外，再額外加入新內容
+  常用於 PATH 新增新路徑時
+  PATH=“$PATH”:/home/bin
+  PATH=${PATH}:/home/bin
+
+- 取消變數：unset
+
+
+——
+
+
+Random :
+bash 有內建 random number
+只要使用 ${RANDOM} 即可
+範圍是 16-bit 的正整數
+
+
+——
+
+
+

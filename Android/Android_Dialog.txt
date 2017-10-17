@@ -1,0 +1,75 @@
+﻿
+Google 建議使用 DialogFragment 來管理 Dialog
+
+DialogFragment 是一個 Dialog 容器
+可以處理一些相關事件
+
+DialogFragment 在 Android 3.0（API level 11）才有
+或者使用 Support Library
+
+---
+
+AlertDialog 是一個可以讓你自己變化的 Dialog
+利用 AlertDialog.Builder 來創建各種參數
+
+---
+
+依據 Android Developer Guide
+取消健放左、確定鍵放右
+
+---
+
+DialogFragment :
+創造一個 class extends DialogFragment
+
+- onCreateDialog(Bundle savedInstanceState)
+  在此方法中創建 AlertDialog（用 Builder 建置）
+  最後需回傳 Dialog 物件
+  在 Builder 的情況可回傳 Builder.create()
+
+  利用 Fragment 提供的 getActivity() 可以取得 Activity
+  用於 AlertDialog.Builder 的 Constructor
+  或 getActivity().getLayoutInflater()
+
+  系統在需要創建 layout 在一個
+
+- show(FragmentManager fm, String tag)
+  用於在要顯示 Dialog 的地方
+
+  FragmentActivity 要用 SupportFragmentManager
+
+  而 tag 可用在 findFragmentByTag()
+
+- onCreateView(LayoutInflater, ViewGroup, Bundle)
+  若想將 Dialog 以全螢幕或鑲嵌時使用的方法
+  此時一定得使用自己定義的 layout
+
+  系統呼叫此方法在需要 DialogFragment 的 layout 時
+  所以需回傳一個 View 物件
+
+- onCancel()
+  在 back 鍵、觸碰 Dialog 區域外時被呼叫
+
+- dismiss()
+  list item 被點擊時會被呼叫
+
+---
+
+AlertDialog :
+Builder 可以設定參數
+
+許多方法都可以傳入 resource id 作參數
+
+Builder 的 Constructor 需要 Activity 物件
+
+主要分為三區塊
+1. title
+2. content (message)
+3. button
+
+- setItems(Array, DialogInterface.OnClickListener)
+  可以用 Array 作為 list 印出
+
+- setView(View)
+  可以將自製的 layout 作為 content 展現
+

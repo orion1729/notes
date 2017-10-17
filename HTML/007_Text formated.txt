@@ -1,0 +1,42 @@
+﻿
+<b> 是粗體
+
+<strong> 與 <b> 類似
+
+<italic> 斜體
+
+<em> 強調，類似斜體
+
+<sub> 下標小字
+
+<sup> 上標小字
+
+---
+
+<pre> 可以將多個空白保留下來
+
+<code> 則是程式碼的樣式
+
+<kbd> 是鍵盤輸入
+
+<samp> 是 sample text
+
+<var> 則表示變數
+
+<address> 可以表示網站作者的聯絡資訊
+
+<abbr> 當滑鼠移到縮寫上時，會出現完整文字
+<abbr title="World Helth Organization">WHO</abbr>
+會出現 WHO 這個縮寫，移上去則出現 title 中設定的字
+
+<bdo> 可支援反向寫文字
+<bdo dir="rtl">apple</bdo>
+會變成 elppa
+
+<blockquote> 用於引文，會縮排並類似 <p> 顯示
+<q> 也用於引文，但只會顯示雙引號而已
+
+<del> 使文字上出現刪除線
+<ins> 文字下出現底線
+
+<mark> 讓文字被底色標明出來

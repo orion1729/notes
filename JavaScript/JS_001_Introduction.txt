@@ -1,0 +1,30 @@
+﻿
+可以用來
+
+- 寫入到 HTML 的輸出
+  document.write("<p>This is a paragraph</p>");
+
+- 對事件做出反應
+  <button type="button" onclick="alert('Welcome')">Click Me</button>
+
+- 更換 HTML 標籤的內容
+  x = document.getElementById("demo");
+  x.innerHTML = "Hello JavaScript";
+
+- 更改 HTML 的 style
+  x = document.getElementById("demo");
+  x.style.color = "#ff0000";
+
+- 檢驗 HTML 的 value
+  var x = document.getElementById("demo").value;
+  if( x == "" || isNaN(x) ){
+      alert("Not Numeric");
+  }
+
+---
+
+以 <script> 標籤包住
+可以放在任何地方
+
+---
+

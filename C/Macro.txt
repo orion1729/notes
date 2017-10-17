@@ -1,0 +1,133 @@
+
+定義：
+Macro 是一段已給定一個 Name 的，之後不論何時使用 Name，
+都會被替換為 Macro 的內容。
+
+可以使用任何 identifier 作為 Macro，甚至是 C 的 key word。
+對於古早的 compiler 來說，可能會不認識 const，
+為了解決這個問題可以利用 Macro 解決。
+
+——
+
+Object-like Macros :
+#define Name [body / expansion / replacement-list]
+
+常被用來定義數字的常數。
+且一般的使用上會將 Macro 以大寫來表示。
+
+Macro 的 body 定義會結束在 ‘#define’ 的同一行，
+若要有多行的內容，可用反斜線 ‘\’ 來接續，
+但是 Macro 在展開的時候會展開在同一行（不會有換行效果）
+
+範例：
+#define NUMBERS 1, \
+	2, 3
+int a[3] = { NUMBERS };
+// int a[3] = { 1, 2, 3 };
+
+當 preprocessor 在 expand Macro 時，會先將其 expansion 取代 Macro Name，
+倘若 expansion 還能被 expand 的話就會繼續被展開。
+
+範例：
+#define TABLESIZE BUFFERSIZE
+#define BUFFERSIZE 1024
+上面的情況中，TABLESIZE 會先被 expand 成 BUFFERSIZE，
+不論 BUFFERSIZE 是否有效。
+當使用到 TABLESIZE 時，才會被繼續 expand。
+
+倘若 Macro 包含了自己的 Name，或是藉由一個中介的 Macro 來包含，
+這個 Macro 只會被 expand 成 body，就不會繼續 expand 下去了。
+
+——
+
+Function-like Macro :
+#define Name([parameters]) expansion
+是一個類似 function call 的 Macro，在 Macro Name 後面緊接著左右括號。
+
+function-like Macro 只有當 Name 帶有雙括號時才會被 expand，
+這可以在有 function 的名稱與 Macro Name 相同的情形下使用。
+
+若在 #define Macro Name 時，在 Name 與雙括號之間加入了空白，
+那麼這是一個無效的 function-like Macro，會變成 object-like Macro。
+
+——
+
+Macro Arguments :
+可以在 function-like Macro 的雙括號中加入 parameters，
+這些 parameters 必須是合法的 C identifier，且用 ‘,’ 逗號分開，中間可以包含空白。
+
+當 Macro 在 expand 的時候，
+所有在 body 中的 parameter 都會被取代成對應的 actual arguments。
+
+所有 arguments 都會先被 expand（如果 argument 是 Macro 的話），然後才會被取代到 body 中。
+在取代之後，完整的 text 會再次被掃瞄，並將剩餘包含 arguments 的 Macros expand。
+
+Macro parameters 被雙引號括住的話（字串），這樣不會被 preprocessor expand。
+
+範例：
+#define foo(x) x, “x”
+foo(bar) -> bar, “x”
+
+——
+
+Stringification :
+將 ‘#’ 放在 parameters identifier 之前的話，會將 parameter 內容轉變為字串常數，
+而不會將其 expand。
+
+可以藉由與字串常數相鄰來達成字串串接的目的：
+#define WARN_IF(EXP) \
+do { if(EXP) \
+	fprintf(stderr, “Warning: ” #EXP “\n”); } \
+while(0)
+
+WARN_IF(x == 0)
+-> do { if(x == 0)
+	fprintf(stderr, “Warning: “ “x == 0” “\n”); } while(0);
+
+若要 stringificate 的是一個 Macro 的內容的話，
+就需要用兩層的 Macro 來達成。
+（利用的是不含 stringification 的那個 Macro 會向下 expand 的特性）
+
+範例：
+#define xstr(x) str(x)
+#define str(x) #x
+#define foo 4
+
+str(foo) -> str(“foo”)
+xstr(foo) -> str(4) -> “4”
+
+——
+
+Concatenation :
+將 “##” operator 放在兩個 token 之間，就能將兩個 token 串聯成一個較長的 token。
+（但是如果串聯起來的結果不符合 token 的組成規則，那麼 preprocessor 會給警告）
+
+如果 “##” 的兩側有 Macro 的 argument 的話，
+那麼 argument 會以其真正的內容（傳入的數值）來串聯。
+如果這個 argument 是其他 Macro 的話，則不會被 expand。
+
+“##” 與 operand 之間可以放入不限制數目的空白，並不影響。
+
+範例：
+
+原先目標：
+struct command{
+	char* name;
+	void (*function)(void);
+};
+
+struct command c[] = {
+	{“quit”, quit_command},
+	{“help”, help_command}
+}
+
+利用 Macro：
+#define COMMAND(NAME) { #NAME, NAME ## _command }
+
+struct command c[] = {
+	COMMAND(quit),
+	COMMAND(help)
+}
+
+——
+

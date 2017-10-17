@@ -1,0 +1,49 @@
+﻿
+利用 curl 這個 library
+
+可至 php.ini 中檢查 extension=php_curl.dll 是否有打開
+
+---
+
+使用：
+
+$ch = curl_init();
+
+curl_setopt($ch, CURLOPT_URL, $url);
+
+$response = curl_exec($ch);
+
+curl_close($ch);
+
+
+curl_setopt 還可拿來設置 header 等等其他參數
+
+---
+
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+設定 true
+如果成功只將結果返回，不自動輸出任何內容
+
+設定 false
+如果成功只返回 TRUE，自動輸出返回的內容。如果失敗返回 FALSE
+
+---
+
+https:
+
+需多設定下列兩項才能收到結果
+
+curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+
+---
+
+parse response:
+
+$entity_params = array();
+parse_str($response, $entity_params);
+$value = $entity_params["name"];
+
+就能利用 array 的方式來取得 http response 中的參數
+

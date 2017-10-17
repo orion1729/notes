@@ -1,0 +1,122 @@
+﻿
+在 Git 當中有兩種檔案狀態 tracked, untracked
+
+tracked 表示已被 Git 追蹤，可以有 modified, unmodified, staged 三種狀態
+
+untracked 則是未被追蹤
+
+
+
+tracked :
+  - unmodified
+    第一次加入 tracked 的檔案都是此狀態
+    或者 commit 後，所有檔案都會回到此狀態
+
+  - modified
+    tracked 之後仍可以修改檔案，一旦修改過後就會到此狀態
+    表示 tracked 的檔案已被修改，需再用 add 「快照」一次，這樣才能紀錄改變
+
+    在此狀態下的檔案再度被「快照」（add）後，就會進入 staged 狀態
+
+  - staged
+    表示 tracked 的檔案已經「快照」完畢，隨時可以 commit 紀錄
+
+    若檔案已在此狀態，又去修改它，那麼此檔案會像分身一樣同時存在兩個狀態
+    1) 內容未修改，已 staged 的版本
+    2) 內容被修改，未 staged 的版本
+    此時若 commit，送出的會是已 staged 版本
+    因此若要保留修改，需再 add 一次，如此一來就會合而為一，變成一個 staged 檔案
+
+---
+
+$ git status
+
+可以用來確認這個 repository 的檔案狀態
+
+---
+
+$ git add [file_name | directory]
+
+可以表示追蹤一個 untracked 的檔案
+
+或者 stage 一個 tracked 的檔案
+
+每次輸入這個指令時，Git 都會把目前的檔案內容「快照」起來
+
+而下一次輸入 commit 時，會把這個「快照」的內容記錄起來
+
+（倘若 add 之後，又修改了檔案，用 status 看會有兩個狀態存在
+  一個 Changes to be committed, 一個是 Changes not staged
+  而 commit 只會紀錄「add」的那一次）
+
+
+
+add 可作用在 directory 上，git 會以遞迴方式把目錄底下的檔案 tracked
+
+---
+
+$ git diff
+
+比 status 更詳細，會把 staged 和 staged 後又修改的檔案兩者之間的差異印出來
+
+新增或刪除某些行數都會清楚地知道
+
+
+
+$ git diff --staged
+
+可以把 staged 的檔案與上一次 commit 的狀態相比
+
+---
+
+$ git commit
+
+把你已經 staged 的檔案內容紀錄起來
+
+輸入完後會跳出 editor（可以在前面 config 中設定）
+
+用來輸入你對這一次紀錄的敘述
+
+
+
+$ git commit -v
+
+可以把 diff 的內容也放入 editor 中
+
+
+
+$ git commit -m "[comment_content]"
+
+加入 -m 就不會開啟 editor 了
+
+
+
+$ git commit -a -m "[content]"
+
+加入 -a 會自動把 tracked 的檔案 staged 後再 commit
+
+---
+
+$ git rm [-f] [file_name]
+
+會把檔案從 stage area 中刪除，也一併從 working space 中刪除
+
+
+
+$ git rm --cached [file_name]
+
+只會從 stage area 中移除
+
+---
+
+$ git mv [file_from] [file_to]
+
+可以 rename 一個檔案
+
+並且等同於下面三個指令
+
+$ mv [file_from] [file_to]
+$ git rm [file_from]
+$ git add [file_to]
+
+

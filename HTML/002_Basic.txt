@@ -1,0 +1,20 @@
+﻿
+Headings : <h1> ~ <h6>
+<h1> 最大
+<h6> 最小
+
+---
+
+Paragraphs : <p>
+
+---
+
+Links : <a>
+將連結目的放在 href 中
+<a href="url">content</a>
+
+---
+
+Images : <img>
+<img src="<file_name>" width="<number>" height="<number>" >
+

@@ -1,0 +1,22 @@
+﻿
+event 的來源可以是瀏覽器以及使用者
+
+例如：
+- HTML page 完成 load
+- HTML input field 改變
+- HTML button 被點擊
+
+---
+
+在目標 element 中加入特定 event attribute
+並「直接」將 JS 程式碼作為 attribute 的 value
+
+<some-HTML-element some-event='some JavaScript'>
+
+<some-HTML-element some-event="some JavaScript">
+
+---
+
+一般會使用 JS function 當作 value
+因為程式碼通常都是複數行
+

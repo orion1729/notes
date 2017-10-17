@@ -1,0 +1,92 @@
+﻿In Android :
+
+存取資料庫時，建議用另一個 thread 執行
+
+資料庫檔案在以下路徑中
+Environment.getDataDirectory()/data/<package_name>/database/<db_name>
+
+SD = Environment.getExternalStorageDirectory()
+
+----------
+SQLiteOpenHelper :
+
+其 constructor 可以指定資料庫名稱（第二項參數可設定儲存位置）和現在版本
+
+必須 override 兩個方法
+- onCreate()
+  當資料庫不存在於裝置中時，會被 framework 呼叫
+- onUpgrade()
+  當資料庫版本改變時被呼叫，可用來更動資料庫
+
+利用 getReadableDatabase() 或 getWriteableDatabase()
+來獲得資料庫 SQLiteDatabase 物件
+
+tables 的 primary key 必須是 _id，否則會有錯誤
+
+----------
+SQLiteDatabase :
+
+提供 insert(), update(), delete() 等方法
+
+使用 execSQL() 來執行 SQL 的語法（創建、刪除 table 之類）
+
+利用 ContentValues 可以定義 key/values pair
+用來對資料庫做 insert, update
+
+rawQuery() 可以接受 SQL 語法（SELECT 之類）
+query() 則是結構式（依據參數位置）
+SQLiteQueryBuilder 可以用來建構 SQL queries
+
+----------
+rawQuery() :
+
+範例：
+Cursor cursor = getReadableDatabase().
+  rawQuery("select * from todo where _id = ?", new String[] { id }); 
+
+----------
+query() :
+
+database.query(String dbName, String[] columnNames, String whereClause, String[] selectionArgs,
+               String[] groupBy, String[] having, String[] orderBy);
+selectionArgs 是處理 query 中的「?」
+
+範例：
+database.query(DATABASE_TABLE, 
+  new String[] { KEY_ROWID, KEY_CATEGORY, KEY_SUMMARY, KEY_DESCRIPTION }, 
+  null, null, null, null, null);
+
+----------
+Cursor :
+
+getCount() 可取得 query 結果的數量
+
+利用 moveToFirst(), moveToNext() 在 row 之間轉移
+isAfterLast() 可拿來檢查是否到了尾端
+
+利用 get*(index) 來獲得資料
+
+還有 getColumnIndexOrThrow(String) 可以用 column name 來取得它的 index
+
+最後 Cursor 使用完要呼叫 close() 來關閉
+
+----------
+Multi Insert :
+在 SQLite 中需換個型式
+
+原本可在 SQL 使用的語法
+INSERT INTO 'tablename' ('column1', 'column2') VALUES
+  ('data1', 'data2'),
+  ('data3', 'data4'),
+  ('data5', 'data6'),
+  ('data7', 'data8');
+
+需改為
+INSERT INTO tablename(_id, column1, column2)
+      SELECT NULL, 'data1', 'data2'
+UNION SELECT NULL, 'data3', 'data4'
+UNION SELECT NULL, 'data5', 'data6'
+UNION SELECT NULL, 'data7', 'data8'
+
+----------
+

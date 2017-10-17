@@ -1,0 +1,25 @@
+
+
+iTerm2 新增快捷
+
+Preferences -> Profiles 標籤 -> Keys
+
+- move cursor a word right
+  option + ->
+  Action : Send Escape Sequence
+  ESC+ : f
+
+- move cursor a word left
+  option + <-
+  Action : Send Escape Sequence
+  ESC+ : b
+
+- delete word (left)
+  option + delete
+  Action : Send Hex Codes
+  Hex Codes : 0x17
+
+- delete line (left)
+  command + delete
+  Action : Send Hex Codes
+  Hex Codes : 0x15

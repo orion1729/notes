@@ -1,0 +1,9 @@
+﻿
+使用的 Adapter 最簡單的是 ArrayAdapter
+
+要獲得一個 ArrayAdapter 可由 static method
+ArrayAdapter.createFromResource(Context, int arraySource, int itemLayout)
+
+還可以設定選單 layout
+adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+會使選項出現在一個 dialog 當中

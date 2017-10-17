@@ -1,0 +1,30 @@
+
+
+Include directive:
+include 可以讓目前的 Makefile 讀取其他的 Makefile
+
+語法：include <filename>
+<filename> 可以包含 shell file name pattern (例如 *)
+範例：include foo *.mk $(bar)
+
+make 遇到 include 時會先暫停目前 Makefile 的 reading，
+然後依序讀取 include 後面的 file list
+讀取完畢後才會回到原來的 Makefile
+
+
+—-
+
+
+Prerequisites (dependency) auto generation:
+要使用 compiler 產生的 dependency file，
+就必須讓 main Makefile 將那些檔案 include 進來
+
+
+—-
+
+
+no message:
+要讓 make 忽略 file 不存在之類的 error message
+需要在 include 前多加一個 ‘-‘
+
+例如：-include <filename>

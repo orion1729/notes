@@ -1,0 +1,7 @@
+﻿Ubuntu 新版在 Virtual Box 中會有解析度問題
+
+預設只能有 640 * 480 的解析度
+
+需額外安裝 Virtual Box 提供的套件
+
+sudo apt-get install virtualbox-guest-dkms

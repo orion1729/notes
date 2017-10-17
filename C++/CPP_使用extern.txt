@@ -1,0 +1,16 @@
+﻿C++ 編譯時為解決 Overloading 的問題
+會把函數名與參數兩者結合變成一個中間函數名稱
+
+此時作連結時就會發生找不到對應函數的情況
+
+因此就用以下方式，告訴編譯器保持名稱不變
+
+#ifdef __cplusplus 
+extern "C" { 
+#endif
+
+//外部用到的函數宣告
+
+#ifdef __cplusplus 
+} 
+#endif

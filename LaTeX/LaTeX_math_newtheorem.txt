@@ -1,0 +1,89 @@
+
+
+Intro :
+在 latex 中使用 theorem, definition, proposition,
+remark, corollary, lemma
+
+在 preamble 區域中使用 \newtheorem command 來定義新的 environment
+使用：\newtheorem{env_name}{content_show}
+第一個參數是 \begin, \end 所要用到的
+第二個 content_show 則是在編譯後的文件中所顯示的字詞
+
+範例：
+\newtheorem{theorem}{Theorem}
+…
+\begin{theorem}
+…
+\end{theorem}
+
+
+——
+
+
+有編號的 Theorem :
+在 \newtheorem 時就定義好編號規則
+
+- sub-numbering
+  \newtheorem{theorem}{Theorem}[section]
+  表示 theorem 的 counter 會在每個新的 section 中 reset
+
+  \newtheorem{corollary}{Corollary}[theorem]
+  表示在每個 theorem environment 中會重新計數
+
+  上面兩個例子會以下列方式呈現：
+  Section 1
+  Theorem 1.2
+  Corollary 1.2.1
+
+- continue-numbering
+  \newtheorem{lemma}[theorem]{Lemma}
+  只要這樣使用的話，lemma 的計數會延續 theorem environment 的計數
+
+  延續上面的例子：
+  Section 1
+  Theorem 1.2
+  Corollary 1.2.1
+  Lemma 1.3
+
+- 有名稱的 Theorem
+  若要為 theorem 標記名稱，則要在 \begin, \end 時使用參數
+  \begin{theorem}[Pythagorean theorem]
+  …
+  \end{theorem}
+
+  結果：
+  Theorem 1.1 (Pythagorean theorem) …
+
+
+——
+
+
+Unnumbering :
+要使用 unnumbering 時需要使用到 amsthm package
+範例：
+\usepackage{amsthm}
+\newtheorem*{remark}{Remark}
+
+
+——
+
+
+Theorem style :
+在 amsthm 中有提供 styling 的 command
+\theoremstyle{style} 會對其正下方的 numbered environment
+進行風格的設置
+
+可用在 \newtheorem 的前一句
+
+
+——
+
+
+Proofs :
+在 amsthm 中也有提供 proof 的 environment
+直接使用 \begin{proof} 即可
+
+但 proof 預設使用白色方塊作為結尾
+可利用 \renewcommand\qedsymbol{$\blacksquare$}
+轉為黑色方塊
+

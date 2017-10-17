@@ -1,0 +1,54 @@
+﻿
+利用 jQuery 來選擇 HTML 的 element
+然後在他們上面執行動作
+
+---
+
+基礎格式：$(selector).action()
+
+- $
+  define / access jQuery
+
+- (selector)
+  query / find HTML element
+
+- action()
+  performed on element
+
+---
+
+範例：
+
+- $(this).hide()
+  隱藏現在這個 element
+
+- $("p").hide()
+  隱藏所有 <p> elements
+
+- $(".test").hide()
+  隱藏所有 class="test" 的 element
+
+- $("#test").hide()
+  隱藏所有 id="test" 的 element
+
+---
+
+Document Ready Event :
+
+所有 jQuery 的方法都放在 document ready event 當中
+避免存取到還未被 loaded 的 element
+
+$(document).ready(function(){
+
+  // jQuery here
+
+});
+
+或者簡便的寫法
+
+$(function(){
+
+  // jQuery here
+
+});
+

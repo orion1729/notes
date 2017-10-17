@@ -1,0 +1,35 @@
+﻿把 IP 與 request 內容放入 HttpPost
+
+---
+
+request 以 List<NameValuePair> 的形式做存放
+再以 UrlEncodedFormEntity 作編碼
+
+---
+
+設定 IP：
+HttpPost httpPost = new HttpPost("<ip_address>");
+
+設定內容：
+httpPost.setEntity( new UrlEncodedFormEntity(List<NameValuePair>, HTTP.UTF_8) );
+
+再來以 HttpClient.execute(HttpPost) 作執行
+會接收到一個 HttpResponse 的回應
+
+再來必須從 HttpResponse 中取得 Entity，然後再從 Entity 取得 Ccontent
+而這個 Content 需要用 InputStreamReader 接收並定義編碼（主要是 UTF-8）
+再用 BufferedReader 物件來處理 InputStreamReader
+BufferedReader reader =
+    new BufferedReader( new InputStreamReader(response.getEntity().getContent(), "UTF-8") );
+
+之後就能利用 BufferedReader 的 readLine() 來一行一行讀出內容
+然後使用 StringBuilder 來 append（Builder 比 StringBuffer 快）
+StringBuilder builder = new StringBuilder();
+String line;
+while( (line = reader.readLine()) != null ){
+    builder.append(line + "\n");
+}
+最後只要讓 StringBuilder 轉成 String 即可（toString()方法）
+
+HttpClient 需以 DefaultHttpClient 的形式創建
+HttpClient httpClient = new DefaultHttpClient();

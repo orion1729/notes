@@ -1,0 +1,5 @@
+sudo apt-get install linux-headers-$(uname -r)
+
+裝完後再去安裝VBoxAddition
+
+然後重開機即可 mount

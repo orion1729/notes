@@ -1,0 +1,32 @@
+﻿
+
+OpenGL 有三種矩陣模式：
+- GL_PROJECTION（投影矩陣）
+- GL_MODELVIEW（模型矩陣）
+- GL_TEXTURE（貼圖矩陣）
+
+
+---
+
+
+其中模型矩陣可以做三種變換：
+1. 旋轉
+2. 平移
+3. 縮放
+
+- glRotatef(degree, x, y, z)
+  degree 是旋轉角度
+  (x, y, z) 則是旋轉軸
+
+
+- glTranslatef(x, y, z)
+  用於平移，(x, y, z) 是移動量
+
+
+- glScalef(x, y, z)
+  用於縮放，(x, y, z) 分別代表三軸的縮放量
+
+
+---
+
+

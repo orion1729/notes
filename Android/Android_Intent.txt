@@ -1,0 +1,35 @@
+Intent 用來啟動其他 Activity（可以是其他 App 的 Activity）
+
+分為 explicit Intent 和 implicit Intent
+explicit 表示在創建 Intent 時有告知明確的 .class（Activity）
+implicit 則將條件限定在 meta-data 中
+讓系統去找出符合 meta-data 的 Activity（App）
+
+---
+
+宣告：
+Intent i = new Intent(Context, [.class]);
+
+---
+
+Extra Data :
+Intent.putExtra([key_name], [value]);
+
+key_name 可以使用 package 作為 prefix
+如此一來可確保其唯一性，這樣與其他 App 溝通也不會出現問題
+
+---
+
+Start Activity :
+呼叫 startActivity(Intent) 來啟動另一個 Activity
+此時系統會實例出目標 Activity
+
+---
+
+接收 Intent：
+Intent i = getIntent();
+
+---
+
+取出 Extra：
+i.get[value_type]Extra( [key_name] );

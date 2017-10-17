@@ -1,0 +1,60 @@
+﻿
+建立在 CSS Selectors 的基礎上
+
+可藉由 id, class, type, attribute, value of attribute 等等方式來找到 element
+
+---
+
+利用標籤的名字來存取
+
+$("p") - 找到所有 <p> 標籤
+
+---
+
+利用 id 來存取
+
+$("#test") - 找到所有 id="test" 的 element
+
+---
+
+利用 class 來存取
+
+$(".test") - 找到所有 class="test" 的 element
+
+---
+
+範例：
+
+- $("*")
+  找到所有 elements
+
+- $(this)
+  選擇目前的 element
+
+- $("p.intro")
+  找到 class="intro" 的 <p>
+
+- $("p:first")
+  找到「第一個」<p> 標籤
+
+- $("ul li:first")
+  找到「第一個」<ul> 中的「第一個」<li>
+
+- $("ul li:first-child")
+  找到「所有」<ul> 中的「第一個」<li>
+
+- $("[href]")
+  找到所有擁有 href attribute 的 elements
+
+- $("a[target='_blank']")
+  找到所有 target attribute 為 _blank 的 <a>
+
+- $("a[target!='_blank']")
+  與上面相反，不等於 _blank
+
+- $(":button")
+  找到 type="button" 的 <button>, <input>
+
+- $("tr:even"), $("tr:odd")
+  找到所有偶數、奇數列的 <tr>
+

@@ -1,0 +1,48 @@
+﻿
+其他 head elements 的容器
+可以設定一些 script, style sheets, meta info 等等
+
+可用的 tag 有 <title>, <style>, <meta>, <link>, <script>, <noscript>, <base>
+
+---
+
+<title>
+一個 document 的標題
+會顯示在瀏覽器上、我的最愛、搜尋引擎的結果
+
+
+<base>
+可以指定預設的 url 路徑
+另外也能指定 target 的方式
+
+
+<link>
+定義了本文件與外部資源的關係
+多用於使用 style sheets
+<link rel="stylesheet" type="text/css" href="mystyle.css">
+
+
+<style>
+定義許多 style 的地方
+
+
+<meta>
+用來定義許多文件資訊的地方
+例如頁面描述、搜尋關鍵字、作者、最後修改等等
+也能提供瀏覽器該如何 reload page 等資訊
+
+搜尋引擎關鍵字：
+<meta name="keywords" content="HTML, CSS, JAVA">
+
+頁面描述：
+<meta name="description" content="bla bla bla">
+
+作者：
+<meta name="author" content="John">
+
+每 30 秒重整一次：
+<meta http-equiv="refresh" contetn="30">
+
+
+<script>
+用來定義客戶端腳本語言

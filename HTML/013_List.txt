@@ -1,0 +1,49 @@
+﻿分為 ordered list, unordered list
+
+分別是 <ol>, <ul> 兩個標籤
+
+在此兩個標籤內增加 <li>（list item）來作為內容
+
+---
+
+另一種是 description list <dl>
+
+用於[標題 - 縮排內容]的組合列表
+
+在 <dl> 內加入 <dt>（terms）作為標題、<dd>（description）作為縮排內容
+
+<dl>
+<dt>Coffee</dt>
+<dd>- black hot drink</dd>
+<dt>Milk</dt>
+<dd>- white cold drink</dd>
+</dl> 
+
+
+Coffee
+    - black hot drink
+Milk
+    - white cold drink 
+
+---
+
+樣式：
+
+- Ordered list
+  在 <ol> 標籤內加入 type="value" 屬性來設定
+
+  有 A（大寫英文排列）、a（小寫英文）、I（大寫羅馬字母）、i（小寫羅馬字母）
+  等數值可選
+
+- Uordered list
+  <ul> 的 type 屬性 HTML5 不再支援，故要使用 CSS
+  在 <style> 或其他 CSS 方式中，使用 list-style-type 來設定
+
+  有 disc（實心點）, circle（空心點）、square（方塊點）等
+
+---
+
+巢狀列表（nested list）的情況下，<ul> 會自行改變 type
+
+---
+

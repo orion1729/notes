@@ -1,0 +1,138 @@
+﻿表單主要的功用在於傳送資訊給伺服器，格式如下
+
+<form>
+.
+input element
+.
+</form>
+
+表單需包含 input 單位，例如 text field, checkbox, radio-button,
+submit botton, select list, textarea, fieldset, legend, label
+
+---
+
+Input element :
+
+input element 是用來擷取使用者所輸入的資訊
+
+可以利用 type 屬性來控制需要哪種 input type
+
+
+
+配合 name, value 等屬性的定義，在發送表單後伺服器即可由此來抓出表單內的資訊
+
+---
+
+Text field :
+
+單純的文字輸入方塊，最多不可超過 20 個字元
+
+<form>
+First name: <input type="text" name="firstname"><br>
+Last name: <input type="text" name="lastname">
+</form> 
+
+---
+
+Password field :
+
+類似文字輸入，但會把密碼的顯示給隱藏
+
+<form>
+Password: <input type="password" name="pwd">
+</form> 
+
+---
+
+Radio button :
+
+使用者只能在眾多選項中選取一項
+
+<form>
+<input type="radio" name="sex" value="male">Male<br>
+<input type="radio" name="sex" value="female">Female
+</form> 
+
+---
+
+Checkbox :
+
+可讓使用者選擇 0 至更多個的選項
+
+<form>
+<input type="checkbox" name="vehicle" value="Bike">I have a bike<br>
+<input type="checkbox" name="vehicle" value="Car">I have a car
+</form>
+
+可在 <input> 標籤內加入 checked 來當作預設選項
+
+---
+
+Submit button :
+
+按下後，表單將會被傳送給 <form> 標籤內 action 屬性所指定的檔案
+若 action 沒有賦予值，則指定檔案就是原頁面
+
+<form name="input" action="demo_form_action.asp" method="get">
+Username: <input type="text" name="user">
+<input type="submit" value="Submit">
+</form> 
+
+---
+
+下拉選單：
+
+利用 <select> 標籤，以及要放入 <select> 標籤內的 <oprion> 標籤作為選項
+
+<form action="">
+<select name="cars">
+<option value="volvo">Volvo</option>
+<option value="saab">Saab</option>
+<option value="fiat">Fiat</option>
+<option value="audi">Audi</option>
+</select>
+</form>
+
+可在 <option> 標籤內加入 selected 屬性，即可作為選單所預設的選項
+
+<option value="fiat" selected>Fiat</option>
+
+---
+
+文字段落（textarea）：
+
+與 text input 不同，是可以輸入複數行的文字輸入
+
+<textarea rows="20" cols="30">
+The cat was playing in the garden.     ← 預設文字
+</textarea>
+
+---
+
+Button :
+
+單純的按鈕
+
+<form action="">
+<input type="button" value="Hello world!">
+</form>
+
+---
+
+表單的主題框：
+
+用 <fieldset> 畫出一個框，可以框住表單所包括的內容
+
+還能配上 <legend> 標籤在框的上面放上一段代表標題的文字
+
+<form action="">
+<fieldset>
+<legend>Personal information:</legend>
+Name: <input type="text" size="30"><br>
+E-mail: <input type="text" size="30"><br>
+Date of birth: <input type="text" size="10">
+</fieldset>
+</form>
+
+---
+

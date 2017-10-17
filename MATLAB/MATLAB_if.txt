@@ -1,0 +1,13 @@
+﻿
+語法：
+
+if expression
+    statements
+elseif expression
+    statements
+else
+    statements
+end
+
+---
+

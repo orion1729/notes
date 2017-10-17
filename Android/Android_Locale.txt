@@ -1,0 +1,14 @@
+對應不同使用者手機所擁有的語言環境
+Android 讓開發者可以對應不同環境而使用不同的語言
+
+需在 /res 底下創建不同的 values 目錄
+例如 values-fr 就是在法語環境時 App 該使用的 resource
+
+---
+
+命名：values-[ISO country code]
+
+---
+
+在 /res 底下可創建 values 目錄（不帶 country code）
+此目錄則為預設的 resource

@@ -1,0 +1,105 @@
+﻿
+$ git remote
+
+可以列出這個專案所使用到的 remote repository
+
+
+
+使用 git clone 來複製 remote repository 時
+
+這個 remote repository 會被加在 origin 這個 shortname 底下
+
+（被稱為 origin server）
+
+還會使用 master branch 來 track remote master
+
+---
+
+$ git remote -v
+
+加上 -v 可以搭配 shortname 和 url 一起列出來
+
+---
+
+$ git remote add [shortname] [url]
+
+新增一個 remote repository，可以取 shortname
+
+---
+
+$ git fetch [short-name]
+
+可以把遠端已有但你沒有的變動拉回來（自從上個 fetch 或者 clone）
+
+
+
+複製下來的 branch 會以 [short-name]/[branch-name] 來命名
+
+你無法移動這些 remote branch，只能用 git fetch 來更新這些 remote branch
+
+或者將這些 branch merge 到自己的 branch 中
+
+---
+
+$ git pull
+
+與 git fetch 類似，但可以做 merge 的動作
+
+前提是你有 tracking branch
+
+
+
+git clone 時會創造 master 去 track origin/master
+
+
+
+可以利用 git checkout -b [myBranch] [short-name/branch]
+
+此指令來創建一個 myBranch 並 track remote branch
+
+
+
+---
+
+$ git push [short-name] [Branch-name]
+
+可以把自己的 branch 傳到指定的 repository
+
+
+
+若在你上傳之前，有人搶先上傳更新了
+
+那麼你必須 pull 回來，並檢查、merge，才能再次上傳
+
+
+
+$ git push [short-name] [local-branch-name:remote-branch-name]
+
+把 local branch 上傳時，可以更改在 remote 時的名稱
+
+若local-branch-name 是空白，代表是刪除 server 上的 remote-branch-name
+
+因為表示你想用空白的 branch 更新 remote-branch
+
+---
+
+$ git remote show [short-name]
+
+可以查看 remote repository 的狀況
+
+---
+
+$ git remote rename [old-name] [new-name]
+
+可以更改一個 short-name 的名稱
+
+remote branch 的名稱也會跟著改變
+
+---
+
+$ git remote rm [short-name]
+
+可以移除一個 remote repository
+
+---
+

@@ -1,0 +1,25 @@
+﻿
+基本上 IO 相關的控制都在 <iomanip> 這個 Header File 中
+
+---
+
+各種 Flag：
+
+- setiosflags(ios_base::flag)
+  可以控制如以多少進制來顯示、向左向右對齊等等
+
+  ios::left / ios::right / ios::internal
+  可以控制向左、向右對齊，或者在中間填上「Fill Character」
+  （向左、向右對齊也可利用「Fill Character」）
+
+  ios::dec / ios::hex / ios::oct
+  控制讀寫時使用的 Base
+
+---
+
+欄位長度控制：
+
+- setw(n)
+  可以設定每個 output 欄位應佔的長度
+  只會影響到後面一個 output 而已
+

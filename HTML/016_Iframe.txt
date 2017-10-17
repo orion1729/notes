@@ -1,0 +1,38 @@
+﻿
+<iframe> 用來在網頁內鑲嵌另一個網頁內容
+
+<iframe src="URL"></iframe>
+
+---
+
+<iframe> 有 width, height 兩個 attribute 來設定長寬
+
+可用 px 也可用 % 來作單位
+
+---
+
+利用 frameboder 這個 attribute 可以將 <iframe> 原本的黑框去除
+
+只要將其設為 0 即可
+
+<iframe frameboder="0"></iframe>
+
+
+
+縱使 frameboder 設超過 1 以上，黑框仍然只有 1 的程度
+
+---
+
+<iframe> 與超連結的結合使用：
+
+在 <a> 當中使用 target attribute 可將連結內容於特定 <iframe> 中顯示
+
+範例：
+<iframe src="demo_iframe.htm" name="iframe_a"></iframe>
+<p><a href="http://www.w3schools.com" target="iframe_a">W3Schools.com</a></p>
+
+其中 <iframe> 有原本自己的內容（demo_iframe.htm）
+
+點選超連結後，由於 target 指向 <iframe> 的 name
+
+因此 <a> 內的連結會於 <iframe> 當中顯示，取代掉原本的內容

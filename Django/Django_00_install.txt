@@ -1,0 +1,24 @@
+﻿
+Manually：
+
+至 Django 網頁下載 Django-X.Y.tar.gz（X.Y 是版本）
+
+將其解壓縮，會得到一個 Django-X.Y 目錄
+
+再以系統管理員的權限執行 CMD
+
+    cd Django-X.Y
+    (sudo) python setup.py install
+
+Django 就會被安裝在 Python 目錄下的 Lib/site-packages 中
+
+---
+
+驗證安裝：
+
+執行 Python prompt
+
+>>> import django
+>>> print(django.get_version())
+X.Y
+

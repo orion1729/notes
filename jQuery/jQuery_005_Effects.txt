@@ -1,0 +1,211 @@
+﻿
+hide(), show()
+
+Syntax :
+
+$(selector).hide(speed, callback);
+
+$(selector).show(speed, callback);
+
+speed 可以是 "slow", "fast", 毫秒
+
+callback 是一個 function，在 hide(), show() 執行完後執行
+
+---
+
+toggle()
+
+$(selector).toggle(speed, callback);
+
+用於 hide 與 show 之間切換
+若 element 是可見的則被 hide
+反之則是 show
+
+
+***
+
+
+fadeIn()
+
+$(selector).fadeIn(speed, callback);
+
+淡入效果
+
+---
+
+fadeOut()
+
+$(selector).fadeOut(speed, callback);
+
+淡出效果
+
+---
+
+fadeToggle()
+
+$(selector).fadeToggle(speed, callback);
+
+淡出淡入的切換
+
+---
+
+fadeTo()
+
+$(selector).fadeTo(speed, opacity, callback);
+
+0 <= opacity <= 1
+
+將 element 變化到指定的透明度（opacity）
+
+
+***
+
+
+slideDown()
+
+$(selector).slideDown(speed, callback);
+
+可將看不見的 element 用拉下的特效顯現
+
+---
+
+slideUp()
+
+$(selector).slideUp(speed, callback);
+
+顯現上拉的特效
+
+---
+
+slideToggle()
+
+$(selector).slideToggle(speed, callback);
+
+下拉與上拉之間切換
+
+
+***
+
+
+animate()
+
+$(selector).animate({params}, speed, callback);
+
+使用於 element 的動畫效果
+
+params - 決定 element 如何動畫到 params 指定的 CSS properties
+
+範例：
+$(document).ready(function(){
+  $("button").click(function(){
+    $("div").animate({left:'250px'});
+  });
+});
+
+<div style="background:#98bf21;height:100px;width:100px;position:absolute;">
+
+會將 <div> 移到距離左邊 250px 的地方
+
+---
+
+Multipale Properties
+
+$("button").click(function(){
+  $("div").animate({
+    left:'250px',
+    opacity:'0.5',
+    height:'150px',
+    width:'150px'
+  });
+});
+
+在 CSS 當中的「padding-left」有減號的 properties
+需改成 paddingLeft 才能用於 animate
+
+另外 color 並不在內建的 animate 當中
+
+需另外下載 Color Animate plugin
+
+---
+
+Relative Values
+
+$("button").click(function(){
+  $("div").animate({
+    left:'250px',
+    height:'+=150px',
+    width:'+=150px'
+  });
+});
+
+---
+
+Pre-defined Values
+
+$("button").click(function(){
+  $("div").animate({
+    height:'toggle'
+  });
+});
+
+會將高度用 toggle 的方式顯現與消失
+
+---
+
+Animation Queue
+
+$("button").click(function(){
+  var div=$("div");
+  div.animate({height:'300px',opacity:'0.4'},"slow");
+  div.animate({width:'300px',opacity:'0.8'},"slow");
+  div.animate({height:'100px',opacity:'0.4'},"slow");
+  div.animate({width:'100px',opacity:'0.8'},"slow");
+});
+
+若是定義多個 animate function
+則他們將會一個接著一個的執行
+
+
+***
+
+
+stop()
+
+$(selector).stop(stopAll, goToEnd);
+
+stopAll - 停止 animation queue 的所有 animate
+          預設 false，表示只停止目前在動作的 animate
+
+goToEnd - 立刻完成目前的 animate
+
+
+***
+
+
+Callback
+
+$("button").click(function(){
+  $("p").hide("slow",function(){
+    alert("The paragraph is now hidden");
+  });
+});
+
+
+***
+
+
+Chaining
+
+把很多個 action 串在一起
+action 會依序執行
+
+$("#p1").css("color","red").slideUp(2000).slideDown(2000); 
+
+$("#p1").css("color","red")
+  .slideUp(2000)
+  .slideDown(2000);
+
+
+***
+
+

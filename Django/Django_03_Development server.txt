@@ -1,0 +1,19 @@
+﻿
+執行 Development Server：
+
+   $ python manage.py runserver
+
+server 預設在 http://127.0.0.1:8000/
+
+---
+
+改變 Port：
+   $ python manage.py runserver <port_number>
+
+改變 IP 和 Port：
+   $ python manage.py runserver 0.0.0.0:<port_number>
+
+使用第二種指令，就能讓電腦 IP 變為 server IP
+
+---
+
