@@ -1,0 +1,44 @@
+﻿git push [<remote>] [<refspec>]
+
+
+
+git push
+	將 local 的變動更新上傳到 remote
+
+	由於沒有指定 <remote>，所以 push 的目的地是 config 中的 branch.*.remote，預設是 origin
+	沒有指定 <refspec>，會先查看 remote.*.push 是否有設定
+	沒有的話則看 push.default : 將目前所在的 branch push 到 remote，且此 branch 在遠端必須要有對應 track 的 branch
+	
+
+? 如果 local 有其他 bugFix-origin/bugFix 配對的 branch
+  是否也會一起被 push 上去
+* git push 只會對 current branch 有效果
+
+
+
+git push <remote_name> <branch>
+	把指定的 <branch> push 到 remote repository
+	由於有指定 branch 名稱，所以 HEAD 不需要在那個 branch 上
+
+
+
+
+git push <remote_name> <source>:<destination>
+	將指定的 <source> commit push 到 remote repository <destination> branch 上
+
+	example 1:
+	git push origin HEAD^:master
+
+	example 2:
+	git push origin master:newBranch
+	(會在遠端創建一個新的 newBranch，且 local 會有 origin/newBranch 在 track)
+
+? 如果 <source> 和 <destination> 不是原本的 track 關係
+  是否會改變配對的關係
+* 不會改變 track 關係，此指令只是讓 push 更靈活而已
+
+
+
+git push <remote_name> :<destination>
+	能夠將 remote 上的 <destination> branch 刪除
+	(local 端的 origin/<destination> 也會一併刪除)

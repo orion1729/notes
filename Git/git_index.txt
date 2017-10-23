@@ -1,0 +1,3 @@
+﻿
+index file :
+	相當於 staged area

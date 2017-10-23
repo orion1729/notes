@@ -1,0 +1,31 @@
+
+stash 是一種暫存功能，當你的 work directory 已做了一些更動
+想要切換到其他 branch 工作，但又不想對這些 dirty state 做 commit
+此時就能使用 stash 功能
+
+
+
+git stash
+	將目前的 dirty state 進行暫存，這些更動會被儲存在一個 stack 上
+
+
+
+git stash list
+	查看目前 stash stack 上的內容
+
+
+
+git stash apply [<stash_name>]
+	可以將 stack 中的暫存「讀取」出來
+	若不指名哪一個 stash，則 git 會默認為最近的 stash
+	(此指令不會將 stash 從 stack 中移除)
+
+
+
+git stash drop <stash_name>
+	將一個指定的 stash 從 stack 中移除
+
+
+
+git stash pop
+	會「讀取」 stack 最上面的 stash 並將其「移除」

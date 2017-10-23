@@ -1,0 +1,19 @@
+﻿git rebase <target_branch>
+	將目前所在 branch 的所有 commit 複製到 <target_branch> 之後
+
+
+
+git rebase <target_branch> <source_branch>
+	將指定 <source_branch> 分支的所有 commit 複製到 <target_branch> 之後
+
+
+
+git rebase -i <taget> <source>
+	除了 rebase 的效果外，還能進入互動模式更改 commit
+
+	可作的動作有以下幾個：
+	pick - 保留這個 commit 不做任何動作
+	reword - 保留 commit，修改 commit message
+	edit - 保留 commit，但更改 commit 內容
+	squash - 與前一個 commit 合併，且保留此 commit 的 message
+	fixup - squash + 使用前面一個 commit 的 message，捨棄此 message

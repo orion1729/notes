@@ -1,0 +1,34 @@
+﻿git pull [--rebase] [<remote>] [<refspec>]
+
+
+
+git pull
+	相當於 git fetch; git merge FETCH_HEAD
+	會把更動過的 remote branch 下載回來並執行 merge
+	(從當前 checkout 的位置做 merge)
+
+? 如果不只有 master-origin/master 的配對
+  還有其他 bugFix-origin/bugFix 等其他 branch 時會如何
+* git pull 只對目前 checkout 的 branch 有影響
+
+
+
+git pull <remote> <branch>
+	相當於 git fetch <remote> <branch>; git merge <origin/branch>
+	會下載 remote 上的 <branch> commit 回來
+	並與當前 checkout 的位置做 merge
+
+
+
+
+git pull <remote> <source>:<destination>
+	相當於 git fetch <remote> <source>:<destination>; git merge <destination>
+	下載 remote 上的 <source> branch 並與 <destination> 做 merge
+	如果 <destination> 不存在，則會被創建
+
+? 若 <source> 和 <destination> 本身不是 track 關係
+  是否會建立 track 關係
+* 不會建立 track 關係
+  若 local <destination> 有新的 commit 並 push
+  則 remote 端會建立新的 <destination> branch，local 也新增 origin/<destination>
+  同時 <destination> 會 track origin/<destination>

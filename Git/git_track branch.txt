@@ -1,0 +1,19 @@
+git clone
+	將 remote repository 複製一份到 local 端
+	所有 remote branch 在 local 端都會有一個對應的 origin/<branch>
+	而會被設定有 track 關係的只會是 active remote branch (一般是 master)
+
+
+
+git checkout -b <new_branch> <remote_track_target>
+	創造一個新的 branch 並且讓此 branch track 遠端的 <remote_track_target>
+	此 <new_branch> 不能是已經創建的 branch
+
+	example 1:
+	git checkout -b foo origin/master
+
+
+
+git branch -u <remote_track_target> <exist_branch>
+	另一種設定 track branch 的方式
+	需要注意的是，<exist_branch> 必須是已創建好的

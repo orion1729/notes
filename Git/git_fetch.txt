@@ -1,0 +1,33 @@
+﻿git fetch [<remote>] [<refspec>]
+
+
+
+git fetch
+	將 remote 所有更新過的 branch 下載回來
+	此動作不會動到任何 local branch
+	只會更新相對應的 origin/branch
+
+	沒指定 <remote>，預設是 origin
+
+
+
+git fetch <remote> <branch>
+	下載一個指定的 remote branch 回來 local 端，並更新 origin/<branch>
+
+	example 1:
+	git fetch origin foo
+
+? 若 foo 是 remote 新建的 branch (local 尚未有此 branch)
+  會自動新增嗎
+* 不會，只會有 origin/foo
+
+
+
+git fetch <remote> <source>:<destination>
+	將一個指定的 commit 拉回來 local 端，且可以指定相對應的 <destination> branch
+	若 <destination> 不存在，則會自動創建一個
+
+
+
+git fetch <remote> :<destination>
+	在 local 創建一個新的 branch 叫 <destination>

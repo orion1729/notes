@@ -1,0 +1,7 @@
+﻿git reset [<mode>] [<commit>]
+
+
+
+git reset <commit> (default <mode> = --mixed)
+	回到 <commit> 並保留 <commit> 之後所有 commit 所做的更動
+	這些更動會被標示為 unstaged
