@@ -50,9 +50,31 @@
 - w
   移到「下一個單字的第一個字母」
 
+- <ctrl+d>
+  往下移動半個視窗
+
+- <ctrl+u>
+  往上移動半個視窗
+
+- <ctrl+f>
+  page down
+
+- <ctrl+b>
+  page up
+
+- %
+  在 { }, ( ), [ ] 括號間移動
+
+- [times]<ctrl+o>
+  回到前一個游標的位置
+  (可以使用 :jumps 查看歷史紀錄)
+
+- [times]<ctrl+i>
+  往前到下一個游標的位置
+
 ---
 
-搜尋、複製、刪除：
+搜尋：
 
 - /字串
   向下搜尋字串
@@ -64,6 +86,46 @@
   向上搜尋字串
 
   也有 n, N
+
+- /\c[pattern]
+  使用 \c 時不區分大小寫
+  \C 則是區分大小寫
+
+- /<ctrl+r><ctrl+w>
+  搜尋現在 currsor 所指的 word
+
+- t[字元]
+  往後移動到同一行的下一個 [字元] (exclusive)
+
+- T[字元]
+  同 t 但是 inclusive
+
+- F[字元]
+  往前移動到同一行的前一個 [字元] (inclusive)
+
+---
+
+取代：
+:s (substitute)
+
+當不給 [range] 時，只作用在目前的行
+
+- :[range]s/[pattern1]/[pattern2]/g
+  將 [range] 內的 [pattern1] 取代成 [pattern2]
+
+- :[range]s/[pattern1]/[pattern2]/gc
+  最後加了 c 會讓每次取代都會詢問 yes or no
+
+- :[range]s/\<[pattern1]\>/[pattern2]/g
+  用 \< \> 把 pattern 包起來，表示 [pattern1] 必須是完整的 word 才會取代
+
+- :[range]s/[pattern1]\c/[pattern2]/g, :[range]s/[pattern1]/[pattern2]/gi
+  使用 \c 或 i 能夠「不」區分大小寫
+  \C 和大寫 I 也是相同用法
+
+---
+
+複製、刪除：
 
 - yy
   複製「該行」
@@ -83,6 +145,19 @@
 - 行數1, 行數2 d
   將「行數1」到「行數2」的內容刪除
 
+- :[range]y [register]
+  將 [range] 的內容複製在 [register] 裡
+
+---
+
+register :
+
+- "[1-9a-z...]
+  使用複製等動作前輸入 register 的代號
+
+- <ctrl+r>"[1-9a-z...]
+  將 register 的內容拿到 vim command line 使用
+
 ---
 
 還原：
@@ -98,6 +173,12 @@
 隱藏行數：
 
 - :set nonu
+
+- :set number/nonumber
+  開關是否顯示 Current Line 的行數
+
+- :set relativenumber/norelativenumber
+  開關相對行數
 
 ---
 
@@ -128,6 +209,16 @@
 按大 V 進入 --VALUE LINE-- 模式，並選擇要縮排的行
 
 最後按 > (大於) 即可
+
+---
+
+分割視窗：
+
+- :sp [file]
+  水平分割
+
+- :vsp [file]
+  垂直分割
 
 ---
 

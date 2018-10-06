@@ -1,6 +1,22 @@
 ﻿git reset [<mode>] [<commit>]
 
 
+--hard
+	讓所有狀態回到 <commit> 的狀態，相當於捨棄所有 staged (index), working tree
+
+--mixed
+	改變 index 內容，但維持 working tree
+	相當於把 <commit> 與 current commit 之間所有 difference
+	從 index 倒出來至 working tree，並標為 modified
+
+--soft
+	把目前的 staged (index) 的狀態帶到 reset 的目標 commit
+
+	
+簡單記憶：
+	Index 是 git status 顯示綠字的部分，也就是使用 git add stage 的
+	working tree 則是 git status 紅字的部分，更動了但尚未 stage
+
 
 git reset <commit> (default <mode> = --mixed)
 	回到 <commit> 並保留 <commit> 之後所有 commit 所做的更動

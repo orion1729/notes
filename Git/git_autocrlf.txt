@@ -1,0 +1,16 @@
+﻿設定方式：git config --global core.autocrlf (true | false | input)
+
+true :
+	1. 檔案從 repository checkout 出來時，LF 會被轉成 CRLF 到 working tree；
+	   而 CRLF 則不會被更動
+	2. repository 中只使用 LF 的檔案，當這些檔案要被 commit 回 repository 時，
+	   CRLF 會被轉換回 LF；而 repository 中的 CRLF 則不會有影響
+
+input :
+	1. 檔案從 repository checkout 時，會維持原本 working tree 的 EOL
+	2. working tree 中的 CRLF 會在 commit 時被轉回 LF
+
+false :
+	1. working tree 的換行字元以 core.eol 為準
+	2. 預設的 core.eol 是系統相關，Windows 為 CRLF，Unix 為 LF
+	3. commit 到 repository 的 EOL 以 gitattributes 為準，預設是 normalize 到 LF

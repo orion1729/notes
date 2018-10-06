@@ -1,0 +1,9 @@
+
+git diff HEAD
+	workspace vs repo
+	
+git diff --cached | --staged
+	index vs repo
+
+git diff
+	workspace vs index

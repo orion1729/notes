@@ -22,7 +22,6 @@ git push <remote_name> <branch>
 
 
 
-
 git push <remote_name> <source>:<destination>
 	將指定的 <source> commit push 到 remote repository <destination> branch 上
 
