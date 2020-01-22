@@ -1,0 +1,37 @@
+
+
+git add --patch/-i
+
+可以進入 Interactive Mode 的 patch Subcommnad
+讓使用者可以選擇哪些 Diff 要被 Stage
+相當於下列 Command:
+git add --interactive/-i 
+然後選擇 patch Subcommand
+
+
+---
+
+
+Manual Edit
+git add --patch => e
+
+當使用 git add --patch 時，可能需要 Stage 的部分太小，
+與其他 Diff 被分在同一個 Hunk 中
+此時就能用此方式去 Edit 這個 Hunk 中的 Diff
+
+進入編輯狀態後，Diff 會有 -/+ 兩個種類
+以修改前當作基準
+- 表示被移除了
++ 表示被新增的
+
+如果你不想 Stage - 的 Diff，也就是你這次 Stage 不想 "移除此行"
+那麼需將字元 '-' 改為空白 ' '，這樣這個 "移除的 Diff" 就不會被 Stage
+(不加一個空白 ' '，當結束編輯時 git 會報錯)
+
+如果不想 Stage + 的 Diff，也就是這次 Stage 不想 "新增此行"
+那麼直接刪除 + 的行即可
+
+
+---
+
+
